@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button activity2,activity3;
+    Button album_detail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        album_detail = findViewById(R.id.album_detail);
 
+        album_detail.setOnClickListener((v) -> {
+            Intent intent = new Intent(MainActivity.this, album_detail.class);
+            startActivity(intent);
+        });
     }
 }
