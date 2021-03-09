@@ -45,7 +45,7 @@
                         android:layout_height="150dp"
                         android:layout_gravity="center|top"
                         android:padding="50dp"
-                        android:src="@drawable/test2" />
+                        android:src="@drawable/test1" />
 
                     <TextView
                         android:id="@+id/album_text1"
