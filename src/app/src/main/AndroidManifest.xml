@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view_picture"></activity>
+        <activity android:name=".View_By_People"></activity>
+        <activity android:name=".view_picture" />
         <activity android:name=".album_detail" />
         <activity android:name=".album_general" />
         <activity
