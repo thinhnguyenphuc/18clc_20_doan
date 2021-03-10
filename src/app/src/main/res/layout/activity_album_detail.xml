@@ -6,24 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".album_detail">
 
-    <ScrollView
-        android:id="@+id/main_container"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="175dp"
-        tools:layout_editor_absoluteY="144dp">
-
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Album's name"
+            android:textSize="40dp"
+            android:textAlignment="center"
+            />
         <GridView
             android:id="@+id/images_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
+            android:scrollbars="vertical"
+            android:horizontalSpacing="1dp"
             android:numColumns="3"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            >
+            android:verticalSpacing="1dp"
+            app:layout_constraintBottom_toTopOf="parent">
 
         </GridView>
-    </ScrollView>
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
