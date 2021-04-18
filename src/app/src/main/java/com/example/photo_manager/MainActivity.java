@@ -15,12 +15,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
+
 public class MainActivity extends AppCompatActivity {
 
     Button activity1,activity2,activity3;
     Button album_detail;
-    int STORAGE_PERMISSION_CODE = 0;
-    int CAMERA_PERMISSION_CODE = 1;
+
+    private static final int REQUEST_PERMISSION_CODE = 100;
+    private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
+    private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final String permission_camera = Manifest.permission.CAMERA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         album_detail = findViewById(R.id.album_detail);
-
         album_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,34 +75,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
         Button take_new_photo = (Button)findViewById(R.id.new_photo);
         take_new_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAllPermission();
-                New_Photo new_photo = new New_Photo(MainActivity.this);
+                Intent intent = new Intent(MainActivity.this, Take_New_Photo.class);
+                startActivity(intent);
             }
         });
     }
-    private void checkAllPermission(){
-        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-        checkPermission(Manifest.permission.CAMERA,CAMERA_PERMISSION_CODE);
-    }
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
-                == PackageManager.PERMISSION_DENIED) {
 
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission },
-                    requestCode);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestPermission();
+    }
+
+
+    private void requestPermission() {
+        String[] perms = {permission_read,permission_write, permission_camera};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this,"Must allow to use this app",REQUEST_PERMISSION_CODE,perms);
         }
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
-
-
 }
