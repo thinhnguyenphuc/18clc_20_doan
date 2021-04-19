@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Take_New_Photo"></activity>
+        <activity android:name=".PhotoEditActivity" />
+        <activity android:name=".Take_New_Photo" />
         <activity android:name=".View_By_People" />
         <activity android:name=".view_picture" />
         <activity android:name=".album_detail" />
@@ -35,7 +36,6 @@
             </intent-filter>
         </activity>
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -43,9 +43,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"></meta-data>
+                android:resource="@xml/file_path" />
         </provider>
-
     </application>
 
 </manifest>
