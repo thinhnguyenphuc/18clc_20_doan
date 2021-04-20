@@ -1,6 +1,8 @@
 package com.example.photo_manager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Observable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,12 @@ import java.util.ArrayList;
 public class Picture_Adapter extends RecyclerView.Adapter<Picture_Adapter.ViewHolder> {
     private Context context;
     private ArrayList<Picture_Model> picture_models;
+    private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public Picture_Adapter(Context mContext, ArrayList<Picture_Model> picture_models) {
+    public Picture_Adapter(Context mContext, ArrayList<Picture_Model> picture_models, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.picture_models = picture_models;
         this.context = mContext;
+        this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
@@ -43,18 +47,27 @@ public class Picture_Adapter extends RecyclerView.Adapter<Picture_Adapter.ViewHo
         options.centerCrop();
         Glide.with(this.context).load(picture_model.getUri()).apply(options).into(holder.imageView);
 
+
     }
+
 
     @Override
     public int getItemCount() {
         return picture_models.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView;
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 imageView = (ImageView) itemView.findViewById(R.id.pictureView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        recyclerViewClickInterface.onItemClick(getAdapterPosition());
+                    }
+                });
             }
-        }
+    }
 }

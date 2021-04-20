@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
-public class View_By_Date extends AppCompatActivity {
+public class View_By_Date extends AppCompatActivity implements RecyclerViewClickInterface {
 
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
     private RecyclerView recyclerView;
@@ -46,9 +47,25 @@ public class View_By_Date extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.recyclerView);
-        picture_adapter = new Picture_Adapter(this,picture_models);
+        picture_adapter = new Picture_Adapter(this,picture_models,this );
         recyclerView.setAdapter(picture_adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+
+
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent detail = new Intent(View_By_Date.this, Photo_Details.class);
+        detail.putExtra("uri",picture_models.get(position).getUri().toString());
+        detail.putExtra("name",picture_models.get(position).getName());
+        detail.putExtra("size",picture_models.get(position).getSize());
+        startActivityForResult(detail,RequestCode.REQUEST_INTENT_PHOTO_DETAIL);
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
 
     }
 }
