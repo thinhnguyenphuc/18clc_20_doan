@@ -7,4 +7,8 @@
     <string name="brush_size">Size</string>
     <string name="brush_opacity">Opacity</string>
     <string name="brush_color">Color</string>
+
+    <string name="text_holder">Edit text here...</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
 </resources>

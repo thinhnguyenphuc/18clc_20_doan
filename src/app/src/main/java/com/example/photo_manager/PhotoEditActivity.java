@@ -26,18 +26,19 @@ import ja.burhanrashid52.photoeditor.ViewType;
 public class PhotoEditActivity extends AppCompatActivity {
 
     AlertDialog text_dialog;
-    EditText text_input;
     PhotoEditor mPhotoEditor;
+
+    ImageButton undo_button, redo_button, share_button, save_button;
 
     ImageButton brush_button, eraser_button, text_button, filter_button, brightness_button;
 
     //brush properties
     float brush_size;
     int brush_opacity;
+    int brush_color;
 
     //eraser properties
     float eraser_size;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,11 @@ public class PhotoEditActivity extends AppCompatActivity {
                 .setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build();
 
+        this.undo_button = findViewById(R.id.undo_btn);
+        this.redo_button = findViewById(R.id.redo_btn);
+        this.share_button = findViewById(R.id.share_btn);
+        this.save_button = findViewById(R.id.save_button);
+
         this.brush_button = findViewById(R.id.brush_button);
         this.eraser_button = findViewById(R.id.eraser_button);
         this.text_button = findViewById(R.id.text_button);
@@ -70,8 +76,23 @@ public class PhotoEditActivity extends AppCompatActivity {
 
         this.brush_size = Float.parseFloat(getString(R.string.brush_size_max));
         this.brush_opacity = Integer.parseInt(getString(R.string.brush_opacity_max));
+        this.brush_color = getColor(R.color.init_color);
 
         this.eraser_size = Float.parseFloat(getString(R.string.brush_size_max));
+
+        this.undo_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoEditor.undo();
+            }
+        });
+
+        this.redo_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoEditor.redo();
+            }
+        });
 
 
         this.brush_button.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +112,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                 brush_size_picker.setValue(brush_size);
                 brush_opacity_picker.setValue((float) brush_opacity);
 
-                textView.setBackgroundColor(colorSeekBar.getColor());
+                textView.setBackgroundColor(brush_color);
 
                 colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
                     @Override
@@ -116,8 +137,9 @@ public class PhotoEditActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         brush_size = brush_size_picker.getValue();
                         brush_opacity = (int) brush_opacity_picker.getValue();
+                        brush_color = colorSeekBar.getColor();
 
-                        mPhotoEditor.setBrushColor(colorSeekBar.getColor());
+                        mPhotoEditor.setBrushColor(brush_color);
                         mPhotoEditor.setBrushSize(brush_size);
                         mPhotoEditor.setOpacity(brush_opacity);
                         dialog.cancel();
@@ -165,7 +187,42 @@ public class PhotoEditActivity extends AppCompatActivity {
         text_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPhotoEditor.addText("Edit text here", R.color.pe_bg);
+                View view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
+                text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
+
+                final int[] color = new int[1];
+
+                final EditText text_input = view.findViewById(R.id.text);
+                final TextView current_color = view.findViewById(R.id.current_color);
+                final ColorSeekBar colorSeekBar = view.findViewById(R.id.color_seek_bar);
+
+                color[0] = getColor(R.color.init_color);
+                current_color.setBackgroundColor(color[0]);
+
+                colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+                    @Override
+                    public void onColorChangeListener(int i) {
+                        color[0] = i;
+                        current_color.setBackgroundColor(i);
+                    }
+
+                });
+
+                text_dialog.setView(view);
+                text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPhotoEditor.addText( text_input.getText().toString(), color[0]);
+                    }
+                });
+                text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        text_dialog.cancel();
+                    }
+                });
+
+                text_dialog.show();
             }
 
 
@@ -174,17 +231,40 @@ public class PhotoEditActivity extends AppCompatActivity {
         mPhotoEditor.setOnPhotoEditorListener(new OnPhotoEditorListener() {
             @Override
             public void onEditTextChangeListener(final View rootView, String text, final int colorCode) {
-                TextView textView = rootView.findViewById(R.id.tvPhotoEditorText);
+                View view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
                 text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
-                text_input = new EditText(PhotoEditActivity.this);
 
-                text_input.setText(textView.getText());
+                final int[] color = new int[1];
 
-                text_dialog.setView(text_input);
-                text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                final EditText text_input = view.findViewById(R.id.text);
+                final TextView current_color = view.findViewById(R.id.current_color);
+                final ColorSeekBar colorSeekBar = view.findViewById(R.id.color_seek_bar);
+
+                text_input.setText(text);
+
+                color[0] = colorCode;
+                current_color.setBackgroundColor(colorCode);
+
+                colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+                    @Override
+                    public void onColorChangeListener(int i) {
+                        color[0] = i;
+                        current_color.setBackgroundColor(i);
+                    }
+
+                });
+
+                text_dialog.setView(view);
+                text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mPhotoEditor.editText(rootView, text_input.getText().toString(), colorCode);
+                        mPhotoEditor.editText(rootView, text_input.getText().toString(), color[0]);
+                    }
+                });
+                text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        text_dialog.cancel();
                     }
                 });
 
