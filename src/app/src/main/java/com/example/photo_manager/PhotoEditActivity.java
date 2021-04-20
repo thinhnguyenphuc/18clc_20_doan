@@ -42,14 +42,22 @@ public class PhotoEditActivity extends AppCompatActivity {
     ImageButton brush_button, eraser_button, text_button, filter_button, brightness_button, emoji_button;
 
     //brush properties
-    float brush_size;
-    int brush_opacity;
-    int brush_color;
+    View brush_view;
+    BottomSheetDialog brush_dialog;
 
     //eraser properties
-    float eraser_size;
+    View eraser_view;
+    BottomSheetDialog eraser_dialog;
+
+    //add text properties
+    View add_text_view;
+    AlertDialog add_text_dialog;
+    View edit_text_view;
+    AlertDialog edit_text_dialog;
 
     //filter properties
+    View filter_view;
+    BottomSheetDialog filter_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +73,7 @@ public class PhotoEditActivity extends AppCompatActivity {
         //Use custom font using latest support library
         Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.roboto_medium);
 
-//loading font from assest
+        //loading font from assest
         Typeface mEmojiTypeFace = ResourcesCompat.getFont(this, R.font.emojione_android);
 
         mPhotoEditor = new PhotoEditor.Builder(this, mPhotoEditorView)
@@ -90,11 +98,6 @@ public class PhotoEditActivity extends AppCompatActivity {
         this.brightness_button = findViewById(R.id.brightness_button);
         this.emoji_button = findViewById(R.id.add_emoji_button);
 
-        this.brush_size = Float.parseFloat(getString(R.string.brush_size_max));
-        this.brush_opacity = Integer.parseInt(getString(R.string.brush_opacity_max));
-        this.brush_color = getColor(R.color.init_color);
-
-        this.eraser_size = Float.parseFloat(getString(R.string.brush_size_max));
 
         this.undo_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,151 +113,150 @@ public class PhotoEditActivity extends AppCompatActivity {
             }
         });
 
+        //brush set up _______________________________________________________________________***
+
+        brush_view = getLayoutInflater().inflate(R.layout.pe_brush_chooser, null);
+        brush_dialog = new BottomSheetDialog(PhotoEditActivity.this);
+        brush_dialog.setContentView(brush_view);
+
+        final TextView brush_current_color = brush_view.findViewById(R.id.current_color);
+        final Slider brush_size_picker = brush_view.findViewById(R.id.brush_size);
+        final Slider brush_opacity_picker = brush_view.findViewById(R.id.brush_opacity);
+        final ColorSeekBar brush_color_picker = brush_view.findViewById(R.id.color_seek_bar);
+
+        brush_size_picker.setValue(brush_size_picker.getValue());
+        brush_opacity_picker.setValue((float) brush_opacity_picker.getValue());
+
+        brush_current_color.setBackgroundColor(brush_color_picker.getColor());
+
+        brush_color_picker.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+            @Override
+            public void onColorChangeListener(int i) {
+                brush_current_color.setBackgroundColor(i);
+            }
+
+        });
+
+
+        brush_view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brush_dialog.cancel();
+            }
+        });
+
+        brush_view.findViewById(R.id.apply_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoEditor.setBrushColor(brush_color_picker.getColor());
+                mPhotoEditor.setBrushSize(brush_size_picker.getValue());
+                mPhotoEditor.setOpacity((int) brush_opacity_picker.getValue());
+                brush_dialog.cancel();
+            }
+        });
 
         this.brush_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View view = getLayoutInflater().inflate(R.layout.pe_brush_chooser, null);
-                final BottomSheetDialog dialog = new BottomSheetDialog(PhotoEditActivity.this);
-                dialog.setContentView(view);
+                brush_dialog.show();
+            }
+        });
 
-                dialog.show();
 
-                final TextView textView = view.findViewById(R.id.current_color);
-                final Slider brush_size_picker = view.findViewById(R.id.brush_size);
-                final Slider brush_opacity_picker = view.findViewById(R.id.brush_opacity);
-                final ColorSeekBar colorSeekBar = view.findViewById(R.id.color_seek_bar);
+        //eraser set up _______________________________________________________________________***
 
-                brush_size_picker.setValue(brush_size);
-                brush_opacity_picker.setValue((float) brush_opacity);
+        this.eraser_view = getLayoutInflater().inflate(R.layout.pe_eraser_chooser, null);
+        this.eraser_dialog = new BottomSheetDialog(PhotoEditActivity.this);
+        this.eraser_dialog.setContentView(this.eraser_view);
 
-                textView.setBackgroundColor(brush_color);
+        final Slider eraser_size_picker = this.eraser_view.findViewById(R.id.eraser_size);
+        eraser_size_picker.setValue(eraser_size_picker.getValue());
 
-                colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
-                    @Override
-                    public void onColorChangeListener(int i) {
-                        textView.setBackgroundColor(i);
-                    }
 
-                });
+        this.eraser_view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eraser_dialog.cancel();
+            }
+        });
 
-                ImageButton cancel_button = view.findViewById(R.id.cancel_button);
-                ImageButton apply_button = view.findViewById(R.id.apply_button);
+        this.eraser_view.findViewById(R.id.apply_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoEditor.setBrushEraserSize(eraser_size_picker.getValue());
+                mPhotoEditor.brushEraser();
 
-                cancel_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                apply_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        brush_size = brush_size_picker.getValue();
-                        brush_opacity = (int) brush_opacity_picker.getValue();
-                        brush_color = colorSeekBar.getColor();
-
-                        mPhotoEditor.setBrushColor(brush_color);
-                        mPhotoEditor.setBrushSize(brush_size);
-                        mPhotoEditor.setOpacity(brush_opacity);
-                        dialog.cancel();
-                    }
-                });
+                eraser_dialog.cancel();
             }
         });
 
         this.eraser_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View view = getLayoutInflater().inflate(R.layout.pe_eraser_chooser, null);
-                final BottomSheetDialog dialog = new BottomSheetDialog(PhotoEditActivity.this);
-                dialog.setContentView(view);
+                eraser_dialog.show();
+            }
+        });
 
-                dialog.show();
 
-                final Slider eraser_size_picker = view.findViewById(R.id.eraser_size);
-                eraser_size_picker.setValue(eraser_size);
+        //add and edit text set up _______________________________________________________________________***
 
-                ImageButton cancel_button = view.findViewById(R.id.cancel_button);
-                ImageButton apply_button = view.findViewById(R.id.apply_button);
+        add_text_view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
+        add_text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
 
-                cancel_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
+        final int[] add_text_color = new int[1];
 
-                apply_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        eraser_size = eraser_size_picker.getValue();
+        final EditText add_text_input = add_text_view.findViewById(R.id.text);
+        final TextView current_color = add_text_view.findViewById(R.id.current_color);
+        final ColorSeekBar add_text_color_picker = add_text_view.findViewById(R.id.color_seek_bar);
 
-                        mPhotoEditor.setBrushEraserSize(eraser_size);
-                        mPhotoEditor.brushEraser();
+        add_text_color[0] = getColor(R.color.init_color);
+        current_color.setBackgroundColor(add_text_color[0]);
 
-                        dialog.cancel();
-                    }
-                });
+        add_text_color_picker.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+            @Override
+            public void onColorChangeListener(int i) {
+                add_text_color[0] = i;
+                current_color.setBackgroundColor(i);
+            }
+
+        });
+
+        add_text_dialog.setView(add_text_view);
+        add_text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPhotoEditor.addText( add_text_input.getText().toString(), add_text_color[0]);
+            }
+        });
+        add_text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                add_text_dialog.cancel();
             }
         });
 
         text_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
-                final AlertDialog text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
-
-                final int[] color = new int[1];
-
-                final EditText text_input = view.findViewById(R.id.text);
-                final TextView current_color = view.findViewById(R.id.current_color);
-                final ColorSeekBar colorSeekBar = view.findViewById(R.id.color_seek_bar);
-
-                color[0] = getColor(R.color.init_color);
-                current_color.setBackgroundColor(color[0]);
-
-                colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
-                    @Override
-                    public void onColorChangeListener(int i) {
-                        color[0] = i;
-                        current_color.setBackgroundColor(i);
-                    }
-
-                });
-
-                text_dialog.setView(view);
-                text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPhotoEditor.addText( text_input.getText().toString(), color[0]);
-                    }
-                });
-                text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        text_dialog.cancel();
-                    }
-                });
-
-                text_dialog.show();
+                add_text_input.setText(getString(R.string.text_holder));
+                add_text_dialog.show();
             }
 
 
         });
 
+        edit_text_view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
+        edit_text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
+
         mPhotoEditor.setOnPhotoEditorListener(new OnPhotoEditorListener() {
             @Override
             public void onEditTextChangeListener(final View rootView, String text, final int colorCode) {
-                View view = getLayoutInflater().inflate(R.layout.pe_text_editor, null);
-                final AlertDialog text_dialog = new AlertDialog.Builder(PhotoEditActivity.this).create();
 
                 final int[] color = new int[1];
 
-                final EditText text_input = view.findViewById(R.id.text);
-                final TextView current_color = view.findViewById(R.id.current_color);
-                final ColorSeekBar colorSeekBar = view.findViewById(R.id.color_seek_bar);
+                final EditText text_input = edit_text_view.findViewById(R.id.text);
+                final TextView current_color = edit_text_view.findViewById(R.id.current_color);
+                final ColorSeekBar colorSeekBar = edit_text_view.findViewById(R.id.color_seek_bar);
 
                 text_input.setText(text);
 
@@ -270,21 +272,21 @@ public class PhotoEditActivity extends AppCompatActivity {
 
                 });
 
-                text_dialog.setView(view);
-                text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
+                edit_text_dialog.setView(edit_text_view);
+                edit_text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mPhotoEditor.editText(rootView, text_input.getText().toString(), color[0]);
                     }
                 });
-                text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                edit_text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        text_dialog.cancel();
+                        edit_text_dialog.cancel();
                     }
                 });
 
-                text_dialog.show();
+                edit_text_dialog.show();
 
             }
 
@@ -309,29 +311,37 @@ public class PhotoEditActivity extends AppCompatActivity {
             }
         });
 
+        //filter set up _______________________________________________________________________***
+
+        filter_view = getLayoutInflater().inflate(R.layout.pe_filter_chooser, null);
+        filter_dialog = new BottomSheetDialog(PhotoEditActivity.this);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(PhotoEditActivity.this, LinearLayoutManager.HORIZONTAL, false);
+
+        RecyclerView myList = (RecyclerView) filter_view.findViewById(R.id.filter_list);
+        myList.setLayoutManager(layoutManager);
+        myList.setAdapter(new PEFilterAdapter(PhotoEditActivity.this, mPhotoEditor, PhotoFilter.values()));
+
+        filter_dialog.setContentView(filter_view);
+
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final BottomSheetDialog dialog = new BottomSheetDialog(PhotoEditActivity.this);
-
-                View filter_chooser_view = getLayoutInflater().inflate(R.layout.pe_filter_chooser, null);
-                LinearLayoutManager layoutManager
-                        = new LinearLayoutManager(PhotoEditActivity.this, LinearLayoutManager.HORIZONTAL, false);
-
-                RecyclerView myList = (RecyclerView) filter_chooser_view.findViewById(R.id.filter_list);
-                myList.setLayoutManager(layoutManager);
-                myList.setAdapter(new PEFilterAdapter(PhotoEditActivity.this, mPhotoEditor, PhotoFilter.values()));
-
-                dialog.setContentView(filter_chooser_view);
-                dialog.show();
+                filter_dialog.show();
             }
         });
+
+
+        //emoji set up _______________________________________________________________________***
 
         emoji_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> unicodes = PhotoEditor.getEmojis(PhotoEditActivity.this);
-                mPhotoEditor.addEmoji(unicodes.get(0));
+                for (String unicode: unicodes) {
+                    Log.d("EMOJI", "onClick: " + unicode);
+                }
             }
         });
     }
