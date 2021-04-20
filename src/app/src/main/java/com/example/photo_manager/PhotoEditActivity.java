@@ -1,5 +1,6 @@
 package com.example.photo_manager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -74,7 +75,7 @@ public class PhotoEditActivity extends AppCompatActivity {
 
         PhotoEditorView mPhotoEditorView = findViewById(R.id.photoEditorView);
 
-        mPhotoEditorView.getSource().setImageResource(R.drawable.photo);
+        mPhotoEditorView.getSource().setImageResource(R.drawable.test7);
 
         ImageView mPhotoEditorImageView = mPhotoEditorView.getSource();
 
@@ -365,5 +366,15 @@ public class PhotoEditActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }
