@@ -22,6 +22,7 @@ public class Take_New_Photo extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 10;
     private static final int REQUEST_VIDEO_CAPTURE = 11;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,9 @@ public class Take_New_Photo extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File (Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM),"Camera");
+        boolean s = new File(storageDir.getPath()).mkdirs();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -83,6 +86,7 @@ public class Take_New_Photo extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+                path = photoFile.getPath();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -93,7 +97,7 @@ public class Take_New_Photo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
-
+                toMediaFile();
 
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
             } else if (resultCode == RESULT_CANCELED) {
@@ -112,5 +116,12 @@ public class Take_New_Photo extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+    private void toMediaFile() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(String.valueOf(path));
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 }

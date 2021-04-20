@@ -1,6 +1,7 @@
 package com.example.photo_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,14 +44,11 @@ public class View_By_Date extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ImageView test = (ImageView)findViewById(R.id.imageTest);
-        Toast.makeText(this, picture_models.get(1).getUri().toString(), Toast.LENGTH_LONG).show();
-        Glide.with(this).load(picture_models.get(1).getUri()).into(test);
 
-        //recyclerView = findViewById(R.id.recyclerPicture);
-        //picture_adapter = new Picture_Adapter(this,picture_models);
-        //recyclerView.setAdapter(picture_adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.recyclerView);
+        picture_adapter = new Picture_Adapter(this,picture_models);
+        recyclerView.setAdapter(picture_adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
     }
 }
