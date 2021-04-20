@@ -1,27 +1,35 @@
 package com.example.photo_manager.PEAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.photo_manager.PhotoEditActivity;
 import com.example.photo_manager.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.ArrayList;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 
 public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHolder> {
-    private Context context;
-    private PhotoFilter[] filters;
+    private RecyclerView recyclerView;
+    private ArrayList<String> unicodes;
     private PhotoEditor mPhotoEditor;
+    private BottomSheetDialog dialog;
 
-    public PEEmojiAdapter(Context context,PhotoEditor pe, PhotoFilter[] filters) {
-        this.context = context;
-        this.filters = filters;
+    public PEEmojiAdapter(RecyclerView recyclerView, PhotoEditor pe, ArrayList<String> unicodes, BottomSheetDialog dialog) {
+        this.recyclerView = recyclerView;
+        this.unicodes = unicodes;
         this.mPhotoEditor = pe;
+        this.dialog = dialog;
     }
 
     /**
@@ -29,16 +37,16 @@ public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHold
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private Button button;
+        TextView emoji_text_view;
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
-            button =  view.findViewById(R.id.button);
+            emoji_text_view =  view.findViewById(R.id.emoji);
         }
 
-        public Button getButton() {
-            return this.button;
+        public TextView getTextView() {
+            return this.emoji_text_view;
         }
     }
 
@@ -48,8 +56,7 @@ public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHold
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.pe_filter_chooser_item, viewGroup, false);
-
+                .inflate(R.layout.pe_emoji_chooser_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -59,13 +66,13 @@ public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHold
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        Button button = viewHolder.getButton();
-        button.setText(filters[position].name());
-        button.setOnClickListener(new View.OnClickListener() {
+        Log.d("DEBUG", "onCreate: " + unicodes.get(position));
+        viewHolder.getTextView().setText(unicodes.get(position));
+        viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View v) {
-                mPhotoEditor.setFilterEffect(filters[position]);
+                mPhotoEditor.addEmoji(unicodes.get(position));
+                dialog.cancel();
             }
         });
     }
@@ -73,6 +80,7 @@ public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHold
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return filters.length;
+        return unicodes.size();
     }
+
 }

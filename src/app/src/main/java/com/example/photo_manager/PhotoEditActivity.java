@@ -3,6 +3,7 @@ package com.example.photo_manager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,13 +14,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.divyanshu.colorseekbar.ColorSeekBar;
+import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
 import com.example.photo_manager.PEAdapters.PEFilterAdapter;
+import com.example.photo_manager.PEAdapters.Utility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 
@@ -58,6 +62,10 @@ public class PhotoEditActivity extends AppCompatActivity {
     //filter properties
     View filter_view;
     BottomSheetDialog filter_dialog;
+
+    //emoji properties
+    View emoji_view;
+    BottomSheetDialog emoji_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,13 +343,26 @@ public class PhotoEditActivity extends AppCompatActivity {
 
         //emoji set up _______________________________________________________________________***
 
+        emoji_view = getLayoutInflater().inflate(R.layout.pe_emoji_chooser, null);
+        emoji_dialog = new BottomSheetDialog(this);
+
+        emoji_dialog.setContentView(emoji_view);
+
+        int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext(), 10f + Float.parseFloat(getString(R.string.total_emoji_width)));
+
+        GridLayoutManager emojiLayoutManager = new GridLayoutManager(this, mNoOfColumns);
+        RecyclerView emojiList = emoji_view.findViewById(R.id.emoji_list);
+        emojiList.setLayoutManager(emojiLayoutManager);
+
+        ArrayList<String> emoji_unicodes = PhotoEditor.getEmojis(PhotoEditActivity.this);
+
+        emojiList.setAdapter(new PEEmojiAdapter(emojiList, mPhotoEditor, emoji_unicodes, emoji_dialog));
+
         emoji_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> unicodes = PhotoEditor.getEmojis(PhotoEditActivity.this);
-                for (String unicode: unicodes) {
-                    Log.d("EMOJI", "onClick: " + unicode);
-                }
+                emoji_dialog.show();
+
             }
         });
     }

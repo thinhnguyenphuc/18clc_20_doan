@@ -7,4 +7,9 @@
     <dimen name="button_vertical_margin">4sp</dimen>
     <dimen name="text_size">16sp</dimen>
     <dimen name="color_picker_margin">16sp</dimen>
+
+    <dimen name="emoji_margin_horizontal">12sp</dimen>
+    <dimen name="emoji_margin_vertical">12sp</dimen>
+    <dimen name="emoji_size">24sp</dimen>
+    <string name="total_emoji_width">48</string>
 </resources>
