@@ -48,6 +48,17 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
+                    android:id="@+id/eraser_button"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_marginHorizontal="@dimen/button_horizontal_margin"
+                    android:src="@drawable/eraser_icon"
+                    android:background="@drawable/pe_button"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_marginVertical="@dimen/button_vertical_margin"
+                    />
+                <ImageButton
                     android:id="@+id/text_button"
                     android:layout_width="@dimen/button_size"
                     android:layout_height="@dimen/button_size"
