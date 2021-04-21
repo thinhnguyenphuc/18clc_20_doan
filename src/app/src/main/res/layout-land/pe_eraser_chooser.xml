@@ -4,69 +4,29 @@
     android:layout_height="match_parent"
     xmlns:colorPickerView="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/move"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:background="@android:color/transparent"
-            android:layout_height="@dimen/button_size"
-            android:layout_width="@dimen/button_size"
-            android:src="@drawable/move_vertical_icon"
-            android:layout_margin="@dimen/button_distance2"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
+    <ImageView
+        android:background="@android:color/transparent"
+        android:layout_height="@dimen/button_size"
+        android:layout_width="@dimen/button_size"
+        android:src="@drawable/move_vertical_icon"
+        android:layout_margin="@dimen/button_distance2"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center_horizontal"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size"
         android:text="@string/brush_size"/>
     <com.google.android.material.slider.Slider
-        android:id="@+id/brush_size"
+        android:id="@+id/eraser_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:valueFrom="@string/brush_size_min"
         android:valueTo="@string/brush_size_max"
         android:value="@string/brush_size_max"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:text="@string/brush_opacity"/>
-    <com.google.android.material.slider.Slider
-        android:id="@+id/brush_opacity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:valueFrom="@string/brush_opacity_min"
-        android:stepSize="1"
-        android:valueTo="@string/brush_opacity_max"
-        android:value="@string/brush_opacity_max"
-        />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size"
-            android:text="@string/brush_color"/>
 
-        <TextView
-            android:id="@+id/current_color"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginStart="20sp" />
-    </LinearLayout>
-    <com.divyanshu.colorseekbar.ColorSeekBar
-        android:id="@+id/color_seek_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/color_picker_margin"
-        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
