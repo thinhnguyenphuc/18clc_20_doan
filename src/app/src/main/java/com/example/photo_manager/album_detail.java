@@ -29,7 +29,7 @@ public class album_detail extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(album_detail.this, ViewPicture.class);
+                Intent intent = new Intent(album_detail.this, ViewPhoto.class);
                 intent.putExtra("image", images[position]);
                 startActivity(intent);
             }
