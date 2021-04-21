@@ -1,6 +1,7 @@
 package com.example.photo_manager.PEAdapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.DisplayMetrics;
 
 public class Utility {
@@ -9,5 +10,9 @@ public class Utility {
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
         int noOfColumns = (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
         return noOfColumns;
+    }
+
+    public static boolean checkImageIsFavourite(String uri) {
+        return false;
     }
 }
