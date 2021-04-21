@@ -20,8 +20,7 @@ import java.util.Date;
 
 public class Take_New_Photo extends AppCompatActivity {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 10;
-    private static final int REQUEST_VIDEO_CAPTURE = 11;
+
     private String path;
 
     @Override
@@ -84,14 +83,14 @@ public class Take_New_Photo extends AppCompatActivity {
                         photoFile);
                 path = photoFile.getPath();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent, RequestCode.REQUEST_IMAGE_CAPTURE);
             }
         }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+        if (requestCode == RequestCode.REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 toMediaFile();
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
@@ -100,7 +99,7 @@ public class Take_New_Photo extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Action Failed", Toast.LENGTH_LONG).show();
             }
-        } else if (requestCode == REQUEST_VIDEO_CAPTURE) {
+        } else if (requestCode == RequestCode.REQUEST_VIDEO_CAPTURE) {
             if (resultCode == RESULT_OK) {
 
             } else if (resultCode == RESULT_CANCELED) {

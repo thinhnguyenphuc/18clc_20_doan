@@ -7,15 +7,10 @@
     tools:context=".View_By_Date"
     android:orientation="vertical">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/date"
-    android:text="aaaa">
-</TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recyclerView">
     </androidx.recyclerview.widget.RecyclerView>
 

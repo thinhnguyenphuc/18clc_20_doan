@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -35,18 +36,20 @@ import pub.devrel.easypermissions.PermissionRequest;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
+    ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
+    ArrayList data = new ArrayList<>();
 
 
     Button activity1,activity2,activity3;
     Button album_detail;
 
-    private static final int REQUEST_PERMISSION_CODE = 100;
     private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String permission_camera = Manifest.permission.CAMERA;
 
 
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+    private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+    private static final SimpleDateFormat onlyDayFormat = new SimpleDateFormat("dd-MM-yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, View_By_Date.class);
                 try {
                     intent.putExtra("images",ImageListToObject().toString());
+                    intent.putExtra("time",DateListToObject().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                intent.putExtra("size",picture_models.size());
+                intent.putExtra("sizeOfPicture",picture_models.size());
+                intent.putExtra("sizeOfDate",date_models.size());
                 startActivity(intent);
             }
         });
@@ -119,13 +124,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadImage();
+        getTimeFromListPicture();
     }
+
 
 
     private void requestPermission() {
         String[] perms = {permission_read,permission_write, permission_camera};
         if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this,"Must allow to use this app",REQUEST_PERMISSION_CODE,perms);
+            EasyPermissions.requestPermissions(this,"Must allow to use this app",RequestCode.REQUEST_PERMISSION_CODE,perms);
         }
     }
     @Override
@@ -158,8 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, idTmp);
                 File file = new File(getPath(contentUri));
-
-                String tmpTime =  simpleDateFormat.format(file.lastModified()).toString();
+                String tmpTime =  fullFormat.format(file.lastModified());
 
 
 
@@ -167,6 +173,22 @@ public class MainActivity extends AppCompatActivity {
                 this.picture_models.add(new Picture_Model(contentUri,nameTmp,tmpTime,sizeTmp));
             }
             cursor.close();
+        }
+    }
+
+    private void getTimeFromListPicture(){
+        for(int i=0;i<picture_models.size();i++){
+            Picture_Model tmp = picture_models.get(i);
+            File file = new File(getPath(tmp.getUri()));
+            String tmpTime =  onlyDayFormat.format(file.lastModified());
+
+            ArrayList<String> tmpDate = new ArrayList<String>();
+            for(int j =0 ;j<date_models.size();j++){
+                tmpDate.add(date_models.get(j).getTime());
+            }
+            if(!tmpDate.contains(tmpTime)){
+                date_models.add(new Date_Model(tmpTime,Type.DATE));
+            }
         }
     }
 
@@ -184,6 +206,18 @@ public class MainActivity extends AppCompatActivity {
         }
         return objectList;
     }
+
+    private JSONObject DateListToObject() throws JSONException {
+        JSONObject objectList = new JSONObject();
+        int size = this.date_models.size();
+        for (int i = 0;i<size;i++ ){
+            JSONObject time = new JSONObject();
+            time.put("time",this.date_models.get(i).getTime());
+            objectList.put(String.valueOf(i),time);
+        }
+        return objectList;
+    }
+
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = managedQuery(uri, projection, null, null, null);

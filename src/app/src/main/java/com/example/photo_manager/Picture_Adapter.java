@@ -1,65 +1,103 @@
 package com.example.photo_manager;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.Observable;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
-import org.w3c.dom.Text;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 
-public class Picture_Adapter extends RecyclerView.Adapter<Picture_Adapter.ViewHolder> {
+public class Picture_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private ArrayList<Picture_Model> picture_models;
+    private ArrayList data;
     private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public Picture_Adapter(Context mContext, ArrayList<Picture_Model> picture_models, RecyclerViewClickInterface recyclerViewClickInterface) {
-        this.picture_models = picture_models;
+    public Picture_Adapter(Context mContext, ArrayList data, RecyclerViewClickInterface recyclerViewClickInterface) {
+        this.data = data;
         this.context = mContext;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
-        return new ViewHolder(pictureView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType == Type.DATE){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View dateView = inflater.inflate(R.layout.date_item, parent, false);
+            return new ViewHolderDate(dateView);
+        } else if(viewType == Type.IMAGE){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
+            return new ViewHolderPicture(pictureView);
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
+            return new ViewHolderPicture(pictureView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        Picture_Model picture_model = picture_models.get(position);
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        Glide.with(this.context).load(picture_model.getUri()).apply(options).into(holder.imageView);
-
-
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(getItemViewType(position)==Type.DATE) {
+            ViewHolderDate viewHolderDate = (ViewHolderDate) holder;
+            Date_Model date_model = (Date_Model) data.get(position);
+            viewHolderDate.time.setText(date_model.getTime());
+            FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.setFlexGrow(1.0f);
+            layoutParams.width = layoutParams.MATCH_PARENT;
+            holder.itemView.setLayoutParams(layoutParams);
+        } else {
+            ViewHolderPicture viewHolderPicture = (ViewHolderPicture) holder;
+            Picture_Model picture_model = (Picture_Model) data.get(position);
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            Glide.with(this.context).load(picture_model.getUri()).apply(options).into(viewHolderPicture.imageView);
+            FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.setFlexGrow(1.0f);
+            layoutParams.width = getScreenWidth()/5;
+            holder.itemView.setLayoutParams(layoutParams);
+        }
     }
 
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        boolean tmp =data.get(position).getClass().equals(Date_Model.class);
+        if(tmp){return Type.DATE;}
+        else {return Type.IMAGE;}
+    }
 
     @Override
     public int getItemCount() {
-        return picture_models.size();
+        return data.size();
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolderPicture extends RecyclerView.ViewHolder {
             ImageView imageView;
-            public ViewHolder(@NonNull View itemView) {
+            public ViewHolderPicture(@NonNull View itemView) {
                 super(itemView);
                 imageView = (ImageView) itemView.findViewById(R.id.pictureView);
                 itemView.setOnClickListener(new View.OnClickListener() {
@@ -69,5 +107,12 @@ public class Picture_Adapter extends RecyclerView.Adapter<Picture_Adapter.ViewHo
                     }
                 });
             }
+    }
+    class ViewHolderDate extends RecyclerView.ViewHolder{
+        TextView time;
+        public ViewHolderDate(@NonNull View itemView){
+            super(itemView);
+            time = itemView.findViewById(R.id.textViewDate);
+        }
     }
 }

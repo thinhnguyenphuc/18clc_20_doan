@@ -10,6 +10,7 @@ public class Picture_Model {
     private String name;
     private int size;
     private String time;
+    private int type = Type.IMAGE;
 
 
     public Picture_Model(Uri uri,String name,String time, int size){
@@ -29,6 +30,7 @@ public class Picture_Model {
         return size;
     }
     public String getTime(){return time;}
+    public int getType(){return type;}
     public void setUri(Uri uri){
         this.uri = uri;
     }
