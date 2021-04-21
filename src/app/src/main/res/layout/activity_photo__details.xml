@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/imageView_details"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="400dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/test1" />
@@ -129,68 +129,51 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:text="Time of image here"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_button" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50sp"
                 android:orientation="horizontal">
 
 
-                <ImageView
-                    android:id="@+id/imageView_icon"
-                    android:layout_width="78dp"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@android:drawable/ic_menu_gallery" />
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textView_path"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Locate of image here"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/textView_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Time of image here"
+                        android:textSize="25sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linear_button" />
 
-                        <TextView
-                            android:id="@+id/textView_path"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30sp"
-                            android:text="Locate of image here"
-                            android:textSize="25sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                    <TextView
                             android:id="@+id/textView_size"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30sp"
                             android:text="Size"
-                            android:textSize="25sp" />
+                            android:textSize="25sp"
+                        android:gravity="center"/>
 
                         <TextView
                             android:id="@+id/textView_resolution"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30sp"
                             android:text="Resolution"
                             android:textSize="25sp" />
-                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 

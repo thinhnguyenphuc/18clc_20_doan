@@ -22,7 +22,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String permission_camera = Manifest.permission.CAMERA;
 
+
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,7 +157,14 @@ public class MainActivity extends AppCompatActivity {
                 int sizeTmp = cursor.getInt(sizeColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, idTmp);
-                this.picture_models.add(new Picture_Model(contentUri,nameTmp,sizeTmp));
+                File file = new File(getPath(contentUri));
+
+                String tmpTime =  simpleDateFormat.format(file.lastModified()).toString();
+
+
+
+
+                this.picture_models.add(new Picture_Model(contentUri,nameTmp,tmpTime,sizeTmp));
             }
             cursor.close();
         }
@@ -166,9 +178,19 @@ public class MainActivity extends AppCompatActivity {
             JSONObject pic = new JSONObject();
             pic.put("uri",this.picture_models.get(i).getUri());
             pic.put("name",this.picture_models.get(i).getName());
+            pic.put("time",this.picture_models.get(i).getTime());
             pic.put("size",this.picture_models.get(i).getSize());
             objectList.put(String.valueOf(i),pic);
         }
         return objectList;
     }
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
 }

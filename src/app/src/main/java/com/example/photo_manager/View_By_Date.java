@@ -18,7 +18,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class View_By_Date extends AppCompatActivity implements RecyclerViewClickInterface {
 
@@ -39,10 +42,12 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
                 JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
                 Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
                 String tmpName = tmpObject.get("name").toString();
+                String tmpTime = tmpObject.get("time").toString();
                 int tmpSize = Integer.parseInt(tmpObject.get("size").toString());
-                picture_models.add(new Picture_Model(tmpUri,tmpName,tmpSize));
+
+                picture_models.add(new Picture_Model(tmpUri,tmpName,tmpTime,tmpSize));
             }
-        } catch (JSONException e) {
+        } catch (JSONException  e) {
             e.printStackTrace();
         }
 
@@ -57,11 +62,12 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onItemClick(int position) {
-        Intent detail = new Intent(View_By_Date.this, Photo_Details.class);
-        detail.putExtra("uri",picture_models.get(position).getUri().toString());
-        detail.putExtra("name",picture_models.get(position).getName());
-        detail.putExtra("size",picture_models.get(position).getSize());
-        startActivityForResult(detail,RequestCode.REQUEST_INTENT_PHOTO_DETAIL);
+        Intent view_photo = new Intent(View_By_Date.this, ViewPhoto.class);
+        view_photo.putExtra("uri",picture_models.get(position).getUri().toString());
+        view_photo.putExtra("name",picture_models.get(position).getName());
+        view_photo.putExtra("time",picture_models.get(position).getTime());
+        view_photo.putExtra("size",picture_models.get(position).getSize());
+        startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
     }
 
     @Override
