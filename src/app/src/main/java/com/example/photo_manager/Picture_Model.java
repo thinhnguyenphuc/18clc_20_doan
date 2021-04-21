@@ -30,4 +30,7 @@ public class Picture_Model {
     public void setName(String name){
         this.name = name;
     }
+    public void setSize(int size){
+        this.size = size;
+    }
 }

@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadImage();
 
 
         activity1 = (Button) findViewById(R.id.button_activity);
@@ -111,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadImage();
+    }
 
 
     private void requestPermission() {
@@ -128,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadImage(){
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        picture_models.clear();
         String[] projection = {
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,

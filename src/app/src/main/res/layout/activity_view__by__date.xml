@@ -4,15 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View_By_Date">
+    tools:context=".View_By_Date"
+    android:orientation="vertical">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/date"
+    android:text="aaaa">
+</TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView">
+    </androidx.recyclerview.widget.RecyclerView>
 
 
-    <ImageView
-        android:id="@+id/imageTest"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
-
-    </ImageView>
 
 
 

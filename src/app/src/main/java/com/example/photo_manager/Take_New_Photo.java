@@ -22,6 +22,7 @@ public class Take_New_Photo extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 10;
     private static final int REQUEST_VIDEO_CAPTURE = 11;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,6 @@ public class Take_New_Photo extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Not have cam", Toast.LENGTH_LONG).show();
         };
-    }
-    private void take_image(){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,REQUEST_IMAGE_CAPTURE);
     }
 
     private boolean checkCameraHardware() {
@@ -54,35 +51,38 @@ public class Take_New_Photo extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File (Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM),"Camera");
+        boolean s = new File(storageDir.getPath()).mkdirs();
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,
+                ".jpg",
+                storageDir
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
+
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
+
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
+
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
+                ex.printStackTrace();
             }
-            // Continue only if the File was successfully created
+
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+                path = photoFile.getPath();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -93,8 +93,7 @@ public class Take_New_Photo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
-
-
+                toMediaFile();
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
@@ -112,5 +111,12 @@ public class Take_New_Photo extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+    private void toMediaFile() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(String.valueOf(path));
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 }
