@@ -8,20 +8,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
@@ -37,8 +38,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.ViewType;
-
-import static ja.burhanrashid52.photoeditor.PhotoEditor.getEmojis;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class PhotoEditActivity extends AppCompatActivity {
 
@@ -70,18 +70,22 @@ public class PhotoEditActivity extends AppCompatActivity {
     View emoji_view;
     BottomSheetDialog emoji_dialog;
 
+    final static int REQUEST_PERMISSION_CODE = 100;
+    String photo_uri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_edit);
 
-        Intent intent = getIntent();
-        Bitmap photoBitmap = intent.getParcelableExtra("photo");
-        String photoPath =  intent.getStringExtra("path");
+        Intent receiver = getIntent();
+
+        photo_uri = receiver.getStringExtra("uri");
 
         PhotoEditorView mPhotoEditorView = findViewById(R.id.photoEditorView);
 
-        mPhotoEditorView.getSource().setImageBitmap(photoBitmap);
+        mPhotoEditorView.getSource().setImageURI(Uri.parse(photo_uri));
+
 
         ImageView mPhotoEditorImageView = mPhotoEditorView.getSource();
 
@@ -97,7 +101,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                 .setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build();
 
-        for (PhotoFilter pf: PhotoFilter.values()) {
+        for (PhotoFilter pf : PhotoFilter.values()) {
             mPhotoEditor.setFilterEffect(pf);
         }
 
@@ -113,6 +117,12 @@ public class PhotoEditActivity extends AppCompatActivity {
         this.brightness_button = findViewById(R.id.brightness_button);
         this.emoji_button = findViewById(R.id.add_emoji_button);
 
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         this.undo_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +135,31 @@ public class PhotoEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mPhotoEditor.redo();
+            }
+        });
+
+        this.save_button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onClick(View v) {
+                if (!EasyPermissions.hasPermissions(PhotoEditActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Log.d("DEBUGGER", "onClick: ");
+                    EasyPermissions.requestPermissions(PhotoEditActivity.this, "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+                mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
+                    @Override
+                    public void onSuccess(@NonNull String imagePath) {
+                        Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
+                        Log.d("DEBUGGER", "onSuccess: ");
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(PhotoEditActivity.this, "FAILED TO SAVE", Toast.LENGTH_LONG).show();
+                        Log.d("DEBUGGER", "onFailure: ");
+                    }
+                });
             }
         });
 
@@ -240,7 +275,7 @@ public class PhotoEditActivity extends AppCompatActivity {
         add_text_dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mPhotoEditor.addText( add_text_input.getText().toString(), add_text_color[0]);
+                mPhotoEditor.addText(add_text_input.getText().toString(), add_text_color[0]);
             }
         });
         add_text_dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.Cancel), new DialogInterface.OnClickListener() {
@@ -373,6 +408,41 @@ public class PhotoEditActivity extends AppCompatActivity {
             }
         });
     }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted. Continue the action or workflow
+                    // in your app.
+                    mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
+                        @Override
+                        public void onSuccess(@NonNull String imagePath) {
+                            Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
+                            Log.d("DEBUGGER", "onSuccess: ");
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(PhotoEditActivity.this, "FAILED TO SAVE", Toast.LENGTH_LONG).show();
+                            Log.d("DEBUGGER", "onFailure: ");
+                        }
+                    });
+                }  else {
+
+                    this.finish();
+                }
+                return;
+        }
+        // Other 'case' lines to check for other
+        // permissions this app might request.
+    }
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {

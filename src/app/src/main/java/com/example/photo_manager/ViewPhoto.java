@@ -115,6 +115,9 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewPhoto.this, PhotoEditActivity.class);
+                intent.putExtra("uri", getIntent().getStringExtra("uri"));
+
+                startActivity(intent);
             }
         });
     }
