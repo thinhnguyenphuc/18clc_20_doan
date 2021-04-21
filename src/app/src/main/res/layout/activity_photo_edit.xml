@@ -7,14 +7,14 @@
     android:background="@color/pe_bg"
     tools:context=".PhotoEditActivity">
 
-    <include layout="@layout/pe_toolbar_top"/>
-
     <ja.burhanrashid52.photoeditor.PhotoEditorView
         android:id="@+id/photoEditorView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         />
+
+    <include layout="@layout/pe_toolbar_top"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"

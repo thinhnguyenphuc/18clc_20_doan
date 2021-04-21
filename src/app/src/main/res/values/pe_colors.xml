@@ -2,6 +2,7 @@
 <resources>
     <color name="pe_toolbar">#FF000000</color>
     <color name="pe_bg">#FF000000</color>
+    <color name="vp_bg">#FF000000</color>
     <color name="init_color">#000000</color>
     <array name="colorPickerColors">
         <item>#000000</item>
