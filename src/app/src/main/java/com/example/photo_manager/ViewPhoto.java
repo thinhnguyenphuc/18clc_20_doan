@@ -2,6 +2,7 @@ package com.example.photo_manager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,9 +27,10 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.PEAdapters.Utility;
 
-public class ViewPhoto extends AppCompatActivity {
+public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
     SubsamplingScaleImageView imageView;
+    ImageButton back_button, menu_button;
     ImageButton favourite_button, edit_button, share_button, delete_button;
     Toolbar top_toolbar, bottom_toolbar;
     boolean favourite_flag;
@@ -54,6 +58,9 @@ public class ViewPhoto extends AppCompatActivity {
         top_toolbar = findViewById(R.id.toolbar_top);
         bottom_toolbar = findViewById(R.id.toolbar_bottom);
 
+        back_button = findViewById(R.id.back_button);
+        menu_button = findViewById(R.id.menu_button);
+
         favourite_button = findViewById(R.id.favourite_button);
         favourite_flag = Utility.checkImageIsFavourite("");
 
@@ -73,6 +80,22 @@ public class ViewPhoto extends AppCompatActivity {
                 }
             }
         });
+
+
+        this.back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        this.menu_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu(v);
+            }
+        });
+
 
         this.favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,4 +136,28 @@ public class ViewPhoto extends AppCompatActivity {
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+
+    public void showMenu(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+
+        // This activity implements OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.vp_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.vp_menu_photo_detail:
+                return true;
+            case R.id.vp_menu_wallpaper:
+                return true;
+            case R.id.vp_menu_security_folder:
+                return true;
+            default:
+                return false;
+        }
+    }
+
 }
