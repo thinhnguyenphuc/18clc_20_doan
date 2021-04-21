@@ -1,5 +1,6 @@
 package com.example.photo_manager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,9 +75,13 @@ public class PhotoEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_edit);
 
+        Intent intent = getIntent();
+        Bitmap photoBitmap = intent.getParcelableExtra("photo");
+        String photoPath =  intent.getStringExtra("path");
+
         PhotoEditorView mPhotoEditorView = findViewById(R.id.photoEditorView);
 
-        mPhotoEditorView.getSource().setImageResource(R.drawable.photo);
+        mPhotoEditorView.getSource().setImageBitmap(photoBitmap);
 
         ImageView mPhotoEditorImageView = mPhotoEditorView.getSource();
 
@@ -365,5 +372,15 @@ public class PhotoEditActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -30,7 +29,7 @@ public class album_detail extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(album_detail.this, view_picture.class);
+                Intent intent = new Intent(album_detail.this, ViewPhoto.class);
                 intent.putExtra("image", images[position]);
                 startActivity(intent);
             }
