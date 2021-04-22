@@ -153,7 +153,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                         returnResultCode = Activity.RESULT_OK;
                         Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
                         Log.d("DEBUGGER", "onSuccess: ");
-                        
+
                         setResult(returnResultCode);
                         finish();
                     }

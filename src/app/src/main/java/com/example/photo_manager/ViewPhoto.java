@@ -7,18 +7,23 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,6 +33,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.PEAdapters.Utility;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
@@ -54,7 +62,13 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         picture_model.setSize(receiver.getIntExtra("size",0));
 
         imageView = (SubsamplingScaleImageView)findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.uri(picture_model.getUri()));
+
+        try {
+            imageView.setImage(ImageSource.uri(picture_model.getUri()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            finish();
+        }
 
         //Glide.with(this).load(picture_model.getUri()).into(imageView);
 
@@ -124,6 +138,15 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
                 startActivityForResult(intent, EDIT_PHOTO_REQUEST);
             }
         });
+
+        findViewById(R.id.delete_button).setOnClickListener(v -> {
+            if (deleteImage(picture_model.getUri())) {
+                Toast.makeText(this, "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Toast.makeText(this, "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -179,4 +202,37 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
             }
         }
     }
+
+    private boolean deleteImage(Uri uri) {
+        String file_dj_path = Utility.getRealPathFromUri(this, uri);
+        File fdelete = new File(file_dj_path);
+        if (fdelete.exists()) {
+            if (fdelete.delete()) {
+                Log.e("-->", "file Deleted :" + file_dj_path);
+                this.getContentResolver().delete(picture_model.getUri(), null, null);
+                return true;
+            } else {
+                Log.e("-->", "file not Deleted :" + file_dj_path);
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+
+
+//    public void callBroadCast() {
+//        Log.e("-->", " >= 14");
+//        MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+//            /*
+//             *   (non-Javadoc)
+//             * @see android.media.MediaScannerConnection.OnScanCompletedListener#onScanCompleted(java.lang.String, android.net.Uri)
+//             */
+//            public void onScanCompleted(String path, Uri uri) {
+//                Log.e("ExternalStorage", "Scanned " + path + ":");
+//                Log.e("ExternalStorage", "-> uri=" + uri);
+//            }
+//        });
+//    }
 }
