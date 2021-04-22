@@ -104,6 +104,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                 .setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build();
 
+
         this.undo_button = findViewById(R.id.undo_btn);
         this.redo_button = findViewById(R.id.redo_btn);
         this.share_button = findViewById(R.id.share_btn);
@@ -152,7 +153,9 @@ public class PhotoEditActivity extends AppCompatActivity {
                         returnResultCode = Activity.RESULT_OK;
                         Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
                         Log.d("DEBUGGER", "onSuccess: ");
-
+                        
+                        setResult(returnResultCode);
+                        finish();
                     }
 
                     @Override
