@@ -1,5 +1,6 @@
 package com.example.photo_manager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -22,11 +23,14 @@ public class Take_New_Photo extends AppCompatActivity {
 
 
     private String path;
+    Intent receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take__new__photo);
+
+        receiver = getIntent();
 
         if(checkCameraHardware()){
             Toast.makeText(this, "Have cam", Toast.LENGTH_LONG).show();
@@ -34,6 +38,7 @@ public class Take_New_Photo extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Not have cam", Toast.LENGTH_LONG).show();
         };
+
     }
 
     private boolean checkCameraHardware() {
@@ -86,6 +91,7 @@ public class Take_New_Photo extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, RequestCode.REQUEST_IMAGE_CAPTURE);
             }
         }
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -94,6 +100,9 @@ public class Take_New_Photo extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 toMediaFile();
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
+                receiver.putExtra("path",path);
+                setResult(RESULT_OK,receiver);
+                Take_New_Photo.this.finish();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
             } else {

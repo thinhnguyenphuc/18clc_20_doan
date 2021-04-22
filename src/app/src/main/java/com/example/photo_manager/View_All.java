@@ -1,5 +1,6 @@
 package com.example.photo_manager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class View_All extends AppCompatActivity implements RecyclerViewClickInterface{
 
 
-    ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
+    ArrayList<Uri> pictures_uri = new ArrayList<Uri>();
     private RecyclerView recyclerView;
     private Picture_Adapter_All picture_adapter_all ;
     @Override
@@ -35,29 +36,29 @@ public class View_All extends AppCompatActivity implements RecyclerViewClickInte
             for(int i = 0 ;i<sizeOfPicture;i++){
                 JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
                 Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
-                String tmpName = tmpObject.get("name").toString();
-                String tmpTime = tmpObject.get("time").toString();
-                int tmpSize = Integer.parseInt(tmpObject.get("size").toString());
 
-                picture_models.add(new Picture_Model(tmpUri,tmpName,tmpTime,tmpSize));
+                pictures_uri.add(tmpUri);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         recyclerView = findViewById(R.id.recyclerView_ViewAll);
-        picture_adapter_all = new Picture_Adapter_All(this,picture_models,this);
+        picture_adapter_all = new Picture_Adapter_All(this,pictures_uri,this);
         recyclerView.setAdapter(picture_adapter_all);
         recyclerView.setLayoutManager(new GridLayoutManager(this,5));
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+            }
+        };
     }
 
     @Override
     public void onItemClick(int position) {
         Intent view_photo = new Intent(View_All.this, ViewPhoto.class);
-        view_photo.putExtra("uri",picture_models.get(position).getUri().toString());
-        view_photo.putExtra("name",picture_models.get(position).getName());
-        view_photo.putExtra("time",picture_models.get(position).getTime());
-        view_photo.putExtra("size",picture_models.get(position).getSize());
+        view_photo.putExtra("uri",pictures_uri.get(position).toString());
         startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
     }
 

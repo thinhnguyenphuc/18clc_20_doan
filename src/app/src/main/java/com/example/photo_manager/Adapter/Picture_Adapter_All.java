@@ -1,6 +1,7 @@
 package com.example.photo_manager.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,12 @@ import java.util.ArrayList;
 public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerViewClickInterface recyclerViewClickInterface;
     private Context context;
-    private ArrayList<Picture_Model> picture_models;
+    private ArrayList<Uri> pictures_uri;
 
-    public Picture_Adapter_All(Context mContext, ArrayList<Picture_Model> picture_models
+    public Picture_Adapter_All(Context mContext, ArrayList<Uri> pictures_uri
             , RecyclerViewClickInterface recyclerViewClickInterface){
         this.context = mContext;
-        this.picture_models = picture_models;
+        this.pictures_uri = pictures_uri;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
@@ -40,15 +41,15 @@ public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Picture_Adapter_All.ViewHolderPicture viewHolderPicture = (Picture_Adapter_All.ViewHolderPicture) holder;
-        Picture_Model picture_model = picture_models.get(position);
+        Uri picture_uri = pictures_uri.get(position);
         RequestOptions options = new RequestOptions();
         options.centerCrop();
-        Glide.with(this.context).load(picture_model.getUri()).apply(options).into(viewHolderPicture.imageView);
+        Glide.with(this.context).load(picture_uri).apply(options).into(viewHolderPicture.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return picture_models.size();
+        return pictures_uri.size();
     }
     class ViewHolderPicture extends RecyclerView.ViewHolder {
         ImageView imageView;

@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 
 import com.example.photo_manager.Adapter.Picture_Adapter;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -13,10 +15,12 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class View_By_Date extends AppCompatActivity implements RecyclerViewClickInterface {
-
+    private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
     private RecyclerView recyclerView;
     private Picture_Adapter picture_adapter ;
     ArrayList data = new ArrayList<>();
@@ -52,11 +56,9 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
             for(int i = 0 ;i<sizeOfPicture;i++){
                 JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
                 Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
-                String tmpName = tmpObject.get("name").toString();
-                String tmpTime = tmpObject.get("time").toString();
-                int tmpSize = Integer.parseInt(tmpObject.get("size").toString());
-
-                picture_models.add(new Picture_Model(tmpUri,tmpName,tmpTime,tmpSize));
+                File file = new File(getPath(tmpUri));
+                String tmpTime =  fullFormat.format(file.lastModified());
+                picture_models.add(new Picture_Model(tmpUri,null,tmpTime,0));
             }
         } catch (JSONException  e) {
             e.printStackTrace();
@@ -82,9 +84,7 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
             ,ArrayList<Picture_Model> picture_models,ArrayList data) {
         for(int i=0;i<date_models.size();i++){
             data.add(date_models.get(i));
-            String tmpDate = date_models.get(i).getTime();
             for (int j=0;j<picture_models.size();j++){
-                String tmpPic  = picture_models.get(j).getTime();
                 if(picture_models.get(j).getTime().contains(date_models.get(i).getTime())){
                     data.add(picture_models.get(j));
                 }
@@ -108,5 +108,13 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
     @Override
     public void onLongItemClick(int position) {
 
+    }
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 }

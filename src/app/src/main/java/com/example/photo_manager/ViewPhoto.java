@@ -57,9 +57,6 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         String tmp = receiver.getStringExtra("uri");
 
         picture_model.setUri(Uri.parse(tmp));
-        picture_model.setName(receiver.getStringExtra("name"));
-        picture_model.setTime(receiver.getStringExtra("time"));
-        picture_model.setSize(receiver.getIntExtra("size",0));
 
         imageView = (SubsamplingScaleImageView)findViewById(R.id.imageView);
 

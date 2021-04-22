@@ -34,127 +34,31 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+    private static final SimpleDateFormat onlyDayFormat = new SimpleDateFormat("dd-MM-yyyy");
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
     ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
-    ArrayList data = new ArrayList<>();
-
-
-    Button activity1,activity2,activity3;
-    Button album_detail;
-    Button view_all;
-
     private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String permission_camera = Manifest.permission.CAMERA;
 
-
-    private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
-    private static final SimpleDateFormat onlyDayFormat = new SimpleDateFormat("dd-MM-yyyy");
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-        activity1 = (Button) findViewById(R.id.button_activity);
-
-        activity1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, album_general.class);
-                startActivity(intent);
-            }
-        });
-
-        activity2 = (Button) findViewById(R.id.button_activity2);
-
-        activity2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Photo_Details.class);
-                startActivity(intent);
-            }
-        });
-
-        activity3 = (Button) findViewById(R.id.button_activity3);
-
-        activity3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, View_By_Date.class);
-                try {
-                    intent.putExtra("images",ImageListToObject().toString());
-                    intent.putExtra("time",DateListToObject().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                intent.putExtra("sizeOfPicture",picture_models.size());
-                intent.putExtra("sizeOfDate",date_models.size());
-                startActivity(intent);
-            }
-        });
-
-        album_detail = findViewById(R.id.album_detail);
-        album_detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, album_detail.class);
-                startActivity(intent);
-            }
-        });
-        Button take_new_photo = (Button)findViewById(R.id.new_photo);
-        take_new_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Take_New_Photo.class);
-                startActivity(intent);
-            }
-        });
-        view_all =(Button) findViewById(R.id.view_all);
-        view_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,View_All.class);
-                intent.putExtra("sizeOfPicture",picture_models.size());
-                try {
-                    intent.putExtra("images",ImageListToObject().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         requestPermission();
-
-
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
         loadImage();
         getTimeFromListPicture();
-    }
-
-
-
-    private void requestPermission() {
-        String[] perms = {permission_read,permission_write, permission_camera};
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this,"Must allow to use this app",RequestCode.REQUEST_PERMISSION_CODE,perms);
+        Intent intent = new Intent(MainActivity.this,Menu.class);
+        try {
+            intent.putExtra("images",ImageListToObject().toString());
+            intent.putExtra("time",DateListToObject().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        intent.putExtra("sizeOfPicture",picture_models.size());
+        intent.putExtra("sizeOfDate",date_models.size());
+        startActivity(intent);
     }
 
     private void loadImage(){
@@ -183,9 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 String tmpTime =  fullFormat.format(file.lastModified());
 
 
-
-
                 this.picture_models.add(new Picture_Model(contentUri,nameTmp,tmpTime,sizeTmp));
+
             }
             cursor.close();
         }
@@ -207,6 +110,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void requestPermission() {
+        String[] perms = {permission_read,permission_write, permission_camera};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this,"Must allow to use this app",RequestCode.REQUEST_PERMISSION_CODE,perms);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
     private JSONObject ImageListToObject() throws JSONException {
 
         JSONObject objectList = new JSONObject();
@@ -214,9 +139,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0;i<size;i++ ){
             JSONObject pic = new JSONObject();
             pic.put("uri",this.picture_models.get(i).getUri());
-            pic.put("name",this.picture_models.get(i).getName());
-            pic.put("time",this.picture_models.get(i).getTime());
-            pic.put("size",this.picture_models.get(i).getSize());
             objectList.put(String.valueOf(i),pic);
         }
         return objectList;
@@ -233,13 +155,5 @@ public class MainActivity extends AppCompatActivity {
         return objectList;
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        startManagingCursor(cursor);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
 
 }
