@@ -1,10 +1,12 @@
 package com.example.photo_manager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -34,6 +36,8 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     ImageButton favourite_button, edit_button, share_button, delete_button;
     Toolbar top_toolbar, bottom_toolbar;
     boolean favourite_flag;
+
+    static final int EDIT_PHOTO_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +121,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
                 Intent intent = new Intent(ViewPhoto.this, PhotoEditActivity.class);
                 intent.putExtra("uri", getIntent().getStringExtra("uri"));
 
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_PHOTO_REQUEST);
             }
         });
     }
@@ -163,4 +167,16 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_PHOTO_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                imageView.setImage(ImageSource.uri(picture_model.getUri()));
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
+    }
 }

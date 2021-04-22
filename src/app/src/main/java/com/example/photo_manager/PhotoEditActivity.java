@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -73,6 +74,8 @@ public class PhotoEditActivity extends AppCompatActivity {
     final static int REQUEST_PERMISSION_CODE = 100;
     String photo_uri;
 
+    int returnResultCode = Activity.RESULT_CANCELED;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +104,6 @@ public class PhotoEditActivity extends AppCompatActivity {
                 .setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build();
 
-        for (PhotoFilter pf : PhotoFilter.values()) {
-            mPhotoEditor.setFilterEffect(pf);
-        }
-
         this.undo_button = findViewById(R.id.undo_btn);
         this.redo_button = findViewById(R.id.redo_btn);
         this.share_button = findViewById(R.id.share_btn);
@@ -120,6 +119,7 @@ public class PhotoEditActivity extends AppCompatActivity {
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(returnResultCode);
                 finish();
             }
         });
@@ -149,6 +149,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                 mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
                     @Override
                     public void onSuccess(@NonNull String imagePath) {
+                        returnResultCode = Activity.RESULT_OK;
                         Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
                         Log.d("DEBUGGER", "onSuccess: ");
 
@@ -409,39 +410,40 @@ public class PhotoEditActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSION_CODE:
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission is granted. Continue the action or workflow
-                    // in your app.
-                    mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
-                        @Override
-                        public void onSuccess(@NonNull String imagePath) {
-                            Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
-                            Log.d("DEBUGGER", "onSuccess: ");
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(PhotoEditActivity.this, "FAILED TO SAVE", Toast.LENGTH_LONG).show();
-                            Log.d("DEBUGGER", "onFailure: ");
-                        }
-                    });
-                }  else {
-
-                    this.finish();
-                }
-                return;
-        }
-        // Other 'case' lines to check for other
-        // permissions this app might request.
-    }
+//    @SuppressLint("MissingPermission")
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                           int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_PERMISSION_CODE:
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0 &&
+//                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // Permission is granted. Continue the action or workflow
+//                    // in your app.
+//                    mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
+//                        @Override
+//                        public void onSuccess(@NonNull String imagePath) {
+//                            returnResultCode = Activity.RESULT_OK;
+//                            Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
+//                            Log.d("DEBUGGER", "onSuccess: ");
+//                        }
+//
+//                        @Override
+//                        public void onFailure(@NonNull Exception exception) {
+//                            Toast.makeText(PhotoEditActivity.this, "FAILED TO SAVE", Toast.LENGTH_LONG).show();
+//                            Log.d("DEBUGGER", "onFailure: ");
+//                        }
+//                    });
+//                }  else {
+//
+//                    this.finish();
+//                }
+//                return;
+//        }
+//        // Other 'case' lines to check for other
+//        // permissions this app might request.
+//    }
 
 
     @Override
