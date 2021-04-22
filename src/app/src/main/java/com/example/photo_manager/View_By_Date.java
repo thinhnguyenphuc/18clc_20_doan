@@ -1,6 +1,7 @@
 package com.example.photo_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,7 +11,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 
 import com.example.photo_manager.Adapter.Picture_Adapter;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,9 +42,11 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
         picture_adapter = new Picture_Adapter(this,data,this );
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getApplicationContext());
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
 
         recyclerView.setAdapter(picture_adapter);
-        recyclerView.setLayoutManager(flexboxLayoutManager);
 
 
 

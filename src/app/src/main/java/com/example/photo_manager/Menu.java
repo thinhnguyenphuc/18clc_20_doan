@@ -1,12 +1,15 @@
 package com.example.photo_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -169,19 +173,20 @@ public class Menu extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO) {
             if(resultCode==RESULT_OK){
-                Uri tmp = Uri.parse(data.getStringExtra("path"));
-                File file = new File(getPath(tmp));
-                String tmpTime =  fullFormat.format(file.lastModified());
-                picture_models.add(new Picture_Model(tmp,null,tmpTime,0));
+                File file = new File(data.getStringExtra("path"));
+                MediaScannerConnection.scanFile(this,
+                        new String[] { file.getAbsolutePath() }, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            public void onScanCompleted(String path, Uri uri) {
+                                String tmpTime =  fullFormat.format(file.lastModified());
+                                Log.d("Tagg", "onScanCompleted: "+ uri);
+                                picture_models.add(new Picture_Model(uri,null,tmpTime,0));
+                            }
+                        });
+
+
             }
         }
     }
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        startManagingCursor(cursor);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+
 }

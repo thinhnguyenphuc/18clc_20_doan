@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Type;
+import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
@@ -73,8 +75,7 @@ public class Picture_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             options.centerCrop();
             Glide.with(this.context).load(picture_model.getUri()).apply(options).into(viewHolderPicture.imageView);
             FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-            layoutParams.setFlexGrow(1.0f);
-            layoutParams.width = getScreenWidth()/5;
+            layoutParams.width = getScreenWidth()/4;
             holder.itemView.setLayoutParams(layoutParams);
         }
     }
