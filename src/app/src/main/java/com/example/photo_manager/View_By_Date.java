@@ -1,31 +1,19 @@
 package com.example.photo_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.photo_manager.Adapter.Picture_Adapter;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class View_By_Date extends AppCompatActivity implements RecyclerViewClickInterface {
 
@@ -106,12 +94,15 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onItemClick(int position) {
-//        Intent view_photo = new Intent(View_By_Date.this, ViewPhoto.class);
-//        view_photo.putExtra("uri",picture_models.get(position).getUri().toString());
-//        view_photo.putExtra("name",picture_models.get(position).getName());
-//        view_photo.putExtra("time",picture_models.get(position).getTime());
-//        view_photo.putExtra("size",picture_models.get(position).getSize());
-//        startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
+
+        Picture_Model picture_model = (Picture_Model) data.get(position);
+
+        Intent view_photo = new Intent(View_By_Date.this, ViewPhoto.class);
+        view_photo.putExtra("uri",picture_model.getUri().toString());
+        view_photo.putExtra("name",picture_model.getName());
+        view_photo.putExtra("time",picture_model.getTime());
+        view_photo.putExtra("size",picture_model.getSize());
+        startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
     }
 
     @Override

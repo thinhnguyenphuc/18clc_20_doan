@@ -1,4 +1,4 @@
-package com.example.photo_manager;
+package com.example.photo_manager.Adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,6 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.photo_manager.Date_Model;
+import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.R;
+import com.example.photo_manager.RecyclerViewClickInterface;
+import com.example.photo_manager.Type;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;

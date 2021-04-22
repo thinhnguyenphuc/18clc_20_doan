@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button activity1,activity2,activity3;
     Button album_detail;
+    Button view_all;
 
     private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -108,6 +109,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Take_New_Photo.class);
+                startActivity(intent);
+            }
+        });
+        view_all =(Button) findViewById(R.id.view_all);
+        view_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,View_All.class);
+                intent.putExtra("sizeOfPicture",picture_models.size());
+                try {
+                    intent.putExtra("images",ImageListToObject().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
             }
         });
