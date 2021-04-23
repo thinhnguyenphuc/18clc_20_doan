@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -53,5 +55,16 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        //re-create
+        PictureViewModel pictureViewModel =
+                new ViewModelProvider(this).get(PictureViewModel.class);
+
+        pictureViewModel.update(this);
     }
 }

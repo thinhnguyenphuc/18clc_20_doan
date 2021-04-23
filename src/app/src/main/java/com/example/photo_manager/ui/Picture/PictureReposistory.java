@@ -59,6 +59,15 @@ public class PictureReposistory {
         }
     }
 
+    public void notifyDataChanged() {
+        this.pictures.setValue(picture_models);
+    }
+
+    public void update(Context context) {
+        loadImage(context);
+        this.pictures.setValue(picture_models);
+    }
+
 
     private void loadImage(Context context){
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;

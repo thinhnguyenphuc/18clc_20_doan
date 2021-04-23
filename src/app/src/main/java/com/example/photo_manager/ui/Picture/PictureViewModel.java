@@ -41,6 +41,12 @@ public class PictureViewModel extends AndroidViewModel {
         pr.delete(uri);
     }
 
+    public void notifyDataChanged() {
+        pr.notifyDataChanged();
+    }
 
+    public void update(Context context) {
+        pr.update(context);
+    }
 
 }
