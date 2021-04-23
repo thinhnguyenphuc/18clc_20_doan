@@ -1,4 +1,4 @@
-package com.example.photo_manager;
+package com.example.photo_manager.Code;
 
 public class RequestCode {
     public static final int REQUEST_INTENT_PHOTO_DETAIL = 20;

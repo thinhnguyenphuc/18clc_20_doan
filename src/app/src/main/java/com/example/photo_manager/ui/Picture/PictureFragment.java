@@ -1,26 +1,28 @@
 package com.example.photo_manager.ui.Picture;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Date_Model;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
-import com.example.photo_manager.RequestCode;
+import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.ViewPhoto;
 
 import java.util.ArrayList;
@@ -34,8 +36,6 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
 
     @Override
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.picture_fragment, container, false);
@@ -72,7 +72,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
         Picture_Model picture_model = pictureModels.get(position);
 
-        Intent view_photo = new Intent(getActivity().getBaseContext(), ViewPhoto.class);
+        Intent view_photo = new Intent(getActivity(), ViewPhoto.class);
         view_photo.putExtra("uri",picture_model.getUri().toString());
         view_photo.putExtra("name",picture_model.getName());
         view_photo.putExtra("time",picture_model.getTime());
@@ -85,4 +85,17 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("my debugger", "on fragment result: ");
+        if (requestCode == RequestCode.REQUEST_INTENT_VIEW_PHOTO) {
+            Log.d("my debugger", "on fragment result request: ");
+            if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
+                Log.d("my debugger", "on fragment result result: ");
+                assert data != null;
+                pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
+            }
+        }
+    }
 }

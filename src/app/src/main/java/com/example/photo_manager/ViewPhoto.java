@@ -32,6 +32,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
 
 import java.io.File;
@@ -138,7 +139,10 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
 
         findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
+                Intent returnData = new Intent();
+                returnData.putExtra("uri", picture_model.getUri().toString());
                 Toast.makeText(this, "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                setResult(ResultCode.RESULT_VIEW_PHOTO_DELETED, returnData);
                 finish();
             } else {
                 Toast.makeText(this, "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
