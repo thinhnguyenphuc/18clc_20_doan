@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/pictureFragment">
+    <fragment
+        android:id="@+id/pictureFragment"
+        android:name="com.example.photo_manager.ui.Picture.PictureFragment"
+        android:label="@string/picture_fragment_label"
+        tools:layout="@layout/picture_fragment"
+        />
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumFragment"
+        android:label="album_fragment"
+        tools:layout="@layout/album_fragment" />
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.example.photo_manager.ui.Video.VideoFragment"
+        android:label="video_fragment"
+        tools:layout="@layout/video_fragment" />
+</navigation>
