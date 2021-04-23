@@ -16,18 +16,23 @@ import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerViewClickInterface recyclerViewClickInterface;
     private Context context;
-    private ArrayList<Uri> pictures_uri;
+    private ArrayList<Picture_Model> picture_models = new ArrayList<>();
 
-    public Picture_Adapter_All(Context mContext, ArrayList<Uri> pictures_uri
+    public Picture_Adapter_All(Context mContext
             , RecyclerViewClickInterface recyclerViewClickInterface){
         this.context = mContext;
-        this.pictures_uri = pictures_uri;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
+    }
+
+    public void setPictures(ArrayList<Picture_Model> picture_models) {
+        this.picture_models = picture_models;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,8 +45,8 @@ public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Picture_Adapter_All.ViewHolderPicture viewHolderPicture = (Picture_Adapter_All.ViewHolderPicture) holder;
-        Uri picture_uri = pictures_uri.get(position);
+        ViewHolderPicture viewHolderPicture = (ViewHolderPicture) holder;
+        Uri picture_uri = picture_models.get(position).getUri();
         RequestOptions options = new RequestOptions();
         options.centerCrop();
         Glide.with(this.context).load(picture_uri).apply(options).into(viewHolderPicture.imageView);
@@ -49,7 +54,7 @@ public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return pictures_uri.size();
+        return picture_models.size();
     }
     class ViewHolderPicture extends RecyclerView.ViewHolder {
         ImageView imageView;

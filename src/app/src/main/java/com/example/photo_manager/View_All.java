@@ -44,7 +44,7 @@ public class View_All extends AppCompatActivity implements RecyclerViewClickInte
         }
 
         recyclerView = findViewById(R.id.recyclerView_ViewAll);
-        picture_adapter_all = new Picture_Adapter_All(this,pictures_uri,this);
+        picture_adapter_all = new Picture_Adapter_All(this,this);
         recyclerView.setAdapter(picture_adapter_all);
         recyclerView.setLayoutManager(new GridLayoutManager(this,4));
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
