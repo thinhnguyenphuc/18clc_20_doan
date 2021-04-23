@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +29,6 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     private PictureViewModel pictureViewModel;
 
-    private Context context;
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
 
@@ -40,16 +40,14 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.picture_fragment, container, false);
 
-        context = getActivity().getApplicationContext();
-
         RecyclerView recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
 
         Picture_Adapter_All picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
 
         pictureViewModel =
-                 new ViewModelProvider(this, new PictureViewModelFactory(context)).get(PictureViewModel.class);
+                new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
         pictureViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {

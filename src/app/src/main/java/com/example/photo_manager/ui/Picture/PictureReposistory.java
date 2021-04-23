@@ -37,7 +37,6 @@ public class PictureReposistory {
 
         loadImage(context);
         pictures.setValue(picture_models);
-
         dates.setValue(date_models);
     }
 
