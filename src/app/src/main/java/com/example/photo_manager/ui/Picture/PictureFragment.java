@@ -34,16 +34,19 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
 
+    private RecyclerView recyclerView;
+    private Picture_Adapter_All picture_adapter_all;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.picture_fragment, container, false);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
+        recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
 
-        Picture_Adapter_All picture_adapter_all = new Picture_Adapter_All(getContext(),this);
+        picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
 
         pictureViewModel =
@@ -92,9 +95,11 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         if (requestCode == RequestCode.REQUEST_INTENT_VIEW_PHOTO) {
             Log.d("my debugger", "on fragment result request: ");
             if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
-                Log.d("my debugger", "on fragment result result: ");
                 assert data != null;
                 pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
+            }else if (resultCode == ResultCode.RESULT_VIEW_PHOTO_EDITED) {
+                Log.d("my debugger", "on fragment result result: ");
+                recyclerView.setAdapter(picture_adapter_all);
             }
         }
     }

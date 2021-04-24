@@ -22,4 +22,5 @@
     <string name="picture_fragment_label">Picture</string>
     <string name="video_fragment_label">Video</string>
     <string name="album_fragment_label">Album</string>
+    <string name="view_all_picture_title">PICTURE</string>
 </resources>
