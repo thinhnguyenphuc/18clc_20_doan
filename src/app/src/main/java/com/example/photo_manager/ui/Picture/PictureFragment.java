@@ -5,8 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,11 +42,29 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     private RecyclerView recyclerView;
     private Picture_Adapter_All picture_adapter_all;
 
+    Toolbar toolbar;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.picture_fragment, container, false);
+
+        toolbar = root.findViewById(R.id.toolbar_top);
+
+        toolbar.setOnMenuItemClickListener(
+                new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.d("DEBUGGER", "onMenuItemClick: ");
+                        return true;
+                    }
+                });
 
         recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
@@ -103,4 +126,20 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             }
         }
     }
+
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        Log.d("debug","fragment : action home has clicked");;
+//        switch (item.getItemId()) {
+//            case R.id.camera:
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//
+//    }
 }

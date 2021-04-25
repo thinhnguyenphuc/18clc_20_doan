@@ -210,19 +210,21 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     }
 
     private boolean deleteImage(Uri uri) {
-        String file_dj_path = Utility.getRealPathFromUri(this, uri);
-        File fdelete = new File(file_dj_path);
-        if (fdelete.exists()) {
-            if (fdelete.delete()) {
-                Log.e("-->", "file Deleted :" + file_dj_path);
-                this.getContentResolver().delete(picture_model.getUri(), null, null);
-                return true;
-            } else {
-                Log.e("-->", "file not Deleted :" + file_dj_path);
-                return false;
-            }
-        }
-        return false;
+        this.getContentResolver().delete(picture_model.getUri(), null, null);
+        return true;
+//        String file_dj_path = Utility.getRealPathFromUri(this, uri);
+//        File fdelete = new File(file_dj_path);
+//        if (fdelete.exists()) {
+//            if (fdelete.delete()) {
+//                Log.e("-->", "file Deleted :" + file_dj_path);
+//                this.getContentResolver().delete(picture_model.getUri(), null, null);
+//                return true;
+//            } else {
+//                Log.e("-->", "file not Deleted :" + file_dj_path);
+//                return false;
+//            }
+//        }
+//        return false;
     }
 
 

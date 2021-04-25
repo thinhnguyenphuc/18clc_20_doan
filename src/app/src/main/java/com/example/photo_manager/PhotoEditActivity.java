@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -32,9 +36,14 @@ import com.example.photo_manager.PEAdapters.Utility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener;
+import ja.burhanrashid52.photoeditor.OnSaveBitmap;
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
@@ -147,21 +156,26 @@ public class PhotoEditActivity extends AppCompatActivity {
                     Log.d("DEBUGGER", "onClick: ");
                     EasyPermissions.requestPermissions(PhotoEditActivity.this, "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 }
-                mPhotoEditor.saveAsFile(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)), new PhotoEditor.OnSaveListener() {
-                    @Override
-                    public void onSuccess(@NonNull String imagePath) {
-                        returnResultCode = Activity.RESULT_OK;
-                        Toast.makeText(PhotoEditActivity.this, "IMAGE IS SAVED", Toast.LENGTH_LONG).show();
-                        Log.d("DEBUGGER", "onSuccess: ");
 
-                        setResult(returnResultCode);
-                        finish();
+                mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
+                    @Override
+                    public void onBitmapReady(Bitmap bitmap) {
+                        try {
+                            resaveImage(PhotoEditActivity.this, bitmap, Uri.parse(photo_uri));
+                            Toast.makeText(PhotoEditActivity.this, getString(R.string.save_image_success), Toast.LENGTH_LONG)
+                                    .show();
+                            setResult(Activity.RESULT_OK);
+                            finish();
+                        } catch (IOException e) {
+                            Toast.makeText(PhotoEditActivity.this, getString(R.string.save_image_fail), Toast.LENGTH_LONG)
+                                    .show();
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(PhotoEditActivity.this, "FAILED TO SAVE", Toast.LENGTH_LONG).show();
-                        Log.d("DEBUGGER", "onFailure: ");
+                    public void onFailure(Exception e) {
+                        Log.d("SAVE BITMAP DEBUGGER", "onFailure: ");
                     }
                 });
             }
@@ -457,5 +471,56 @@ public class PhotoEditActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    private Uri resaveImage(Context context, Bitmap bitmap, @NonNull Uri imageUri) throws IOException {
+        OutputStream fos = null;
+        File imageFile = null;
+
+        File input_file = new File(Utility.getRealPathFromUri(PhotoEditActivity.this, Uri.parse(photo_uri)));
+
+        String folderName = input_file.getParent();
+        String fileName = input_file.getName();
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (imageUri == null)
+                    throw new IOException("Failed to create new MediaStore record.");
+
+                fos = context.getContentResolver().openOutputStream(imageUri);
+            } else {
+                File imagesDir = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).toString() + File.separator + folderName);
+
+                if (!imagesDir.exists())
+                    imagesDir.mkdir();
+
+                imageFile = new File(imagesDir, fileName);
+                fos = new FileOutputStream(imageFile);
+            }
+
+            String extension = null;
+            if (fileName.contains("."))
+                extension = fileName.substring(fileName.lastIndexOf("."));
+
+            if (extension.equalsIgnoreCase(".jpg")) {
+                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos))
+                    throw new IOException("Failed to save bitmap.");
+            }
+            if (extension.equalsIgnoreCase(".png")) {
+                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos))
+                    throw new IOException("Failed to save bitmap.");
+            }
+            fos.flush();
+        } finally {
+            if (fos != null)
+                fos.close();
+        }
+
+        if (imageFile != null) {//pre Q
+            MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
+            imageUri = Uri.fromFile(imageFile);
+        }
+        return imageUri;
     }
 }
