@@ -1,13 +1,20 @@
 package com.example.photo_manager.ui.Picture;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,11 +22,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Date_Model;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
-import com.example.photo_manager.RequestCode;
+import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.ViewPhoto;
 
 import java.util.ArrayList;
@@ -28,28 +36,44 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     private PictureViewModel pictureViewModel;
 
-    private Context context;
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
 
+    private RecyclerView recyclerView;
+    private Picture_Adapter_All picture_adapter_all;
+
+    Toolbar toolbar;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.picture_fragment, container, false);
 
-        context = getActivity().getApplicationContext();
+        toolbar = root.findViewById(R.id.toolbar_top);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        toolbar.setOnMenuItemClickListener(
+                new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.d("DEBUGGER", "onMenuItemClick: ");
+                        return true;
+                    }
+                });
 
-        Picture_Adapter_All picture_adapter_all = new Picture_Adapter_All(getContext(),this);
+        recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+
+        picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
 
         pictureViewModel =
-                 new ViewModelProvider(this, new PictureViewModelFactory(context)).get(PictureViewModel.class);
+                new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
         pictureViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {
@@ -74,7 +98,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
         Picture_Model picture_model = pictureModels.get(position);
 
-        Intent view_photo = new Intent(getActivity().getBaseContext(), ViewPhoto.class);
+        Intent view_photo = new Intent(getActivity(), ViewPhoto.class);
         view_photo.putExtra("uri",picture_model.getUri().toString());
         view_photo.putExtra("name",picture_model.getName());
         view_photo.putExtra("time",picture_model.getTime());
@@ -87,4 +111,35 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("my debugger", "on fragment result: ");
+        if (requestCode == RequestCode.REQUEST_INTENT_VIEW_PHOTO) {
+            Log.d("my debugger", "on fragment result request: ");
+            if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
+                assert data != null;
+                pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
+            }else if (resultCode == ResultCode.RESULT_VIEW_PHOTO_EDITED) {
+                Log.d("my debugger", "on fragment result result: ");
+                recyclerView.setAdapter(picture_adapter_all);
+            }
+        }
+    }
+
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        Log.d("debug","fragment : action home has clicked");;
+//        switch (item.getItemId()) {
+//            case R.id.camera:
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//
+//    }
 }

@@ -32,6 +32,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
 
 import java.io.File;
@@ -46,6 +47,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     boolean favourite_flag;
 
     static final int EDIT_PHOTO_REQUEST = 1;
+    boolean EDIT_PHOTO_FLAG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,9 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         this.back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (EDIT_PHOTO_FLAG) {
+                    setResult(ResultCode.RESULT_VIEW_PHOTO_EDITED);
+                }
                 finish();
             }
         });
@@ -138,7 +143,10 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
 
         findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
+                Intent returnData = new Intent();
+                returnData.putExtra("uri", picture_model.getUri().toString());
                 Toast.makeText(this, "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                setResult(ResultCode.RESULT_VIEW_PHOTO_DELETED, returnData);
                 finish();
             } else {
                 Toast.makeText(this, "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
@@ -194,6 +202,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         if (requestCode == EDIT_PHOTO_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 imageView.setImage(ImageSource.uri(picture_model.getUri()));
+                EDIT_PHOTO_FLAG = true;
             } else if (resultCode == Activity.RESULT_CANCELED) {
 
             }
@@ -201,20 +210,23 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     }
 
     private boolean deleteImage(Uri uri) {
-        String file_dj_path = Utility.getRealPathFromUri(this, uri);
-        File fdelete = new File(file_dj_path);
-        if (fdelete.exists()) {
-            if (fdelete.delete()) {
-                Log.e("-->", "file Deleted :" + file_dj_path);
-                this.getContentResolver().delete(picture_model.getUri(), null, null);
-                return true;
-            } else {
-                Log.e("-->", "file not Deleted :" + file_dj_path);
-                return false;
-            }
-        }
-        return false;
+        this.getContentResolver().delete(picture_model.getUri(), null, null);
+        return true;
+//        String file_dj_path = Utility.getRealPathFromUri(this, uri);
+//        File fdelete = new File(file_dj_path);
+//        if (fdelete.exists()) {
+//            if (fdelete.delete()) {
+//                Log.e("-->", "file Deleted :" + file_dj_path);
+//                this.getContentResolver().delete(picture_model.getUri(), null, null);
+//                return true;
+//            } else {
+//                Log.e("-->", "file not Deleted :" + file_dj_path);
+//                return false;
+//            }
+//        }
+//        return false;
     }
+
 
 
 

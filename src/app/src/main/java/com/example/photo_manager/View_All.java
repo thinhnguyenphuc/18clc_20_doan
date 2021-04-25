@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Code.RequestCode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +60,7 @@ public class View_All extends AppCompatActivity implements RecyclerViewClickInte
     public void onItemClick(int position) {
         Intent view_photo = new Intent(View_All.this, ViewPhoto.class);
         view_photo.putExtra("uri",pictures_uri.get(position).toString());
-        startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
+        startActivityForResult(view_photo, RequestCode.REQUEST_INTENT_VIEW_PHOTO);
     }
 
     @Override

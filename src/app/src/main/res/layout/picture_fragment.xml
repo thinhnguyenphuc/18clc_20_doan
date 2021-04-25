@@ -5,13 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Picture.PictureFragment">
+    tools:context=".ui.Picture.PictureFragment"
+    android:orientation="vertical"
+    android:paddingBottom="?attr/actionBarSize">
+
+    <include
+        android:id="@+id/toolbar_top"
+        layout="@layout/picture_toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_ViewAll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView_ViewAll">
+        android:layout_height="match_parent" />
 
-    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

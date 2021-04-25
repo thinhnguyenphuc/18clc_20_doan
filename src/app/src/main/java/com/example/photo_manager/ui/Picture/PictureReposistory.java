@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -12,7 +13,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.photo_manager.Date_Model;
 import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.Picture_Model;
-import com.example.photo_manager.RequestCode;
 import com.example.photo_manager.Type;
 
 import org.json.JSONException;
@@ -21,8 +21,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class PictureReposistory {
     private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
@@ -37,7 +35,6 @@ public class PictureReposistory {
 
         loadImage(context);
         pictures.setValue(picture_models);
-
         dates.setValue(date_models);
     }
 
@@ -47,6 +44,28 @@ public class PictureReposistory {
 
     public  MutableLiveData<ArrayList<Date_Model>> getAllDates() {
         return dates;
+    }
+
+    public void delete(Uri uri) {
+        Log.d("my debugger", "before delete: ");
+        for (Picture_Model picture_model: picture_models) {
+
+            if (picture_model.getUri().equals(uri)) {
+                picture_models.remove(picture_model);
+                pictures.setValue(picture_models);
+                Log.d("my debugger", "delete: ");
+                return;
+            }
+        }
+    }
+
+    public void notifyDataChanged() {
+        this.pictures.setValue(picture_models);
+    }
+
+    public void update(Context context) {
+        loadImage(context);
+        this.pictures.setValue(picture_models);
     }
 
 

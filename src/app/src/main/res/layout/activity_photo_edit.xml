@@ -24,8 +24,4 @@
         <include layout="@layout/pe_toolbar_bottom" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/kb_input"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
 </RelativeLayout>

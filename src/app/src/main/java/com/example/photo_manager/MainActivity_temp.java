@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import com.example.photo_manager.Code.RequestCode;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,7 +101,7 @@ public class MainActivity_temp extends AppCompatActivity {
     private void requestPermission() {
         String[] perms = {permission_read,permission_write, permission_camera};
         if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this,"Must allow to use this app",RequestCode.REQUEST_PERMISSION_CODE,perms);
+            EasyPermissions.requestPermissions(this,"Must allow to use this app", RequestCode.REQUEST_PERMISSION_CODE,perms);
         }
     }
 

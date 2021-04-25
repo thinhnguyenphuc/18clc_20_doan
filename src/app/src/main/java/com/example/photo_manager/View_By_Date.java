@@ -1,7 +1,6 @@
 package com.example.photo_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -11,8 +10,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 
 import com.example.photo_manager.Adapter.Picture_Adapter;
+import com.example.photo_manager.Code.RequestCode;
 import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
@@ -108,7 +107,7 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
         view_photo.putExtra("name",picture_model.getName());
         view_photo.putExtra("time",picture_model.getTime());
         view_photo.putExtra("size",picture_model.getSize());
-        startActivityForResult(view_photo,RequestCode.REQUEST_INTENT_VIEW_PHOTO);
+        startActivityForResult(view_photo, RequestCode.REQUEST_INTENT_VIEW_PHOTO);
     }
 
     @Override

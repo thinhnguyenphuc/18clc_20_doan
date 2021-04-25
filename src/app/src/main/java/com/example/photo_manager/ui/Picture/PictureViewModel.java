@@ -2,8 +2,11 @@ package com.example.photo_manager.ui.Picture;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,13 +16,16 @@ import com.example.photo_manager.Picture_Model;
 
 import java.util.ArrayList;
 
-public class PictureViewModel extends ViewModel {
+public class PictureViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<Picture_Model>> pictureModels;
     private MutableLiveData<ArrayList<Date_Model>> dateModels;
 
-    public PictureViewModel(@NonNull Context context) {
-        PictureReposistory pr = new PictureReposistory(context);
+    PictureReposistory pr;
+
+    public PictureViewModel(@NonNull Application application) {
+        super(application);
+        this.pr = new PictureReposistory(application);
         pictureModels = pr.getAllPictures();
         dateModels = pr.getAllDates();
     }
@@ -31,5 +37,16 @@ public class PictureViewModel extends ViewModel {
         return dateModels;
     }
 
+    public void delete(Uri uri) {
+        pr.delete(uri);
+    }
+
+    public void notifyDataChanged() {
+        pr.notifyDataChanged();
+    }
+
+    public void update(Context context) {
+        pr.update(context);
+    }
 
 }
