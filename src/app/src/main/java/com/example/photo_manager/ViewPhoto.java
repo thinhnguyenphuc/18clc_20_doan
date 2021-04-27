@@ -32,6 +32,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
 
@@ -185,7 +186,13 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.vp_menu_photo_detail:
+            {
+                Intent intent = new Intent(ViewPhoto.this,Photo_Details.class);
+                intent.putExtra("uri",picture_model.getUri().toString());
+                startActivityForResult(intent, RequestCode.REQUEST_INTENT_PHOTO_DETAIL);
                 return true;
+            }
+
             case R.id.vp_menu_wallpaper:
                 return true;
             case R.id.vp_menu_security_folder:

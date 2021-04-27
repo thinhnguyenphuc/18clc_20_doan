@@ -13,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.photo_manager.Format.FormatDate;
 
-
+import java.io.File;
+import java.nio.file.Files;
 
 
 public class Photo_Details extends AppCompatActivity {
@@ -30,9 +32,11 @@ public class Photo_Details extends AppCompatActivity {
         String tmp = receiver.getStringExtra("uri");
 
         picture_model.setUri(Uri.parse(tmp));
-        picture_model.setName(receiver.getStringExtra("name"));
-        picture_model.setTime(receiver.getStringExtra("time"));
-        picture_model.setSize(receiver.getIntExtra("size",0));
+        File file = new File(getPath(picture_model.getUri()));
+
+        picture_model.setName(file.getName());
+        picture_model.setTime(FormatDate.fullFormat.format(file.lastModified()));
+        picture_model.setSize((int) file.length());
 
 
         ImageView imageView_detail = (ImageView)findViewById(R.id.imageView_details);
@@ -58,4 +62,5 @@ public class Photo_Details extends AppCompatActivity {
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+
 }

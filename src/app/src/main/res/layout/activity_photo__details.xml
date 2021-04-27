@@ -20,114 +20,11 @@
             <ImageView
                 android:id="@+id/imageView_details"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="500dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/test1" />
 
-            <LinearLayout
-                android:id="@+id/linear_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/Button_delete_this"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@android:drawable/ic_menu_delete" />
-
-                    <TextView
-                        android:id="@+id/textView_delete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Delete"
-                        android:textSize="19.7sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButton_set_as"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40sp"
-                        app:srcCompat="@android:drawable/ic_menu_set_as" />
-
-                    <TextView
-                        android:id="@+id/textView_set_as"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="40sp"
-                        android:gravity="center"
-                        android:text="Set as"
-                        android:textSize="20.35sp" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButton3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40sp"
-                        app:srcCompat="@android:drawable/ic_menu_add" />
-
-                    <TextView
-                        android:id="@+id/textView_add_to_album"
-                        android:layout_width="57dp"
-                        android:layout_height="81dp"
-                        android:layout_marginLeft="40sp"
-                        android:gravity="center"
-                        android:text="Add to album"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButton_slide"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40sp"
-                        app:srcCompat="@android:drawable/ic_menu_slideshow" />
-
-                    <TextView
-                        android:id="@+id/textView_slide"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40sp"
-                        android:text="Silde"
-                        android:textSize="24sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,41 +35,85 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView_path"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Locate of image here"
-                        android:textSize="18sp" />
-                    <TextView
-                        android:gravity="center"
-                        android:id="@+id/textView_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Time of image here"
-                        android:textSize="25sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linear_button" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Located: "
+                            android:textSize="25dp">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textView_path"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Locate of image here"
+                            android:textSize="25dp"/>
+                    </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last modified: "
+                            android:textSize="25dp">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textView_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Time of image here"
+                            android:textSize="23dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/linear_button" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Size: "
+                            android:textSize="25dp">
+
+                        </TextView>
+                        <TextView
                             android:id="@+id/textView_size"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Size"
-                            android:textSize="25sp"
-                        android:gravity="center"/>
+                            android:textSize="25dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Resolution: "
+                            android:textSize="25dp">
 
+                        </TextView>
                         <TextView
                             android:id="@+id/textView_resolution"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Resolution"
-                            android:textSize="25sp" />
+                            android:textSize="25dp"/>
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </LinearLayout>
