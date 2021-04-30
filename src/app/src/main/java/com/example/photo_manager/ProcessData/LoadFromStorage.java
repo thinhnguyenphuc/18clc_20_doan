@@ -31,14 +31,6 @@ public class LoadFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_
     protected ArrayList<Picture_Model> doInBackground(Void... voids) {
         ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
         picture_models = loadImage();
-        for (int i=0;i<99;i++){
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            publishProgress(i);
-        }
         return picture_models;
     }
 
@@ -54,7 +46,6 @@ public class LoadFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_
 
     @Override
     protected void onPostExecute(ArrayList<Picture_Model> picture_models) {
-        onProgressUpdate(100);
         delegate.processFinish(picture_models);
     }
 

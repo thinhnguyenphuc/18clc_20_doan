@@ -59,6 +59,14 @@ public class MediaReposistory {
     }
 
     public void update(Context context) {
+        LoadFromStorage loadFromStorage = new LoadFromStorage(new AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<Picture_Model> pictureModels) {
+                picture_models = pictureModels;
+                notifyDataChanged();
+            }
+        },context);
+        loadFromStorage.execute();
         this.pictures.setValue(picture_models);
     }
 }
