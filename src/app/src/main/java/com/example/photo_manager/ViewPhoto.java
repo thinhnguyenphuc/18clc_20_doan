@@ -186,10 +186,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.vp_menu_photo_detail:
-            {
-                Intent intent = new Intent(ViewPhoto.this,Photo_Details.class);
-                intent.putExtra("uri",picture_model.getUri().toString());
-                startActivityForResult(intent, RequestCode.REQUEST_INTENT_PHOTO_DETAIL);
+                openPhotoDetail();
                 return true;
             }
 
@@ -219,36 +216,15 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     private boolean deleteImage(Uri uri) {
         this.getContentResolver().delete(picture_model.getUri(), null, null);
         return true;
-//        String file_dj_path = Utility.getRealPathFromUri(this, uri);
-//        File fdelete = new File(file_dj_path);
-//        if (fdelete.exists()) {
-//            if (fdelete.delete()) {
-//                Log.e("-->", "file Deleted :" + file_dj_path);
-//                this.getContentResolver().delete(picture_model.getUri(), null, null);
-//                return true;
-//            } else {
-//                Log.e("-->", "file not Deleted :" + file_dj_path);
-//                return false;
-//            }
-//        }
-//        return false;
     }
 
+    private void openPhotoDetail() {
 
-
-
-
-//    public void callBroadCast() {
-//        Log.e("-->", " >= 14");
-//        MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-//            /*
-//             *   (non-Javadoc)
-//             * @see android.media.MediaScannerConnection.OnScanCompletedListener#onScanCompleted(java.lang.String, android.net.Uri)
-//             */
-//            public void onScanCompleted(String path, Uri uri) {
-//                Log.e("ExternalStorage", "Scanned " + path + ":");
-//                Log.e("ExternalStorage", "-> uri=" + uri);
-//            }
-//        });
-//    }
+        Intent view_details = new Intent(ViewPhoto.this, Photo_Details.class);
+        view_details.putExtra("uri",picture_model.getUri().toString());
+        view_details.putExtra("name",picture_model.getName());
+        view_details.putExtra("time",picture_model.getTime());
+        view_details.putExtra("size",picture_model.getSize());
+        startActivity(view_details);
+    }
 }

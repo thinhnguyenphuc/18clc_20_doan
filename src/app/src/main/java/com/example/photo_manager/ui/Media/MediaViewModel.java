@@ -1,33 +1,33 @@
-package com.example.photo_manager.ui.Picture;
+package com.example.photo_manager.ui.Media;
 
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.photo_manager.Date_Model;
 import com.example.photo_manager.Picture_Model;
 
 import java.util.ArrayList;
 
-public class PictureViewModel extends AndroidViewModel {
+public class MediaViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<Picture_Model>> pictureModels;
     private MutableLiveData<ArrayList<Date_Model>> dateModels;
 
-    PictureReposistory pr;
+    MediaReposistory pr;
 
-    public PictureViewModel(@NonNull Application application) {
+    public MediaViewModel(@NonNull Application application) {
         super(application);
-        this.pr = new PictureReposistory(application);
+        this.pr = new MediaReposistory(application);
         pictureModels = pr.getAllPictures();
         dateModels = pr.getAllDates();
+        Log.d("MY DEBUGGER", "PictureViewModel: ");
     }
 
     public LiveData<ArrayList<Picture_Model>> getAllPictures() {

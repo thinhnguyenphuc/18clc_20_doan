@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.photo_manager.Code.RequestCode;
-import com.example.photo_manager.ui.Picture.PictureViewModel;
+import com.example.photo_manager.ui.Media.MediaViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
 
         //re-create
-        PictureViewModel pictureViewModel =
-                new ViewModelProvider(this).get(PictureViewModel.class);
+        MediaViewModel mediaViewModel =
+                new ViewModelProvider(this).get(MediaViewModel.class);
 
-        pictureViewModel.update(this);
+        mediaViewModel.update(this);
     }
 }

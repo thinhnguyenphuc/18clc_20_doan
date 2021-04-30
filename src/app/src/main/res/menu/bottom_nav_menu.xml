@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/pictureFragment"
+        android:id="@+id/mediaFragment"
         android:icon="@drawable/ic_image"
-        android:title="@string/picture_fragment_label" />
+        android:title="@string/media_fragment_label" />
     <item
         android:id="@+id/videoFragment"
         android:icon="@drawable/ic_video"

@@ -25,14 +25,12 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.album_fragment, container, false);
+        View root =  inflater.inflate(R.layout.album_fragment, container, false);
+
+        mViewModel = new ViewModelProvider(requireActivity()).get(AlbumViewModel.class);
+
+        return root;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AlbumViewModel.class);
-        // TODO: Use the ViewModel
-    }
 
 }
