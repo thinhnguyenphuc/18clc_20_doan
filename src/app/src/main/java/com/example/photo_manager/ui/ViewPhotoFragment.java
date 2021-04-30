@@ -41,7 +41,6 @@ public class ViewPhotoFragment extends Fragment {
 
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
     SubsamplingScaleImageView imageView;
-    ImageButton back_button, menu_button;
     ImageButton favourite_button, edit_button, share_button, delete_button;
     boolean favourite_flag;
 
@@ -113,6 +112,12 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
+        root.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).popBackStack();
+            }
+        });
 
 
         this.favourite_button.setOnClickListener(new View.OnClickListener() {
