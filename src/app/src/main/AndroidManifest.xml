@@ -18,12 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            > <intent-filter>
+            android:name=".MainActivity">
+            <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+        </intent-filter>
+        </activity>
         <activity android:name=".Menu" />
         <activity android:name=".PhotoEditActivity" />
         <activity android:name=".Take_New_Photo" />
