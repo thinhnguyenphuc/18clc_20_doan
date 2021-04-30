@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mediaFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_viewPhotoFragment"
+            app:destination="@id/viewPhotoFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -29,4 +32,25 @@
         android:name="com.example.photo_manager.ui.Favourite.FavouriteFragment"
         android:label="favourite_fragment"
         tools:layout="@layout/favourite_fragment" />
+    <fragment
+        android:id="@+id/viewPhotoFragment"
+        android:name="com.example.photo_manager.ui.ViewPhotoFragment"
+        android:label="ViewPhotoFragment"
+        tools:layout="@layout/activity_view_photo">
+        <argument
+            android:name="photo_uri"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_viewPhotoFragment_to_editPhotoFragment"
+            app:destination="@id/editPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPhotoFragment"
+        android:name="com.example.photo_manager.ui.EditPhotoFragment"
+        android:label="favourite_fragment"
+        tools:layout="@layout/activity_photo_edit" >
+        <argument
+            android:name="photo_uri"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -3,6 +3,7 @@ package com.example.photo_manager;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.ui.Media.MediaViewModel;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         NavigationUI.setupWithNavController(navView, navController);
+
     }
 
     @Override
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
+        Log.d("MAIN", "onRestart: ");
         //re-create
         MediaViewModel mediaViewModel =
                 new ViewModelProvider(this).get(MediaViewModel.class);

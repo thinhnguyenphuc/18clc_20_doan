@@ -56,6 +56,7 @@ public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return picture_models.size();
     }
+
     class ViewHolderPicture extends RecyclerView.ViewHolder {
         ImageView imageView;
         public ViewHolderPicture(@NonNull View itemView) {
