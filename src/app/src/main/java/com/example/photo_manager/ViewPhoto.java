@@ -77,7 +77,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
         bottom_toolbar = findViewById(R.id.toolbar_bottom);
 
         back_button = findViewById(R.id.back_button);
-        menu_button = findViewById(R.id.menu_button);
+
 
         favourite_button = findViewById(R.id.favourite_button);
         favourite_flag = Utility.checkImageIsFavourite("");
