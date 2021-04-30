@@ -188,8 +188,6 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
             case R.id.vp_menu_photo_detail:
                 openPhotoDetail();
                 return true;
-            }
-
             case R.id.vp_menu_wallpaper:
                 return true;
             case R.id.vp_menu_security_folder:
