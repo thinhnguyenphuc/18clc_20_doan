@@ -1,16 +1,15 @@
-package com.example.photo_manager.ui.Picture;
+package com.example.photo_manager.ui.Media;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -28,13 +27,14 @@ import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.Take_New_Photo;
 import com.example.photo_manager.ViewPhoto;
 
 import java.util.ArrayList;
 
-public class PictureFragment extends Fragment implements RecyclerViewClickInterface {
+public class MediaFragment extends Fragment implements RecyclerViewClickInterface {
 
-    private PictureViewModel pictureViewModel;
+    private MediaViewModel mediaViewModel;
 
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
@@ -53,7 +53,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.picture_fragment, container, false);
+        View root = inflater.inflate(R.layout.media_fragment, container, false);
 
         toolbar = root.findViewById(R.id.toolbar_top);
 
@@ -61,7 +61,14 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                 new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Log.d("DEBUGGER", "onMenuItemClick: ");
+                        switch (item.getItemId()){
+                            case R.id.favourite:
+
+                                break;
+                            case R.id.camera:
+                                startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
+                                break;
+                        }
                         return true;
                     }
                 });
@@ -72,19 +79,19 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
 
-        pictureViewModel =
-                new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
-        pictureViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
+        mediaViewModel =
+                new ViewModelProvider(requireActivity()).get(MediaViewModel.class);
+        mediaViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {
                 //Update RecyclerView
-                PictureFragment.this.pictureModels = picture_models;
+                MediaFragment.this.pictureModels = picture_models;
                 picture_adapter_all.setPictures(picture_models);
             }
 
         });
 
-        pictureViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
+        mediaViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
             @Override
             public void onChanged(ArrayList<Date_Model> date_models) {
 
@@ -119,27 +126,17 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             Log.d("my debugger", "on fragment result request: ");
             if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
                 assert data != null;
-                pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
+                mediaViewModel.delete(Uri.parse(data.getStringExtra("uri")));
             }else if (resultCode == ResultCode.RESULT_VIEW_PHOTO_EDITED) {
                 Log.d("my debugger", "on fragment result result: ");
                 recyclerView.setAdapter(picture_adapter_all);
             }
+        } else if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO) {
+            if (resultCode == Activity.RESULT_OK) {
+                mediaViewModel.update(requireActivity());
+            }
         }
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        Log.d("debug","fragment : action home has clicked");;
-//        switch (item.getItemId()) {
-//            case R.id.camera:
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//
-//    }
+
 }

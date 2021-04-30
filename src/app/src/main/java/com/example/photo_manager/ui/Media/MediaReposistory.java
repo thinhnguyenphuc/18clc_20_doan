@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Picture;
+package com.example.photo_manager.ui.Media;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -22,7 +21,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class PictureReposistory {
+public class MediaReposistory {
     private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
     private static final SimpleDateFormat onlyDayFormat = new SimpleDateFormat("dd-MM-yyyy");
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
@@ -31,7 +30,7 @@ public class PictureReposistory {
     MutableLiveData<ArrayList<Picture_Model>> pictures = new MutableLiveData<>();
     MutableLiveData<ArrayList<Date_Model>> dates  = new MutableLiveData<>();
 
-    public PictureReposistory(Context context) {
+    public MediaReposistory(Context context) {
 
         loadImage(context);
         pictures.setValue(picture_models);

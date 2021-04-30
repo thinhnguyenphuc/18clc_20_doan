@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/pictureFragment">
+    app:startDestination="@id/mediaFragment">
     <fragment
-        android:id="@+id/pictureFragment"
-        android:name="com.example.photo_manager.ui.Picture.PictureFragment"
-        android:label="@string/picture_fragment_label"
-        tools:layout="@layout/picture_fragment"
-        />
+        android:id="@+id/mediaFragment"
+        android:name="com.example.photo_manager.ui.Media.MediaFragment"
+        android:label="@string/media_fragment_label"
+        tools:layout="@layout/media_fragment"
+        >
+        <action
+            android:id="@+id/action_mediaFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.photo_manager.ui.Album.AlbumFragment"
@@ -20,4 +24,9 @@
         android:name="com.example.photo_manager.ui.Video.VideoFragment"
         android:label="video_fragment"
         tools:layout="@layout/video_fragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.photo_manager.ui.Favourite.FavouriteFragment"
+        android:label="favourite_fragment"
+        tools:layout="@layout/favourite_fragment" />
 </navigation>

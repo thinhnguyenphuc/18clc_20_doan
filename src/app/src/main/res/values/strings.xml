@@ -19,7 +19,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="picture_fragment_label">Picture</string>
+    <string name="media_fragment_label">MEDIA</string>
     <string name="video_fragment_label">Video</string>
     <string name="album_fragment_label">Album</string>
     <string name="view_all_picture_title">PICTURE</string>
