@@ -102,7 +102,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                 .angle(20)
                 .frozen(false)
                 .duration(1200)
-                .count(20)
+                .count(40)
                 .load(R.layout.item_skeleton_news)
                 .show(); //default count is 10
 
