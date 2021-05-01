@@ -17,4 +17,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="picture_width">125dp</dimen>
     <dimen name="picture_height">125dp</dimen>
+
+    <dimen name="title_text_size">24sp</dimen>
 </resources>

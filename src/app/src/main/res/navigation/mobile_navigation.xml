@@ -12,10 +12,18 @@
         >
         <action
             android:id="@+id/action_mediaFragment_to_favouriteFragment"
-            app:destination="@id/favouriteFragment" />
+            app:destination="@id/favouriteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mediaFragment_to_viewPhotoFragment"
-            app:destination="@id/viewPhotoFragment" />
+            app:destination="@id/viewPhotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_up" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -31,7 +39,15 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.photo_manager.ui.Favourite.FavouriteFragment"
         android:label="favourite_fragment"
-        tools:layout="@layout/favourite_fragment" />
+        tools:layout="@layout/favourite_fragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_viewPhotoFragment"
+            app:destination="@id/viewPhotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_up" />
+    </fragment>
     <fragment
         android:id="@+id/viewPhotoFragment"
         android:name="com.example.photo_manager.ui.ViewPhotoFragment"

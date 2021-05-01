@@ -82,7 +82,7 @@ public class ViewPhotoFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.vp_menu_photo_detail:{
-                        openPhotoDetail();
+
                     }
                 }
                 return true;
