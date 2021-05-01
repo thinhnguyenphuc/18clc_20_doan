@@ -10,87 +10,95 @@ import com.example.photo_manager.ui.PhotoManagerDatabase;
 import java.util.List;
 
 public class FavouriteItemReposistory {
-    private FavouriteItemDao FavouriteItemDao;
+    private FavouriteItemDao favouriteItemDao;
     private LiveData<List<FavouriteItem>> allFavouriteItems;
 
     public FavouriteItemReposistory(Application application) {
         PhotoManagerDatabase database = PhotoManagerDatabase.getInstance(application);
-        FavouriteItemDao = database.favouriteItemDao();
-        allFavouriteItems = FavouriteItemDao.loadAllFavouriteItems();
+        favouriteItemDao = database.favouriteItemDao();
+        allFavouriteItems = favouriteItemDao.loadAllFavouriteItems();
     }
 
     public void insert(FavouriteItem... FavouriteItems) {
-        new InsertFavouriteItemAsyncTask(FavouriteItemDao).execute(FavouriteItems);
+        new InsertFavouriteItemAsyncTask(favouriteItemDao).execute(FavouriteItems);
     }
 
     public void update(FavouriteItem... FavouriteItems) {
-        new UpdateFavouriteItemAsyncTask(FavouriteItemDao).execute(FavouriteItems);
+        new UpdateFavouriteItemAsyncTask(favouriteItemDao).execute(FavouriteItems);
     }
 
     public void delete(FavouriteItem... FavouriteItems) {
-        new DeleteFavouriteItemAsyncTask(FavouriteItemDao).execute(FavouriteItems);
+        new DeleteFavouriteItemAsyncTask(favouriteItemDao).execute(FavouriteItems);
     }
 
     public void deleteAll() {
-        new DeleteAllFavouriteItemAsyncTask(FavouriteItemDao).execute();
+        new DeleteAllFavouriteItemAsyncTask(favouriteItemDao).execute();
     }
 
     public LiveData<List<FavouriteItem>> getAllFavouriteItems() {
         return allFavouriteItems;
     }
 
-    private static class InsertFavouriteItemAsyncTask extends AsyncTask<FavouriteItem, Void, Void> {
-        private FavouriteItemDao FavouriteItemDao;
+    public boolean checkUriExistence(String uri) {
+        return favouriteItemDao.checkUriExistence(uri);
+    }
 
-        public InsertFavouriteItemAsyncTask(FavouriteItemDao FavouriteItemDao) {
-            this.FavouriteItemDao = FavouriteItemDao;
+    private static class InsertFavouriteItemAsyncTask extends AsyncTask<FavouriteItem, Void, Void> {
+        private FavouriteItemDao favouriteItemDao;
+
+        public InsertFavouriteItemAsyncTask(FavouriteItemDao favouriteItemDao) {
+            try {
+                this.favouriteItemDao = favouriteItemDao;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         protected Void doInBackground(FavouriteItem... FavouriteItems) {
-            FavouriteItemDao.insert(FavouriteItems);
+            favouriteItemDao.insert(FavouriteItems);
             return null;
         }
     }
 
     private static class UpdateFavouriteItemAsyncTask extends AsyncTask<FavouriteItem, Void, Void> {
-        private FavouriteItemDao FavouriteItemDao;
+        private FavouriteItemDao favouriteItemDao;
 
-        public UpdateFavouriteItemAsyncTask(FavouriteItemDao FavouriteItemDao) {
-            this.FavouriteItemDao = FavouriteItemDao;
+        public UpdateFavouriteItemAsyncTask(FavouriteItemDao favouriteItemDao) {
+            this.favouriteItemDao = favouriteItemDao;
         }
 
         @Override
         protected Void doInBackground(FavouriteItem... FavouriteItems) {
-            FavouriteItemDao.update(FavouriteItems);
+            favouriteItemDao.update(FavouriteItems);
             return null;
         }
     }
 
     private static class DeleteFavouriteItemAsyncTask extends AsyncTask<FavouriteItem, Void, Void> {
-        private FavouriteItemDao FavouriteItemDao;
+        private FavouriteItemDao favouriteItemDao;
 
-        public DeleteFavouriteItemAsyncTask(FavouriteItemDao FavouriteItemDao) {
-            this.FavouriteItemDao = FavouriteItemDao;
+        public DeleteFavouriteItemAsyncTask(FavouriteItemDao favouriteItemDao) {
+            this.favouriteItemDao = favouriteItemDao;
         }
 
         @Override
         protected Void doInBackground(FavouriteItem... FavouriteItems) {
-            FavouriteItemDao.delete(FavouriteItems);
+            favouriteItemDao.delete(FavouriteItems);
             return null;
         }
     }
 
     private static class DeleteAllFavouriteItemAsyncTask extends AsyncTask<Void, Void, Void> {
-        private FavouriteItemDao FavouriteItemDao;
+        private FavouriteItemDao favouriteItemDao;
 
-        public DeleteAllFavouriteItemAsyncTask(FavouriteItemDao FavouriteItemDao) {
-            this.FavouriteItemDao = FavouriteItemDao;
+        public DeleteAllFavouriteItemAsyncTask(FavouriteItemDao favouriteItemDao) {
+            this.favouriteItemDao = favouriteItemDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            FavouriteItemDao.deleteAll();
+            favouriteItemDao.deleteAll();
             return null;
         }
     }

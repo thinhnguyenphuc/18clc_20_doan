@@ -2,7 +2,9 @@ package com.example.photo_manager.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.example.photo_manager.PhotoEditActivity;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ViewPhoto;
+import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
 
@@ -43,6 +46,9 @@ public class ViewPhotoFragment extends Fragment {
     SubsamplingScaleImageView imageView;
     ImageButton favourite_button, edit_button, share_button, delete_button;
     boolean favourite_flag;
+    boolean current_favourite_flag = false;
+
+    FavouriteCheckAsyncTask favouriteCheckAsyncTask;
 
 
     @Override
@@ -58,6 +64,7 @@ public class ViewPhotoFragment extends Fragment {
         requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
 
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
+
         mediaViewModel = viewModelProvider.get(MediaViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
 
@@ -65,6 +72,9 @@ public class ViewPhotoFragment extends Fragment {
         toolbar_bottom = root.findViewById(R.id.toolbar_bottom);
 
         photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
+
+        this.favouriteCheckAsyncTask = new FavouriteCheckAsyncTask(favouriteViewModel);
+        this.favouriteCheckAsyncTask.execute();
 
         toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -123,12 +133,12 @@ public class ViewPhotoFragment extends Fragment {
         this.favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!favourite_flag) {
+                if (!current_favourite_flag) {
                     favourite_button.setImageResource(R.drawable.red_heart_icon);
-                    favourite_flag = true;
+                    current_favourite_flag = true;
                 } else {
                     favourite_button.setImageResource(R.drawable.favourite_icon);
-                    favourite_flag = false;
+                    current_favourite_flag = false;
                 }
             }
         });
@@ -158,5 +168,50 @@ public class ViewPhotoFragment extends Fragment {
 
     private boolean deleteImage(Uri uri) {
         return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED)
+            favouriteCheckAsyncTask.cancel(true);
+            if (current_favourite_flag) {
+                favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
+            }
+        else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+            if (current_favourite_flag != favourite_flag) {
+                if (!current_favourite_flag) {
+                    favouriteViewModel.delete(new FavouriteItem(photo_uri, 0));
+                } else {
+                    favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
+                }
+            }
+        }
+
+
+    }
+
+    private class FavouriteCheckAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        FavouriteViewModel favouriteViewModel;
+
+        public FavouriteCheckAsyncTask(FavouriteViewModel favouriteViewModel) {
+            this.favouriteViewModel = favouriteViewModel;
+        }
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return favouriteViewModel.checkUriExistence(photo_uri);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            favourite_flag = aBoolean;
+            if (favourite_flag) {
+                favourite_button.setImageResource(R.drawable.red_heart_icon);
+                current_favourite_flag = favourite_flag;
+            }
+        }
     }
 }
