@@ -24,6 +24,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.PhotoEditActivity;
+import com.example.photo_manager.Photo_Details;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ViewPhoto;
@@ -70,7 +71,9 @@ public class ViewPhotoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-
+                    case R.id.vp_menu_photo_detail:{
+                        openPhotoDetail();
+                    }
                 }
                 return true;
             }
@@ -158,5 +161,14 @@ public class ViewPhotoFragment extends Fragment {
 
     private boolean deleteImage(Uri uri) {
         return true;
+    }
+    private void openPhotoDetail() {
+
+        Intent view_details = new Intent(getActivity(), Photo_Details.class);
+        view_details.putExtra("uri",picture_model.getUri().toString());
+        view_details.putExtra("name",picture_model.getName());
+        view_details.putExtra("time",picture_model.getTime());
+        view_details.putExtra("size",picture_model.getSize());
+        startActivity(view_details);
     }
 }

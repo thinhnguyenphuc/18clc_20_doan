@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.photo_manager.Adapter.Picture_Adapter;
 import com.example.photo_manager.Date_Model;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
