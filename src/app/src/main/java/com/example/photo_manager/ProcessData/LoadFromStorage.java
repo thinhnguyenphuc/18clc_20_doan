@@ -33,7 +33,7 @@ public class LoadFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_
         picture_models = loadImage();
         for (int i=0;i<100;i++){
             try {
-                Thread.sleep(0);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
