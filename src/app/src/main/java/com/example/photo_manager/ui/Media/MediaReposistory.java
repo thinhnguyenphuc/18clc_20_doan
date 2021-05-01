@@ -11,15 +11,18 @@ import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
 import com.example.photo_manager.ProcessData.LoadImagesFromStorage;
+import com.example.photo_manager.ProcessData.LoadVideoFromStorage;
 
 
 import java.util.ArrayList;
 
 public class MediaReposistory {
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
+    ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
     ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
 
     MutableLiveData<ArrayList<Picture_Model>> pictures = new MutableLiveData<>();
+    MutableLiveData<ArrayList<Video_Model>> videos = new MutableLiveData<>();
     MutableLiveData<ArrayList<Date_Model>> dates  = new MutableLiveData<>();
 
     public MediaReposistory(Context context) {
@@ -33,11 +36,27 @@ public class MediaReposistory {
 
             @Override
             public void processVideoFinish(ArrayList<Video_Model> video_models) {
-
             }
         },context);
         loadImagesFromStorage.execute();
         pictures.setValue(picture_models);
+        dates.setValue(date_models);
+
+
+        LoadVideoFromStorage loadVideoFromStorage = new LoadVideoFromStorage(new AsyncResponse() {
+            @Override
+            public void processPictureFinish(ArrayList<Picture_Model> picture_models) {
+
+            }
+
+            @Override
+            public void processVideoFinish(ArrayList<Video_Model> videoModels) {
+                video_models = videoModels;
+                notifyDataChanged();
+            }
+        },context);
+        loadVideoFromStorage.execute();
+        videos.setValue(video_models);
         dates.setValue(date_models);
     }
 

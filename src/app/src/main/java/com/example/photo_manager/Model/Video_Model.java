@@ -23,3 +23,4 @@ public class Video_Model extends Super_Model{
         return duration;
     }
 }
+

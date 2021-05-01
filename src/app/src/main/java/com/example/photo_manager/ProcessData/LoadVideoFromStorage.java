@@ -1,13 +1,27 @@
 package com.example.photo_manager.ProcessData;
 
+import android.content.ContentUris;
+import android.content.Context;
+import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 
+import com.example.photo_manager.Format.FormatDate;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 
 import java.util.ArrayList;
 
 public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Video_Model>> {
 
+    Context context;
+    AsyncResponse asyncResponse;
+    public LoadVideoFromStorage(AsyncResponse asyncResponse, Context context){
+        this.asyncResponse = asyncResponse;
+        this.context = context;
+    }
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -15,7 +29,17 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
 
     @Override
     protected ArrayList<Video_Model> doInBackground(Void... voids) {
-        return null;
+
+        ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
+        video_models = loadVideo();
+        for (int i=0;i<100;i++){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return video_models;
     }
 
     @Override
@@ -25,6 +49,48 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
 
     @Override
     protected void onPostExecute(ArrayList<Video_Model> video_models) {
-        super.onPostExecute(video_models);
+        asyncResponse.processVideoFinish(video_models);
+    }
+
+    private ArrayList<Video_Model> loadVideo(){
+        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+
+        ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
+        String[] projection = {
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.SIZE,
+                MediaStore.Video.Media.DATE_MODIFIED,
+                MediaStore.Video.Media.DURATION};
+
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+
+
+        if (cursor != null) {
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
+            int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
+            int dateModifiedColumn = cursor.getColumnIndex(MediaStore.Video.Media.DATE_MODIFIED);
+
+            while (cursor.moveToNext()) {
+                Long idTmp = cursor.getLong(idColumn);
+                String nameTmp = cursor.getString(nameColumn);
+                int sizeTmp = cursor.getInt(sizeColumn);
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI, idTmp);
+                String tmpTime = FormatDate.fullFormat.format(dateModifiedColumn);
+
+                video_models.add(new Video_Model(contentUri,nameTmp,tmpTime,sizeTmp,getDuration(contentUri)));
+
+            }
+            cursor.close();
+        }
+        return video_models;
+    }
+    private int getDuration(Uri uri){
+        MediaPlayer mp = MediaPlayer.create(context, uri);
+        int duration = mp.getDuration();
+        mp.release();
+        return duration;
     }
 }
