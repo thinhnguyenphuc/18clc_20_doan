@@ -2,7 +2,9 @@ package com.example.photo_manager.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -28,6 +31,7 @@ import com.example.photo_manager.Photo_Details;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ViewPhoto;
+import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
 
@@ -44,6 +48,9 @@ public class ViewPhotoFragment extends Fragment {
     SubsamplingScaleImageView imageView;
     ImageButton favourite_button, edit_button, share_button, delete_button;
     boolean favourite_flag;
+    boolean current_favourite_flag = false;
+
+    FavouriteCheckAsyncTask favouriteCheckAsyncTask;
 
 
     @Override
@@ -59,6 +66,7 @@ public class ViewPhotoFragment extends Fragment {
         requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
 
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
+
         mediaViewModel = viewModelProvider.get(MediaViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
 
@@ -67,12 +75,15 @@ public class ViewPhotoFragment extends Fragment {
 
         photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
 
+        this.favouriteCheckAsyncTask = new FavouriteCheckAsyncTask(favouriteViewModel);
+        this.favouriteCheckAsyncTask.execute();
+
         toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.vp_menu_photo_detail:{
-                        openPhotoDetail();
+
                     }
                 }
                 return true;
@@ -126,12 +137,12 @@ public class ViewPhotoFragment extends Fragment {
         this.favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!favourite_flag) {
+                if (!current_favourite_flag) {
                     favourite_button.setImageResource(R.drawable.red_heart_icon);
-                    favourite_flag = true;
+                    current_favourite_flag = true;
                 } else {
                     favourite_button.setImageResource(R.drawable.favourite_icon);
-                    favourite_flag = false;
+                    current_favourite_flag = false;
                 }
             }
         });
@@ -148,9 +159,8 @@ public class ViewPhotoFragment extends Fragment {
 
         root.findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
-                Intent returnData = new Intent();
-                returnData.putExtra("uri", picture_model.getUri().toString());
                 Toast.makeText(requireContext(), "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                NavHostFragment.findNavController(ViewPhotoFragment.this).popBackStack();
             } else {
                 Toast.makeText(requireContext(), "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
             }
@@ -162,13 +172,49 @@ public class ViewPhotoFragment extends Fragment {
     private boolean deleteImage(Uri uri) {
         return true;
     }
-    private void openPhotoDetail() {
 
-        Intent view_details = new Intent(getActivity(), Photo_Details.class);
-        view_details.putExtra("uri",picture_model.getUri().toString());
-        view_details.putExtra("name",picture_model.getName());
-        view_details.putExtra("time",picture_model.getTime());
-        view_details.putExtra("size",picture_model.getSize());
-        startActivity(view_details);
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED)
+            favouriteCheckAsyncTask.cancel(true);
+            if (current_favourite_flag) {
+                favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
+            }
+        else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+            if (current_favourite_flag != favourite_flag) {
+                if (!current_favourite_flag) {
+                    favouriteViewModel.delete(new FavouriteItem(photo_uri, 0));
+                } else {
+                    favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
+                }
+            }
+        }
+
+
+    }
+
+    private class FavouriteCheckAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        FavouriteViewModel favouriteViewModel;
+
+        public FavouriteCheckAsyncTask(FavouriteViewModel favouriteViewModel) {
+            this.favouriteViewModel = favouriteViewModel;
+        }
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return favouriteViewModel.checkUriExistence(photo_uri);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            favourite_flag = aBoolean;
+            if (favourite_flag) {
+                favourite_button.setImageResource(R.drawable.red_heart_icon);
+                current_favourite_flag = favourite_flag;
+            }
+        }
     }
 }

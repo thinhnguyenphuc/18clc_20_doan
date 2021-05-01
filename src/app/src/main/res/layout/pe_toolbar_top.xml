@@ -17,8 +17,6 @@
                 android:layout_width="@dimen/button_size"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/back_icon"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
                 android:background="@null"/>
 
             <LinearLayout
@@ -32,8 +30,6 @@
                     android:layout_height="@dimen/button_size"
                     android:layout_marginHorizontal="@dimen/button_distance2"
                     android:src="@drawable/undo_icon"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:background="@drawable/pe_button"/>
                 <ImageButton
                     android:id="@+id/redo_btn"
@@ -41,8 +37,6 @@
                     android:layout_height="@dimen/button_size"
                     android:layout_marginHorizontal="@dimen/button_distance2"
                     android:src="@drawable/redo_icon"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:background="@drawable/pe_button"/>
                 <ImageButton
                     android:id="@+id/share_btn"
@@ -50,8 +44,6 @@
                     android:layout_width="@dimen/button_size"
                     android:layout_height="@dimen/button_size"
                     android:src="@drawable/share_icon"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:background="@drawable/pe_button"/>
                 <ImageButton
                     android:id="@+id/save_button"
@@ -59,8 +51,6 @@
                     android:layout_height="@dimen/button_size"
                     android:layout_marginHorizontal="@dimen/button_distance2"
                     android:src="@drawable/save_icon"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:background="@drawable/pe_button"/>
 
             </LinearLayout>

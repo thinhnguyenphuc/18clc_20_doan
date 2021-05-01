@@ -43,4 +43,8 @@ public class FavouriteViewModel extends AndroidViewModel {
         return favouriteItems;
     }
 
+    public boolean checkUriExistence(String uri) {
+        return reposistory.checkUriExistence(uri);
+    }
+
 }

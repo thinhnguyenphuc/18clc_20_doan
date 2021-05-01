@@ -43,8 +43,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/brush_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
@@ -54,8 +52,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/eraser_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
@@ -65,8 +61,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/text_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
@@ -76,8 +70,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/filter_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
@@ -87,8 +79,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/brightness_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
                 <ImageButton
@@ -98,8 +88,6 @@ android:layout_marginVertical="@dimen/button_vertical_margin" -->
                     android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                     android:src="@drawable/emoji_icon"
                     android:background="@drawable/pe_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_marginVertical="@dimen/button_vertical_margin"
                     />
             </LinearLayout>

@@ -81,8 +81,6 @@
                 android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                 android:src="@drawable/cancel_icon"
                 android:background="@drawable/pe_button"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
                 android:layout_marginVertical="@dimen/button_vertical_margin"
                 />
             <ImageButton
@@ -92,8 +90,6 @@
                 android:layout_marginHorizontal="@dimen/button_horizontal_margin"
                 android:src="@drawable/check_icon"
                 android:background="@drawable/pe_button"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
                 android:layout_marginVertical="@dimen/button_vertical_margin"
                 />
         </LinearLayout>

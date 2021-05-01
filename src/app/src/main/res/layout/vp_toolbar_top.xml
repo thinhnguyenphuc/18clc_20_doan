@@ -17,8 +17,7 @@
             android:layout_height="@dimen/button_size"
             android:src="@drawable/back_icon"
             android:background="@drawable/pe_button"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
+
             app:layout_columnWeight="1"
             android:layout_marginVertical="@dimen/button_vertical_margin"
             />

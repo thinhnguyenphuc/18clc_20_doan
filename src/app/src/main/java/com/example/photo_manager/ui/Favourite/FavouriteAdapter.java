@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -16,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
+import com.example.photo_manager.ui.Media.MediaFragmentDirections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +28,11 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     private  Context context = null;
     private List<FavouriteItem> items = new ArrayList<>();
-    private RecyclerViewClickInterface clickInterface;
+    private NavController navController;
 
-    public FavouriteAdapter(Context context, RecyclerViewClickInterface clickInterface) {
+    public FavouriteAdapter(Context context, NavController navController) {
         this.context = context;
-        this.clickInterface = clickInterface;
+        this.navController = navController;
     }
 
     public void setItems(List<FavouriteItem> items) {
@@ -66,7 +70,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickInterface.onItemClick(getAdapterPosition());
+
+                    FavouriteFragmentDirections.ActionFavouriteFragmentToViewPhotoFragment action =
+                            FavouriteFragmentDirections.actionFavouriteFragmentToViewPhotoFragment(items.get(getAdapterPosition()).getUri().toString());
+                    navController.navigate(action);
                 }
             });
         }
