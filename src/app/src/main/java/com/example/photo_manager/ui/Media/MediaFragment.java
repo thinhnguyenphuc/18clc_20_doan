@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,6 +24,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Date_Model;
@@ -92,16 +96,27 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
 
         mediaViewModel =
                 new ViewModelProvider(requireActivity()).get(MediaViewModel.class);
+        final SkeletonScreen skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(picture_adapter_all)
+                .shimmer(true)
+                .angle(20)
+                .frozen(false)
+                .duration(1200)
+                .count(20)
+                .load(R.layout.item_skeleton_news)
+                .show(); //default count is 10
+
         mediaViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {
-                //Update RecyclerView
+                if(picture_models.size()>0){
+                    skeletonScreen.hide();
+                }
                 MediaFragment.this.pictureModels = picture_models;
                 picture_adapter_all.setPictures(picture_models);
             }
 
         });
-
         mediaViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
             @Override
             public void onChanged(ArrayList<Date_Model> date_models) {

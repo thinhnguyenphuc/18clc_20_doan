@@ -26,6 +26,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.PhotoEditActivity;
+import com.example.photo_manager.Photo_Details;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ViewPhoto;
@@ -80,7 +81,9 @@ public class ViewPhotoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-
+                    case R.id.vp_menu_photo_detail:{
+                        openPhotoDetail();
+                    }
                 }
                 return true;
             }
