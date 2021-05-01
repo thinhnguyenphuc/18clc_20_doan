@@ -137,12 +137,17 @@ public class ViewPhotoFragment extends Fragment {
         this.favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!current_favourite_flag) {
-                    favourite_button.setImageResource(R.drawable.red_heart_icon);
-                    current_favourite_flag = true;
-                } else {
-                    favourite_button.setImageResource(R.drawable.favourite_icon);
-                    current_favourite_flag = false;
+                if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+                    Toast.makeText(getContext(), R.string.loading, Toast.LENGTH_LONG).show();
+                }
+                else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+                    if (!current_favourite_flag) {
+                        favourite_button.setImageResource(R.drawable.red_heart_icon);
+                        current_favourite_flag = true;
+                    } else {
+                        favourite_button.setImageResource(R.drawable.favourite_icon);
+                        current_favourite_flag = false;
+                    }
                 }
             }
         });
@@ -210,10 +215,9 @@ public class ViewPhotoFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            favourite_flag = aBoolean;
+            current_favourite_flag = favourite_flag = aBoolean;
             if (favourite_flag) {
                 favourite_button.setImageResource(R.drawable.red_heart_icon);
-                current_favourite_flag = favourite_flag;
             }
         }
     }
