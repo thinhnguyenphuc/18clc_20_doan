@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,23 +18,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
 import com.example.photo_manager.Code.ResultCode;
-import com.example.photo_manager.Date_Model;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Take_New_Photo;
-import com.example.photo_manager.ViewPhoto;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -102,7 +98,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                 .angle(20)
                 .frozen(false)
                 .duration(1200)
-                .count(20)
+                .count(40)
                 .load(R.layout.item_skeleton_news)
                 .show(); //default count is 10
 

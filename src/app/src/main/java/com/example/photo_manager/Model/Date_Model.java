@@ -1,4 +1,4 @@
-package com.example.photo_manager;
+package com.example.photo_manager.Model;
 
 public class Date_Model {
 

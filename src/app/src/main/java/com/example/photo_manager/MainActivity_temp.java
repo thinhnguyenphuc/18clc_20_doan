@@ -1,24 +1,13 @@
 package com.example.photo_manager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 
 import com.example.photo_manager.Code.RequestCode;
-import com.example.photo_manager.ProcessData.LoadFromStorage;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.ProcessData.ProcessData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import pub.devrel.easypermissions.EasyPermissions;

@@ -10,8 +10,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.photo_manager.Date_Model;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 
 import java.util.ArrayList;
 

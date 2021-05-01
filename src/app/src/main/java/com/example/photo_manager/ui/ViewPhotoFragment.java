@@ -22,7 +22,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.PEAdapters.Utility;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;

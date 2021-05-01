@@ -6,11 +6,12 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.photo_manager.Adapter.Picture_Adapter;
-import com.example.photo_manager.Date_Model;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
-import com.example.photo_manager.ProcessData.LoadFromStorage;
+import com.example.photo_manager.ProcessData.LoadImagesFromStorage;
+
 
 import java.util.ArrayList;
 
@@ -23,14 +24,19 @@ public class MediaReposistory {
 
     public MediaReposistory(Context context) {
 
-        LoadFromStorage loadFromStorage = new LoadFromStorage(new AsyncResponse() {
+        LoadImagesFromStorage loadImagesFromStorage = new LoadImagesFromStorage(new AsyncResponse() {
             @Override
-            public void processFinish(ArrayList<Picture_Model> pictureModels) {
+            public void processPictureFinish(ArrayList<Picture_Model> pictureModels) {
                 picture_models = pictureModels;
                 notifyDataChanged();
             }
+
+            @Override
+            public void processVideoFinish(ArrayList<Video_Model> video_models) {
+
+            }
         },context);
-        loadFromStorage.execute();
+        loadImagesFromStorage.execute();
         pictures.setValue(picture_models);
         dates.setValue(date_models);
     }
@@ -60,14 +66,19 @@ public class MediaReposistory {
     }
 
     public void update(Context context) {
-        LoadFromStorage loadFromStorage = new LoadFromStorage(new AsyncResponse() {
+        LoadImagesFromStorage loadImagesFromStorage = new LoadImagesFromStorage(new AsyncResponse() {
             @Override
-            public void processFinish(ArrayList<Picture_Model> pictureModels) {
+            public void processPictureFinish(ArrayList<Picture_Model> pictureModels) {
                 picture_models = pictureModels;
                 notifyDataChanged();
             }
+
+            @Override
+            public void processVideoFinish(ArrayList<Video_Model> video_models) {
+
+            }
         },context);
-        loadFromStorage.execute();
+        loadImagesFromStorage.execute();
         this.pictures.setValue(picture_models);
     }
 }

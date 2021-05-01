@@ -6,9 +6,9 @@ import android.provider.MediaStore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.photo_manager.Date_Model;
+import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Format.FormatDate;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Type;
 
 import org.json.JSONException;
