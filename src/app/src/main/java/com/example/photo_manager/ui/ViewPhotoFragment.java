@@ -1,10 +1,8 @@
 package com.example.photo_manager.ui;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,13 +21,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
-import com.example.photo_manager.PhotoEditActivity;
-import com.example.photo_manager.Photo_Details;
 import com.example.photo_manager.Picture_Model;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ViewPhoto;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
@@ -38,6 +31,8 @@ import com.example.photo_manager.ui.Media.MediaViewModel;
 public class ViewPhotoFragment extends Fragment {
     private MediaViewModel mediaViewModel;
     private FavouriteViewModel favouriteViewModel;
+
+    NavController navController;
 
     Toolbar toolbar_top;
     Toolbar toolbar_bottom;
@@ -61,38 +56,31 @@ public class ViewPhotoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_view_photo, container, false);
+        View root = inflater.inflate(R.layout.fragment_view_photo, container, false);
 
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
 
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
 
+        navController = Navigation.findNavController(view);
+
         mediaViewModel = viewModelProvider.get(MediaViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
-
-        toolbar_top = root.findViewById(R.id.toolbar_top);
-        toolbar_bottom = root.findViewById(R.id.toolbar_bottom);
 
         photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
 
         this.favouriteCheckAsyncTask = new FavouriteCheckAsyncTask(favouriteViewModel);
         this.favouriteCheckAsyncTask.execute();
 
-        toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
-
-                    }
-                }
-                return true;
-            }
-        });
-
         picture_model.setUri(Uri.parse(photo_uri));
 
-        imageView = (SubsamplingScaleImageView)root.findViewById(R.id.imageView);
+        imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
 
         try {
             imageView.setImage(ImageSource.uri(picture_model.getUri()));
@@ -102,11 +90,24 @@ public class ViewPhotoFragment extends Fragment {
 
         //Glide.with(this).load(picture_model.getUri()).into(imageView);
 
+        toolbar_top = view.findViewById(R.id.toolbar_top);
+        toolbar_bottom = view.findViewById(R.id.toolbar_bottom);
 
-        toolbar_top = root.findViewById(R.id.toolbar_top);
-        toolbar_bottom = root.findViewById(R.id.toolbar_bottom);
+        toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.vp_menu_photo_detail:{
+                        ViewPhotoFragmentDirections.ActionViewPhotoFragmentToPhotoDetailFragment action =
+                                ViewPhotoFragmentDirections.actionViewPhotoFragmentToPhotoDetailFragment(photo_uri);
+                        navController.navigate(action);
+                    }
+                }
+                return true;
+            }
+        });
 
-        favourite_button = root.findViewById(R.id.favourite_button);
+        favourite_button = view.findViewById(R.id.favourite_button);
         favourite_flag = Utility.checkImageIsFavourite("");
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +127,7 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
-        root.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).popBackStack();
@@ -152,7 +153,7 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
-        this.edit_button = root.findViewById(R.id.edit_button);
+        this.edit_button = view.findViewById(R.id.edit_button);
         edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,16 +163,14 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
-        root.findViewById(R.id.delete_button).setOnClickListener(v -> {
+        view.findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
-                Toast.makeText(requireContext(), "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), R.string.delete_image_fail, Toast.LENGTH_LONG).show();
                 NavHostFragment.findNavController(ViewPhotoFragment.this).popBackStack();
             } else {
-                Toast.makeText(requireContext(), "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
             }
         });
-
-        return root;
     }
 
     private boolean deleteImage(Uri uri) {

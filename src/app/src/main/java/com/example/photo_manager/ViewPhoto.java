@@ -7,37 +7,20 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.PEAdapters.Utility;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
@@ -53,7 +36,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_photo);
+        setContentView(R.layout.fragment_view_photo);
 
 
         Intent receiver = getIntent();

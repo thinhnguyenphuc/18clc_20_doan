@@ -23,7 +23,7 @@
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/remain_short"
             app:popEnterAnim="@anim/remain_short"
-            app:popExitAnim="@anim/slide_out_up" />
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -52,13 +52,20 @@
         android:id="@+id/viewPhotoFragment"
         android:name="com.example.photo_manager.ui.ViewPhotoFragment"
         android:label="ViewPhotoFragment"
-        tools:layout="@layout/activity_view_photo">
+        tools:layout="@layout/fragment_view_photo">
         <argument
             android:name="photo_uri"
             app:argType="string" />
         <action
             android:id="@+id/action_viewPhotoFragment_to_editPhotoFragment"
             app:destination="@id/editPhotoFragment" />
+        <action
+            android:id="@+id/action_viewPhotoFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up"
+            app:popEnterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
     <fragment
         android:id="@+id/editPhotoFragment"
@@ -67,6 +74,14 @@
         tools:layout="@layout/activity_photo_edit" >
         <argument
             android:name="photo_uri"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.example.photo_manager.ui.PhotoDetailFragment"
+        android:label="fragment_photo_detail"
+        tools:layout="@layout/fragment_photo_detail" >
+        <argument android:name="photo_uri"
             app:argType="string" />
     </fragment>
 </navigation>
