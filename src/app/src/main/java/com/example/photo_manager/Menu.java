@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Code.ResultCode;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.PEAdapters.Utility;
 
 public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {

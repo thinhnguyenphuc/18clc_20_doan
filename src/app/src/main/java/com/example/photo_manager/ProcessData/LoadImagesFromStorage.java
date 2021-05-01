@@ -1,28 +1,22 @@
 package com.example.photo_manager.ProcessData;
 
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.photo_manager.Format.FormatDate;
-import com.example.photo_manager.Picture_Model;
-import com.example.photo_manager.R;
+import com.example.photo_manager.Model.Picture_Model;
 
 import java.util.ArrayList;
 
-public class LoadFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_Model>>{
+public class LoadImagesFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_Model>>{
     Context context;
     public AsyncResponse delegate = null;
 
-    public LoadFromStorage(AsyncResponse asyncResponse,Context context){
+    public LoadImagesFromStorage(AsyncResponse asyncResponse,Context context){
         this.delegate = asyncResponse;
         this.context = context;
     }
@@ -53,7 +47,7 @@ public class LoadFromStorage extends AsyncTask<Void, Integer, ArrayList<Picture_
 
     @Override
     protected void onPostExecute(ArrayList<Picture_Model> picture_models) {
-        delegate.processFinish(picture_models);
+        delegate.processPictureFinish(picture_models);
     }
 
     private ArrayList<Picture_Model> loadImage(){

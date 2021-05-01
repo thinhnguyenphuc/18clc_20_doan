@@ -1,6 +1,8 @@
-package com.example.photo_manager;
+package com.example.photo_manager.Model;
 
 import android.net.Uri;
+
+import com.example.photo_manager.Type;
 
 import java.util.Date;
 

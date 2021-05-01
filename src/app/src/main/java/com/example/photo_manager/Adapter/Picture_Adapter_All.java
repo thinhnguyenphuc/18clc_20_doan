@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.photo_manager.Picture_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Picture_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

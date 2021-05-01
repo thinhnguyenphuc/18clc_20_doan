@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 
 import com.example.photo_manager.Adapter.Picture_Adapter;
 import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;

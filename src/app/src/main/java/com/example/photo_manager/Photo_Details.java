@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.photo_manager.Format.FormatDate;
+import com.example.photo_manager.Model.Picture_Model;
 
 import java.io.File;
 
