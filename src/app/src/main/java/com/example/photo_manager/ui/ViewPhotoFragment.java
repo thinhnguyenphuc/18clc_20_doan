@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -158,9 +159,8 @@ public class ViewPhotoFragment extends Fragment {
 
         root.findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
-                Intent returnData = new Intent();
-                returnData.putExtra("uri", picture_model.getUri().toString());
                 Toast.makeText(requireContext(), "IMAGE IS DELETED", Toast.LENGTH_LONG).show();
+                NavHostFragment.findNavController(ViewPhotoFragment.this).popBackStack();
             } else {
                 Toast.makeText(requireContext(), "FAILED TO DELETE IMAGE", Toast.LENGTH_LONG).show();
             }

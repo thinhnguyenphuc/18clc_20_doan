@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_size">28sp</dimen>
+    <dimen name="button_size">42sp</dimen>
     <dimen name="button_horizontal_margin">24sp</dimen>
     <dimen name="button_distance2">16sp</dimen>
     <dimen name="zero">0sp</dimen>

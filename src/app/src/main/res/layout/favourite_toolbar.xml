@@ -8,11 +8,8 @@
         android:id="@+id/back_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-
         android:src="@drawable/back_icon_black"
         android:background="@drawable/pe_button"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
         app:layout_columnWeight="1"
         android:layout_marginVertical="@dimen/button_vertical_margin"
         />
