@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.photo_manager.Format.FormatDate;
 
 import java.io.File;
-import java.nio.file.Files;
 
 
 public class Photo_Details extends AppCompatActivity {
@@ -26,7 +25,7 @@ public class Photo_Details extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo__details);
+        setContentView(R.layout.fragment_photo_detail);
 
         Intent receiver = getIntent();
         String tmp = receiver.getStringExtra("uri");
