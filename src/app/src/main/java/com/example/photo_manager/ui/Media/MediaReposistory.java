@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
 import com.example.photo_manager.ProcessData.LoadImagesFromStorage;
 
@@ -28,6 +29,11 @@ public class MediaReposistory {
             public void processPictureFinish(ArrayList<Picture_Model> pictureModels) {
                 picture_models = pictureModels;
                 notifyDataChanged();
+            }
+
+            @Override
+            public void processVideoFinish(ArrayList<Video_Model> video_models) {
+
             }
         },context);
         loadImagesFromStorage.execute();
@@ -65,6 +71,11 @@ public class MediaReposistory {
             public void processPictureFinish(ArrayList<Picture_Model> pictureModels) {
                 picture_models = pictureModels;
                 notifyDataChanged();
+            }
+
+            @Override
+            public void processVideoFinish(ArrayList<Video_Model> video_models) {
+
             }
         },context);
         loadImagesFromStorage.execute();
