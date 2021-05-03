@@ -2,7 +2,6 @@ package com.example.photo_manager.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -13,7 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,9 +23,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -37,7 +38,6 @@ import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
 import com.example.photo_manager.PEAdapters.PEFilterAdapter;
 import com.example.photo_manager.PEAdapters.Utility;
-import com.example.photo_manager.PhotoEditActivity;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
@@ -63,6 +63,8 @@ public class EditPhotoFragment extends Fragment {
 
     MediaViewModel mediaViewModel;
     FavouriteViewModel favouriteViewModel;
+
+    Toolbar toolbar_top;
 
     String photo_uri;
 
@@ -97,11 +99,23 @@ public class EditPhotoFragment extends Fragment {
     final static int REQUEST_PERMISSION_CODE = 100;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.activity_photo_edit, container, false);
+        View root =  inflater.inflate(R.layout.fragment_edit_photo, container, false);
 
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
         mediaViewModel = viewModelProvider.get(MediaViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
@@ -128,11 +142,6 @@ public class EditPhotoFragment extends Fragment {
                 .build();
 
 
-        this.undo_button = root.findViewById(R.id.undo_btn);
-        this.redo_button = root.findViewById(R.id.redo_btn);
-        this.share_button = root.findViewById(R.id.share_btn);
-        this.save_button = root.findViewById(R.id.save_button);
-
         this.brush_button = root.findViewById(R.id.brush_button);
         this.eraser_button = root.findViewById(R.id.eraser_button);
         this.text_button = root.findViewById(R.id.text_button);
@@ -147,50 +156,29 @@ public class EditPhotoFragment extends Fragment {
             }
         });
 
-        this.undo_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPhotoEditor.undo();
-            }
-        });
+        toolbar_top = root.findViewById(R.id.toolbar_top);
 
-        this.redo_button.setOnClickListener(new View.OnClickListener() {
+        toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                mPhotoEditor.redo();
-            }
-        });
-
-        this.save_button.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onClick(View v) {
-                if (!EasyPermissions.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    Log.d("DEBUGGER", "onClick: ");
-                    EasyPermissions.requestPermissions(requireActivity(), "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.undo_btn:
+                        mPhotoEditor.undo();
+                        break;
+                    case R.id.redo_btn:
+                        mPhotoEditor.redo();
+                        break;
+                    case R.id.share_btn:
+                        break;
+                    case R.id.save_btn:
+                        saveBtnAction();
+                        break;
                 }
-
-                mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
-                    @Override
-                    public void onBitmapReady(Bitmap bitmap) {
-                        try {
-                            resaveImage(requireActivity(), bitmap, Uri.parse(photo_uri));
-                            Toast.makeText(getContext(), getString(R.string.save_image_success), Toast.LENGTH_LONG)
-                                    .show();
-                        } catch (IOException e) {
-                            Toast.makeText(getContext(), getString(R.string.save_image_fail), Toast.LENGTH_LONG)
-                                    .show();
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        Log.d("SAVE BITMAP DEBUGGER", "onFailure: ");
-                    }
-                });
+                return true;
             }
         });
+
+
 
         //brush set up _______________________________________________________________________***
 
@@ -436,8 +424,6 @@ public class EditPhotoFragment extends Fragment {
 
             }
         });
-
-        return root;
     }
 
     private Uri resaveImage(Context context, Bitmap bitmap, @NonNull Uri imageUri) throws IOException {
@@ -483,5 +469,32 @@ public class EditPhotoFragment extends Fragment {
             imageUri = Uri.fromFile(imageFile);
         }
         return imageUri;
+    }
+
+    private void saveBtnAction() {
+        if (!EasyPermissions.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Log.d("DEBUGGER", "onClick: ");
+            EasyPermissions.requestPermissions(requireActivity(), "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
+            @Override
+            public void onBitmapReady(Bitmap bitmap) {
+                try {
+                    resaveImage(requireActivity(), bitmap, Uri.parse(photo_uri));
+                    Toast.makeText(getContext(), getString(R.string.save_image_success), Toast.LENGTH_LONG)
+                            .show();
+                } catch (IOException e) {
+                    Toast.makeText(getContext(), getString(R.string.save_image_fail), Toast.LENGTH_LONG)
+                            .show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.d("SAVE BITMAP DEBUGGER", "onFailure: ");
+            }
+        });
     }
 }

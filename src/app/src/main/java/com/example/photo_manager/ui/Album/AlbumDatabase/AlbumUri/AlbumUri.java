@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Album.AlbumDatabase.AlbumPhotoUri;
+package com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -9,12 +9,12 @@ import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (tableName = "AlbumPhotoUris",
+@Entity (tableName = "AlbumUris",
         primaryKeys = {"uri", "albumId"},
         foreignKeys= {
         @ForeignKey(entity = Album.class, parentColumns = "id", childColumns = "albumId", onDelete = CASCADE)}
         )
-public class AlbumPhotoUri {
+public class AlbumUri {
 
     @NonNull
     @ColumnInfo(name="uri")
@@ -24,15 +24,23 @@ public class AlbumPhotoUri {
         return uri;
     }
 
-    public AlbumPhotoUri(@NonNull String uri, int albumId) {
+    public AlbumUri(@NonNull String uri, int albumId, int type) {
         this.uri = uri;
         this.albumId = albumId;
+        this.type = type;
     }
 
     public int getAlbumId() {
         return albumId;
     }
 
+    public int getType() {
+        return type;
+    }
+
     @ColumnInfo(name="albumId")
     private int albumId;
+
+    @NonNull
+    private int type;
 }

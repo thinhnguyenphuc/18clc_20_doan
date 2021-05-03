@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithPhotoUris;
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 
 import java.util.List;
 
@@ -31,6 +32,10 @@ public interface AlbumDao {
     LiveData<List<Album>> loadAllAlbums();
 
     @Transaction
-    @Query("SELECT * FROM Albums WHERE id= :id")
-    public LiveData<List<AlbumWithPhotoUris>> getAlbumWithPhotoUris(int id);
+    @Query("SELECT * FROM Albums")
+    public LiveData<List<AlbumWithUris>> getAlbumsWithUris();
+
+    @Transaction
+    @Query("SELECT * FROM Albums WHERE id = :albumId")
+    public LiveData<AlbumWithUris> getAlbumWithUris(int albumId);
 }

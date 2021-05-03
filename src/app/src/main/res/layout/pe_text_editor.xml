@@ -6,6 +6,7 @@
 
     <EditText
         android:id="@+id/text"
+        android:hint="@string/text_here"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout

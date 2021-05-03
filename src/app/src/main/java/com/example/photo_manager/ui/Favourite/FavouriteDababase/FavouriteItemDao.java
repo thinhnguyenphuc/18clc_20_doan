@@ -9,9 +9,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithPhotoUris;
-
 import java.util.List;
 
 @Dao

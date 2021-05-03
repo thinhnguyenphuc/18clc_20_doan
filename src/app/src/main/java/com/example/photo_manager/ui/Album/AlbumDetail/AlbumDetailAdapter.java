@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Favourite;
+package com.example.photo_manager.ui.Album.AlbumDetail;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,24 +15,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photo_manager.R;
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
+import com.example.photo_manager.ui.Album.AlbumFragmentDirections;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
+import com.example.photo_manager.ui.Favourite.FavouriteFragmentDirections;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
+public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.ViewHolder> {
 
-    private  Context context = null;
-    private List<FavouriteItem> items = new ArrayList<>();
+    private Context context = null;
+    private AlbumWithUris data;
     private NavController navController;
+    int albumId;
 
-    public FavouriteAdapter(Context context, NavController navController) {
+    public AlbumDetailAdapter(Context context, NavController navController, int albumId) {
         this.context = context;
         this.navController = navController;
+        this.albumId = albumId;
     }
 
-    public void setItems(List<FavouriteItem> items) {
-        this.items = items;
+    public void setData(AlbumWithUris data) {
+        this.data = data;
         notifyDataSetChanged();
     }
 
@@ -47,14 +52,18 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String picture_uri = items.get(position).getUri();
+        String picture_uri = data.albumUris.get(position).getUri();
         RequestOptions options = new RequestOptions();
         Glide.with(this.context).load(Uri.parse(picture_uri)).apply(options.centerCrop()).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        if (data == null) {
+            return 0;
+        } else {
+            return data.albumUris.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,9 +75,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    FavouriteFragmentDirections.ActionFavouriteFragmentToViewPhotoFragment action =
-                            FavouriteFragmentDirections.actionFavouriteFragmentToViewPhotoFragment(items.get(getAdapterPosition()).getUri().toString());
+                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToViewAlbumPhotoFragment action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToViewAlbumPhotoFragment(
+                                    data.albumUris.get(getAbsoluteAdapterPosition()).getUri(), albumId
+                            );
                     navController.navigate(action);
                 }
             });

@@ -1,14 +1,8 @@
-package com.example.photo_manager.ui;
+package com.example.photo_manager.ui.Album.AlbumDetail;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,27 +11,41 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
+
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.R;
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
+import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
 
-public class ViewPhotoFragment extends Fragment {
+
+public class ViewAlbumPhotoFragment extends Fragment {
+
+
     private MediaViewModel mediaViewModel;
     private FavouriteViewModel favouriteViewModel;
+    private AlbumViewModel albumViewModel;
 
     NavController navController;
 
     Toolbar toolbar_top;
     Toolbar toolbar_bottom;
 
+    //Safe args
     String photo_uri;
+    int albumId;
 
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
     SubsamplingScaleImageView imageView;
@@ -56,7 +64,7 @@ public class ViewPhotoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_view_photo, container, false);
+        View root = inflater.inflate(R.layout.fragment_view_album_photo, container, false);
 
         return root;
     }
@@ -72,8 +80,10 @@ public class ViewPhotoFragment extends Fragment {
 
         mediaViewModel = viewModelProvider.get(MediaViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
+        albumViewModel = viewModelProvider.get(AlbumViewModel.class);
 
-        photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
+        photo_uri = ViewAlbumPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
+        albumId = ViewAlbumPhotoFragmentArgs.fromBundle(getArguments()).getAlbumId();
 
         this.favouriteCheckAsyncTask = new FavouriteCheckAsyncTask(favouriteViewModel);
         this.favouriteCheckAsyncTask.execute();
@@ -98,8 +108,8 @@ public class ViewPhotoFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.vp_menu_photo_detail:{
-                        ViewPhotoFragmentDirections.ActionViewPhotoFragmentToPhotoDetailFragment action =
-                                ViewPhotoFragmentDirections.actionViewPhotoFragmentToPhotoDetailFragment(photo_uri);
+                        ViewAlbumPhotoFragmentDirections.ActionViewAlbumPhotoFragmentToPhotoDetailFragment action =
+                                ViewAlbumPhotoFragmentDirections.actionViewAlbumPhotoFragmentToPhotoDetailFragment(photo_uri);
                         navController.navigate(action);
                         break;
                     }
@@ -158,25 +168,19 @@ public class ViewPhotoFragment extends Fragment {
         edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewPhotoFragmentDirections.ActionViewPhotoFragmentToEditPhotoFragment action =
-                        ViewPhotoFragmentDirections.actionViewPhotoFragmentToEditPhotoFragment(photo_uri);
+                ViewAlbumPhotoFragmentDirections.ActionViewAlbumPhotoFragmentToEditPhotoFragment action =
+                        ViewAlbumPhotoFragmentDirections.actionViewAlbumPhotoFragmentToEditPhotoFragment(photo_uri);
                 Navigation.findNavController(v).navigate(action);
             }
         });
 
         view.findViewById(R.id.delete_button).setOnClickListener(v -> {
-            if (deleteImage(picture_model.getUri())) {
-                Toast.makeText(requireContext(), R.string.delete_image_fail, Toast.LENGTH_LONG).show();
-                NavHostFragment.findNavController(ViewPhotoFragment.this).popBackStack();
-            } else {
-                Toast.makeText(requireContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
-            }
+           albumViewModel.deleteAlbumUri(new AlbumUri(photo_uri, albumId, 0));
+           Toast.makeText(getContext(), R.string.remove_from_album_success, Toast.LENGTH_LONG).show();
+           navController.popBackStack();
         });
     }
 
-    private boolean deleteImage(Uri uri) {
-        return true;
-    }
 
     @Override
     public void onPause() {
@@ -184,9 +188,9 @@ public class ViewPhotoFragment extends Fragment {
 
         if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED)
             favouriteCheckAsyncTask.cancel(true);
-            if (current_favourite_flag) {
-                favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
-            }
+        if (current_favourite_flag) {
+            favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
+        }
         else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
             if (current_favourite_flag != favourite_flag) {
                 if (!current_favourite_flag) {

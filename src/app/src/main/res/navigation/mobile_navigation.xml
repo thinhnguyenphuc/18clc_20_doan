@@ -8,7 +8,7 @@
         android:id="@+id/mediaFragment"
         android:name="com.example.photo_manager.ui.Media.MediaFragment"
         android:label="@string/media_fragment_label"
-        tools:layout="@layout/media_fragment"
+        tools:layout="@layout/fragment_media"
         >
         <action
             android:id="@+id/action_mediaFragment_to_favouriteFragment"
@@ -29,7 +29,11 @@
         android:id="@+id/albumFragment"
         android:name="com.example.photo_manager.ui.Album.AlbumFragment"
         android:label="album_fragment"
-        tools:layout="@layout/album_fragment" />
+        tools:layout="@layout/fragment_album" >
+        <action
+            android:id="@+id/action_albumFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/videoFragment"
         android:name="com.example.photo_manager.ui.Video.VideoFragment"
@@ -39,7 +43,7 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.photo_manager.ui.Favourite.FavouriteFragment"
         android:label="favourite_fragment"
-        tools:layout="@layout/favourite_fragment" >
+        tools:layout="@layout/fragment_favourite" >
         <action
             android:id="@+id/action_favouriteFragment_to_viewPhotoFragment"
             app:destination="@id/viewPhotoFragment"
@@ -71,7 +75,7 @@
         android:id="@+id/editPhotoFragment"
         android:name="com.example.photo_manager.ui.EditPhotoFragment"
         android:label="favourite_fragment"
-        tools:layout="@layout/activity_photo_edit" >
+        tools:layout="@layout/fragment_edit_photo" >
         <argument
             android:name="photo_uri"
             app:argType="string" />
@@ -83,5 +87,55 @@
         tools:layout="@layout/fragment_photo_detail" >
         <argument android:name="photo_uri"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.AlbumDetailFragment"
+        android:label="fragment_album_detail"
+        tools:layout="@layout/fragment_album_detail" >
+        <action
+            android:id="@+id/action_albumDetailFragment_to_viewAlbumPhotoFragment"
+            app:destination="@id/viewAlbumPhotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_down" />
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_addMediaFragment"
+            app:destination="@id/addMediaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewAlbumPhotoFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.ViewAlbumPhotoFragment"
+        android:label="fragment_view_album_photo"
+        tools:layout="@layout/fragment_view_album_photo" >
+        <action
+            android:id="@+id/action_viewAlbumPhotoFragment_to_editPhotoFragment"
+            app:destination="@id/editPhotoFragment" />
+        <action
+            android:id="@+id/action_viewAlbumPhotoFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up"
+            app:popEnterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_down"/>
+        <argument
+            android:name="photo_uri"
+            app:argType="string" />
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMediaFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.AddMediaFragment"
+        android:label="fragment_add_media"
+        tools:layout="@layout/fragment_add_media" >
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
     </fragment>
 </navigation>
