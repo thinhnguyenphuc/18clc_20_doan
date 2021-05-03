@@ -41,4 +41,6 @@
     <string name="ask_set_wallpaper">do you want to make this picture your wallpaper?</string>
     <string name="set_wallpaper_fail">Set wallpaper fail</string>
     <string name="set_wallpaper_success">image is set as device wallpaper</string>
+    <string name="share_fail">FAILED TO SHARE THIS IMAGE</string>
+    <string name="share_image">SHARE IMAGE</string>
 </resources>

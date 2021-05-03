@@ -2,8 +2,10 @@ package com.example.photo_manager.ui;
 
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +35,8 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
+
+import java.io.OutputStream;
 
 public class ViewPhotoFragment extends Fragment {
     private MediaViewModel mediaViewModel;
@@ -174,6 +178,10 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.share_button).setOnClickListener(v -> {
+            shareImage();
+        });
+
         view.findViewById(R.id.delete_button).setOnClickListener(v -> {
             if (deleteImage(picture_model.getUri())) {
                 Toast.makeText(requireContext(), R.string.delete_image_fail, Toast.LENGTH_LONG).show();
@@ -289,6 +297,36 @@ public class ViewPhotoFragment extends Fragment {
             } else {
                 Toast.makeText(requireContext(), R.string.set_wallpaper_fail, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private void shareImage() {
+        try {
+            Bitmap icon = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver() , Uri.parse(photo_uri));;
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+
+//            ContentValues values = new ContentValues();
+//            values.put(MediaStore.Images.Media.TITLE, "title");
+//            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//            Uri uri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                    values);
+//
+//
+//            OutputStream outstream;
+//            try {
+//                outstream = requireContext().getContentResolver().openOutputStream(uri);
+//                icon.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+//                outstream.close();
+//            } catch (Exception e) {
+//                System.err.println(e.toString());
+//            }
+
+            share.putExtra(Intent.EXTRA_STREAM, Uri.parse(photo_uri));
+            startActivity(Intent.createChooser(share, getString(R.string.share_image)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), R.string.share_fail, Toast.LENGTH_LONG).show();
         }
     }
 }
