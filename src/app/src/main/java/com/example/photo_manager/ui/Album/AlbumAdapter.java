@@ -50,12 +50,20 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AlbumWithUris albumWithUris = data.get(position);
-        Glide.with(context)
-                .load(R.drawable.test1)
-                .transform(new CenterCrop(),new RoundedCorners(25))
-                .into(holder.thumbnail);
+        int size = albumWithUris.albumUris.size();
+        if (size > 0) {
+            Glide.with(context)
+                    .load(albumWithUris.albumUris.get(0).getUri())
+                    .transform(new CenterCrop(),new RoundedCorners(25))
+                    .into(holder.thumbnail);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.album_view_holder)
+                    .transform(new CenterCrop(),new RoundedCorners(25))
+                    .into(holder.thumbnail);
+        }
         holder.name.setText(albumWithUris.album.getTitle());
-        holder.size.setText(String.valueOf(albumWithUris.albumUris.size()));
+        holder.size.setText(String.valueOf(size));
     }
 
     @Override

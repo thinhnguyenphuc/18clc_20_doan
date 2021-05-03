@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.photo_manager.PEAdapters.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
@@ -72,7 +74,9 @@ public class AlbumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.album_list);
         albumAdapter = new AlbumAdapter(getContext(), navController);
         recyclerView.setAdapter(albumAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager layoutManager =
+                new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), 100));
+        recyclerView.setLayoutManager(layoutManager);
 
         albumViewModel.getAlbumsWithUris().observe(getViewLifecycleOwner(), new Observer<List<AlbumWithUris>>() {
             @Override
