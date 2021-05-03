@@ -28,6 +28,7 @@ import com.example.photo_manager.Adapter.Picture_Adapter_All;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Super_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;

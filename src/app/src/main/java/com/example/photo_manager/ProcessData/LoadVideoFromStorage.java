@@ -32,13 +32,6 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
 
         ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
         video_models = loadVideo();
-        for (int i=0;i<100;i++){
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         return video_models;
     }
 

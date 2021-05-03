@@ -20,11 +20,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--            <action android:name="android.intent.action.MAIN" />-->
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+<!--            <category android:name="android.intent.category.LAUNCHER" />-->
+<!--        </intent-filter>-->
         </activity>
         <activity android:name=".Menu" />
         <activity android:name=".PhotoEditActivity" />
@@ -41,11 +41,11 @@
             android:name=".Photo_Details"
             android:label="Details" />
         <activity android:name=".MainActivity_temp">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider
