@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Model.Picture_Model;
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumViewModel;

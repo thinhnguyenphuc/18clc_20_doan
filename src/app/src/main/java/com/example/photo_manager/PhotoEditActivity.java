@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
 import com.example.photo_manager.PEAdapters.PEFilterAdapter;
-import com.example.photo_manager.PEAdapters.Utility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 

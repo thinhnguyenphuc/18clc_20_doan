@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;

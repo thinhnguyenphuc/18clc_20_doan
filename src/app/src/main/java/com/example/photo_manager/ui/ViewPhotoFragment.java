@@ -1,8 +1,14 @@
 package com.example.photo_manager.ui;
 
+import android.app.AlertDialog;
+import android.app.WallpaperManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +27,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
@@ -102,6 +108,10 @@ public class ViewPhotoFragment extends Fragment {
                                 ViewPhotoFragmentDirections.actionViewPhotoFragmentToPhotoDetailFragment(photo_uri);
                         navController.navigate(action);
                         break;
+                    }
+                    case R.id.vp_menu_wallpaper:
+                    {
+                       setWallpaper();
                     }
                 }
                 return true;
@@ -218,6 +228,66 @@ public class ViewPhotoFragment extends Fragment {
             current_favourite_flag = favourite_flag = aBoolean;
             if (favourite_flag) {
                 favourite_button.setImageResource(R.drawable.red_heart_icon);
+            }
+        }
+    }
+
+    private void setWallpaper() {
+        Context context = requireContext();
+        String title = getString(R.string.set_wallpaper);
+        String content = getString(R.string.ask_set_wallpaper);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(content);
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                new SetWallperAsynTask(requireContext()).execute(Uri.parse(photo_uri));
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private class SetWallperAsynTask extends AsyncTask<Uri, Void, Boolean> {
+        private Context context;
+
+        public SetWallperAsynTask(Context context) {
+            this.context = context;
+        }
+        @Override
+        protected Boolean doInBackground(Uri... uris) {
+            WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+            try {
+                if (uris.length == 1) {
+                    if(  uris[0] != null   ){
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver() , uris[0]);
+                        wallpaperManager.setBitmap(bitmap);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean) {
+                Toast.makeText(requireContext(), R.string.set_wallpaper_success, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(requireContext(), R.string.set_wallpaper_fail, Toast.LENGTH_LONG).show();
             }
         }
     }

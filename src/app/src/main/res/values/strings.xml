@@ -37,4 +37,8 @@
     <string name="select_all">Select all</string>
     <string name="add_image_sucess">Add image successfully</string>
     <string name="remove_from_album_success">Remove from album sucessfully</string>
+    <string name="set_wallpaper">SET WALLPAPER</string>
+    <string name="ask_set_wallpaper">do you want to make this picture your wallpaper?</string>
+    <string name="set_wallpaper_fail">Set wallpaper fail</string>
+    <string name="set_wallpaper_success">image is set as device wallpaper</string>
 </resources>
