@@ -88,7 +88,7 @@ public class PhotoEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_edit);
+        setContentView(R.layout.fragment_edit_photo);
 
         Intent receiver = getIntent();
 
@@ -113,11 +113,7 @@ public class PhotoEditActivity extends AppCompatActivity {
                 .setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build();
 
-
-        this.undo_button = findViewById(R.id.undo_btn);
-        this.redo_button = findViewById(R.id.redo_btn);
-        this.share_button = findViewById(R.id.share_btn);
-        this.save_button = findViewById(R.id.save_button);
+        
 
         this.brush_button = findViewById(R.id.brush_button);
         this.eraser_button = findViewById(R.id.eraser_button);
@@ -306,7 +302,6 @@ public class PhotoEditActivity extends AppCompatActivity {
         text_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_text_input.setText(getString(R.string.text_holder));
                 add_text_dialog.show();
             }
 

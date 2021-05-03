@@ -5,9 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.Album.AlbumFragment">
 
-    <TextView
+    <include
+        android:id="@+id/toolbar_top"
+        layout="@layout/album_toolbar"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/album_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Album" />
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="?attr/actionBarSize"/>
 
 </FrameLayout>

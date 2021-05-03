@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.Album.AlbumDetail.ViewAlbumPhotoFragment">
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:background="@color/vp_bg"
+        android:layout_height="match_parent"/>
+
+    <include
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_top"
+        layout="@layout/vp_toolbar_top"/>
+
+    <include
+        android:id="@+id/toolbar_bottom"
+        android:layout_alignParentBottom="true"
+        layout="@layout/vap_toolbar_bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+</RelativeLayout>

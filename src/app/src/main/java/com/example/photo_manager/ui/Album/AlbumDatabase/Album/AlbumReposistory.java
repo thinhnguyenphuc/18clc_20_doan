@@ -2,9 +2,11 @@ package com.example.photo_manager.ui.Album.AlbumDatabase.Album;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.PhotoManagerDatabase;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 public class AlbumReposistory {
     private AlbumDao albumDao;
     private LiveData<List<Album>> allAlbums;
+    private LiveData<List<AlbumWithUris>> allAlbumsWithUris;
 
     public AlbumReposistory(Application application) {
         PhotoManagerDatabase database = PhotoManagerDatabase.getInstance(application);
@@ -20,6 +23,7 @@ public class AlbumReposistory {
     }
 
     public void insert(Album... albums) {
+        Log.d("ALBUM REPOSISTORY", "insert: ");
         new InsertAlbumAsyncTask(albumDao).execute(albums);
     }
 
@@ -38,6 +42,16 @@ public class AlbumReposistory {
     public LiveData<List<Album>> getAllAlbums() {
         return allAlbums;
     }
+
+    public LiveData<List<AlbumWithUris>> getAllAlbumsWithUris() {
+        Log.d("ALBUM REPOSISTORY", "getAllAlbumsWithUris: ");
+        return albumDao.getAlbumsWithUris();
+    }
+
+    public LiveData<AlbumWithUris> getAlbumWithUris(int albumId) {
+        return albumDao.getAlbumWithUris(albumId);
+    }
+
 
     private static class InsertAlbumAsyncTask extends AsyncTask<Album, Void, Void> {
         private AlbumDao albumDao;

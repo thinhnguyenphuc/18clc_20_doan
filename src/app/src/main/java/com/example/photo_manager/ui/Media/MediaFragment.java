@@ -59,7 +59,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.media_fragment, container, false);
+        View root = inflater.inflate(R.layout.fragment_media, container, false);
 
         toolbar = root.findViewById(R.id.toolbar_top);
 

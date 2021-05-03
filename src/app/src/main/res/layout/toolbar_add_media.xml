@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:menu="@menu/add_item_menu">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:src="@drawable/cancel_icon"
+        android:background="@drawable/pe_button"
+        app:layout_columnWeight="1"
+        android:layout_marginVertical="@dimen/button_vertical_margin"
+        />
+
+    <TextView
+        android:layout_marginLeft="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
+        android:text="@string/add_to_album"/>
+
+</androidx.appcompat.widget.Toolbar>

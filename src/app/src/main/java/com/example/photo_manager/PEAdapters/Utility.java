@@ -51,4 +51,18 @@ public class Utility {
             }
         });
     }
+
+    public static float getScreenDpHeight(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.heightPixels / displayMetrics.density;
+    }
+
+    public static float getScreenDpWidth(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return displayMetrics.widthPixels / displayMetrics.density;
+    }
+
+    public static float getGridItemDpWidth(Context context, int col, float dpGapWidth) {
+        return ((getScreenDpWidth(context) - ((col - 1) * dpGapWidth)) / col);
+    }
 }
