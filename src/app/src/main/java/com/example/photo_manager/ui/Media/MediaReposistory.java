@@ -84,20 +84,11 @@ public class MediaReposistory {
         this.pictures.setValue(picture_models);
     }
 
-    public void update(Context context) {
-        LoadImagesFromStorage loadImagesFromStorage = new LoadImagesFromStorage(new AsyncResponse() {
-            @Override
-            public void processPictureFinish(ArrayList<Picture_Model> pictureModels) {
-                picture_models = pictureModels;
-                notifyDataChanged();
-            }
-
-            @Override
-            public void processVideoFinish(ArrayList<Video_Model> video_models) {
-
-            }
-        },context);
-        loadImagesFromStorage.execute();
+    public void update() {
+        this.pictures.setValue(picture_models);
+    }
+    public void updateTakePhoto(Picture_Model picture_model){
+        picture_models.add(picture_model);
         this.pictures.setValue(picture_models);
     }
 }

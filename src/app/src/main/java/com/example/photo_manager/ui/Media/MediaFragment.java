@@ -158,7 +158,9 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
             }
         } else if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                mediaViewModel.update(requireActivity());
+                String test = data.getStringExtra("uri");
+                Uri tmp = Uri.parse(test);
+                mediaViewModel.updateTakeNewPhoto(new Picture_Model(tmp,null,null,0));
             }
         }
     }

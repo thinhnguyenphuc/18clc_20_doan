@@ -46,7 +46,10 @@ public class MediaViewModel extends AndroidViewModel {
     }
 
     public void update(Context context) {
-        pr.update(context);
+        pr.update();
+    }
+    public void updateTakeNewPhoto(Picture_Model picture_model){
+        pr.updateTakePhoto(picture_model);
     }
 
 }

@@ -22,14 +22,13 @@ public class Take_New_Photo extends AppCompatActivity {
 
 
     private String path;
-    Intent receiver;
+    Uri photoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take__new__photo);
 
-        receiver = getIntent();
 
         if(checkCameraHardware()){
             Toast.makeText(this, "Have cam", Toast.LENGTH_LONG).show();
@@ -82,7 +81,7 @@ public class Take_New_Photo extends AppCompatActivity {
             }
 
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+                photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
                 path = photoFile.getPath();
@@ -99,9 +98,10 @@ public class Take_New_Photo extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 toMediaFile();
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
-                receiver.putExtra("path",path);
-                setResult(RESULT_OK,receiver);
-                Take_New_Photo.this.finish();
+                Intent returnData = new Intent();
+                returnData.putExtra("uri",photoURI.toString());
+                setResult(RESULT_OK,returnData);
+                this.finish();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
             } else {

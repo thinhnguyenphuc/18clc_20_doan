@@ -25,13 +25,6 @@ public class LoadImagesFromStorage extends AsyncTask<Void, Integer, ArrayList<Pi
     protected ArrayList<Picture_Model> doInBackground(Void... voids) {
         ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
         picture_models = loadImage();
-        for (int i=0;i<100;i++){
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         return picture_models;
     }
 
