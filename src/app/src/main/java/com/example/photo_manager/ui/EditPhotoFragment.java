@@ -1,7 +1,6 @@
 package com.example.photo_manager.ui;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -37,7 +36,7 @@ import android.widget.Toast;
 import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
 import com.example.photo_manager.PEAdapters.PEFilterAdapter;
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;

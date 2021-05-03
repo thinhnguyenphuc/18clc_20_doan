@@ -1,6 +1,8 @@
-package com.example.photo_manager.PEAdapters;
+package com.example.photo_manager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaScannerConnection;
@@ -10,6 +12,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
+
+import java.util.zip.Inflater;
 
 public class Utility {
     public static int calculateNoOfColumns(Context context, float columnWidthDp) { // For example columnWidthdp=180
@@ -64,5 +73,30 @@ public class Utility {
 
     public static float getGridItemDpWidth(Context context, int col, float dpGapWidth) {
         return ((getScreenDpWidth(context) - ((col - 1) * dpGapWidth)) / col);
+    }
+
+    //THIS IS NOT USABLE
+    public static void askDialog(Context context, String title, String content) {
+//        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//        View view = LayoutInflater.from(context).inflate(R.layout.dialog_text, null);
+//        TextView textView = view.findViewById(R.id.text);
+//        textView.setText(content);
+//        alertDialog.setTitle(title);
+//        alertDialog.setContentView(view);
+//        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.OK), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//            }
+//        });
+//        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//
+//        alertDialog.show();
+
     }
 }

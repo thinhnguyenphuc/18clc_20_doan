@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.photo_manager.Format.FormatDate;
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 

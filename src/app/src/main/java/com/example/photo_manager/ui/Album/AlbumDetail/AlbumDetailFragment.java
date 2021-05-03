@@ -14,16 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.photo_manager.PEAdapters.Utility;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
-
-import java.util.List;
 
 public class AlbumDetailFragment extends Fragment {
 
