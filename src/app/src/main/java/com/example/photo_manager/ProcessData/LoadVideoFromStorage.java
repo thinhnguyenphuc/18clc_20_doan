@@ -70,7 +70,7 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
             int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
-            int dateModifiedColumn = cursor.getColumnIndex(MediaStore.Video.Media.DATE_MODIFIED);
+            int dateModifiedColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED);
 
             while (cursor.moveToNext()) {
                 Long idTmp = cursor.getLong(idColumn);
@@ -78,7 +78,7 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
                 int sizeTmp = cursor.getInt(sizeColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, idTmp);
-                String tmpTime = FormatDate.fullFormat.format(dateModifiedColumn);
+                String tmpTime = FormatDate.fullFormat.format(dateModifiedColumn*1000);
 
                 video_models.add(new Video_Model(contentUri,nameTmp,tmpTime,sizeTmp,getDuration(contentUri)));
 
