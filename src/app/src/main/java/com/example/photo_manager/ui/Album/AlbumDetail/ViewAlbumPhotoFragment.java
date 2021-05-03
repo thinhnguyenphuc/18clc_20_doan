@@ -1,5 +1,11 @@
 package com.example.photo_manager.ui.Album.AlbumDetail;
 
+import android.app.AlertDialog;
+import android.app.WallpaperManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +36,7 @@ import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Media.MediaViewModel;
+import com.example.photo_manager.ui.ViewPhotoFragment;
 
 
 public class ViewAlbumPhotoFragment extends Fragment {
@@ -47,7 +55,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
     String photo_uri;
     int albumId;
 
-    private Picture_Model picture_model = new Picture_Model(null,null,null,0);
+    private Picture_Model picture_model = new Picture_Model(null, null, null, 0);
     SubsamplingScaleImageView imageView;
     ImageButton favourite_button, edit_button, share_button, delete_button;
     boolean favourite_flag;
@@ -90,7 +98,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
 
         picture_model.setUri(Uri.parse(photo_uri));
 
-        imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
+        imageView = (SubsamplingScaleImageView) view.findViewById(R.id.imageView);
 
         try {
             imageView.setImage(ImageSource.uri(picture_model.getUri()));
@@ -107,11 +115,15 @@ public class ViewAlbumPhotoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
+                    case R.id.vp_menu_photo_detail: {
                         ViewAlbumPhotoFragmentDirections.ActionViewAlbumPhotoFragmentToPhotoDetailFragment action =
                                 ViewAlbumPhotoFragmentDirections.actionViewAlbumPhotoFragmentToPhotoDetailFragment(photo_uri);
                         navController.navigate(action);
                         break;
+                    }
+                    case R.id.vp_menu_wallpaper:
+                    {
+                        setWallpaper();
                     }
                 }
                 return true;
@@ -151,8 +163,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
             public void onClick(View v) {
                 if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
                     Toast.makeText(getContext(), R.string.loading, Toast.LENGTH_LONG).show();
-                }
-                else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+                } else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED) {
                     if (!current_favourite_flag) {
                         favourite_button.setImageResource(R.drawable.red_heart_icon);
                         current_favourite_flag = true;
@@ -174,10 +185,14 @@ public class ViewAlbumPhotoFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.share_button).setOnClickListener(v -> {
+            shareImage();
+        });
+
         view.findViewById(R.id.delete_button).setOnClickListener(v -> {
-           albumViewModel.deleteAlbumUri(new AlbumUri(photo_uri, albumId, 0));
-           Toast.makeText(getContext(), R.string.remove_from_album_success, Toast.LENGTH_LONG).show();
-           navController.popBackStack();
+            albumViewModel.deleteAlbumUri(new AlbumUri(photo_uri, albumId, 0));
+            Toast.makeText(getContext(), R.string.remove_from_album_success, Toast.LENGTH_LONG).show();
+            navController.popBackStack();
         });
     }
 
@@ -190,8 +205,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
             favouriteCheckAsyncTask.cancel(true);
         if (current_favourite_flag) {
             favouriteViewModel.insert(new FavouriteItem(photo_uri, 0));
-        }
-        else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+        } else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED) {
             if (current_favourite_flag != favourite_flag) {
                 if (!current_favourite_flag) {
                     favouriteViewModel.delete(new FavouriteItem(photo_uri, 0));
@@ -211,6 +225,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
         public FavouriteCheckAsyncTask(FavouriteViewModel favouriteViewModel) {
             this.favouriteViewModel = favouriteViewModel;
         }
+
         @Override
         protected Boolean doInBackground(String... strings) {
             return favouriteViewModel.checkUriExistence(photo_uri);
@@ -223,6 +238,82 @@ public class ViewAlbumPhotoFragment extends Fragment {
             if (favourite_flag) {
                 favourite_button.setImageResource(R.drawable.red_heart_icon);
             }
+        }
+    }
+
+    private void setWallpaper() {
+        Context context = requireContext();
+        String title = getString(R.string.set_wallpaper);
+        String content = getString(R.string.ask_set_wallpaper);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(content);
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                new SetWallperAsynTask(requireContext()).execute(Uri.parse(photo_uri));
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private class SetWallperAsynTask extends AsyncTask<Uri, Void, Boolean> {
+        private Context context;
+
+        public SetWallperAsynTask(Context context) {
+            this.context = context;
+        }
+        @Override
+        protected Boolean doInBackground(Uri... uris) {
+            WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+            try {
+                if (uris.length == 1) {
+                    if(  uris[0] != null   ){
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver() , uris[0]);
+                        wallpaperManager.setBitmap(bitmap);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean) {
+                Toast.makeText(requireContext(), R.string.set_wallpaper_success, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(requireContext(), R.string.set_wallpaper_fail, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    private void shareImage() {
+        try {
+            Bitmap icon = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), Uri.parse(photo_uri));
+            ;
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+
+            share.putExtra(Intent.EXTRA_STREAM, Uri.parse(photo_uri));
+            startActivity(Intent.createChooser(share, getString(R.string.share_image)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), R.string.share_fail, Toast.LENGTH_LONG).show();
         }
     }
 }
