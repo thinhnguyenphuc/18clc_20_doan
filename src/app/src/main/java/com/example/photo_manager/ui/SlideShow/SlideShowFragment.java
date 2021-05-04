@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
-import com.example.photo_manager.ui.Media.MediaViewModel;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -122,7 +121,7 @@ public class SlideShowFragment extends Fragment {
             case -1:
             {
                 Log.d("SLIDE SHOW", "setUpData: " + albumId);
-                MediaViewModel viewModel = new ViewModelProvider(requireActivity()).get(MediaViewModel.class);
+                PictureViewModel viewModel = new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
                 viewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
                     @Override
                     public void onChanged(ArrayList<Picture_Model> picture_models) {

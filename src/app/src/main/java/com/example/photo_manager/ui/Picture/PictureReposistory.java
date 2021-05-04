@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Media;
+package com.example.photo_manager.ui.Picture;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,7 +16,7 @@ import com.example.photo_manager.ProcessData.LoadVideoFromStorage;
 
 import java.util.ArrayList;
 
-public class MediaReposistory {
+public class PictureReposistory {
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
     ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
     ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
@@ -25,7 +25,7 @@ public class MediaReposistory {
     MutableLiveData<ArrayList<Video_Model>> videos = new MutableLiveData<>();
     MutableLiveData<ArrayList<Date_Model>> dates  = new MutableLiveData<>();
 
-    public MediaReposistory(Context context) {
+    public PictureReposistory(Context context) {
 
         LoadImagesFromStorage loadImagesFromStorage = new LoadImagesFromStorage(new AsyncResponse() {
             @Override

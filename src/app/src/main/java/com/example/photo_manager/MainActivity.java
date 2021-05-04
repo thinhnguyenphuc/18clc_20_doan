@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.photo_manager.Code.RequestCode;
-import com.example.photo_manager.ui.Media.MediaViewModel;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -15,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-
-import java.io.IOException;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -67,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         Log.d("MAIN", "onRestart: ");
         //re-create
-        MediaViewModel mediaViewModel =
-                new ViewModelProvider(this).get(MediaViewModel.class);
+        PictureViewModel pictureViewModel =
+                new ViewModelProvider(this).get(PictureViewModel.class);
 
-        mediaViewModel.update(this);
+        pictureViewModel.update(this);
     }
 }

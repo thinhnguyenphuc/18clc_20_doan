@@ -1,20 +1,13 @@
 package com.example.photo_manager;
 
 import android.Manifest;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.photo_manager.Adapter.Picture_Adapter;
-import com.example.photo_manager.Adapter.View_Adapter;
 import com.example.photo_manager.Code.RequestCode;
-import com.example.photo_manager.Format.FormatDate;
-import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
-import com.example.photo_manager.Model.Super_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
 import com.example.photo_manager.ProcessData.LoadImagesFromStorage;
@@ -24,10 +17,6 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.util.ArrayList;
 
 import pub.devrel.easypermissions.EasyPermissions;

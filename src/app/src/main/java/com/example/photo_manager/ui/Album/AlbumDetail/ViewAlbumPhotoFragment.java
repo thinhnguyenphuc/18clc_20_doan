@@ -35,14 +35,13 @@ import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
-import com.example.photo_manager.ui.Media.MediaViewModel;
-import com.example.photo_manager.ui.ViewPhotoFragment;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 
 
 public class ViewAlbumPhotoFragment extends Fragment {
 
 
-    private MediaViewModel mediaViewModel;
+    private PictureViewModel pictureViewModel;
     private FavouriteViewModel favouriteViewModel;
     private AlbumViewModel albumViewModel;
 
@@ -86,7 +85,7 @@ public class ViewAlbumPhotoFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        mediaViewModel = viewModelProvider.get(MediaViewModel.class);
+        pictureViewModel = viewModelProvider.get(PictureViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
         albumViewModel = viewModelProvider.get(AlbumViewModel.class);
 

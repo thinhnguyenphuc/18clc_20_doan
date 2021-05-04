@@ -2,7 +2,6 @@ package com.example.photo_manager.ui;
 
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,12 +33,10 @@ import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
-import com.example.photo_manager.ui.Media.MediaViewModel;
-
-import java.io.OutputStream;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 
 public class ViewPhotoFragment extends Fragment {
-    private MediaViewModel mediaViewModel;
+    private PictureViewModel pictureViewModel;
     private FavouriteViewModel favouriteViewModel;
 
     NavController navController;
@@ -80,7 +77,7 @@ public class ViewPhotoFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        mediaViewModel = viewModelProvider.get(MediaViewModel.class);
+        pictureViewModel = viewModelProvider.get(PictureViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
 
         photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
