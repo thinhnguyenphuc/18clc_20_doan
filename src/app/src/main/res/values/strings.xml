@@ -16,7 +16,7 @@
     <string name="save_image_success">IMAGE IS SAVED</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="slide_show">Slide show</string>
+    <string name="slideshow">Slideshow</string>
     <string name="loading">Loading...</string>
     <string name="delete_image_success">IMAGE IS DELETED</string>
     <string name="delete_image_fail">FAILED TO DELETE IMAGE</string>
@@ -43,4 +43,6 @@
     <string name="set_wallpaper_success">image is set as device wallpaper</string>
     <string name="share_fail">FAILED TO SHARE THIS IMAGE</string>
     <string name="share_image">SHARE IMAGE</string>
+    <string name="delete_album">Delete album</string>
+    <string name="delete_album_success">Album is deleted</string>
 </resources>

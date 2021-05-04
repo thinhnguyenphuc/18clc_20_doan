@@ -50,4 +50,8 @@ public class AlbumViewModel extends AndroidViewModel {
     public void deleteAlbumUri(AlbumUri... albumUris) {
         albumUriReposistory.delete(albumUris);
     }
+
+    public void deleteAlbumWhereIdEqual(int albumId) {
+        albumReposistory.deleteAlbumWhereIdEqual(albumId);
+    }
 }

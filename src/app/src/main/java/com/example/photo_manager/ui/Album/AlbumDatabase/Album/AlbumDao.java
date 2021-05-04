@@ -38,4 +38,8 @@ public interface AlbumDao {
     @Transaction
     @Query("SELECT * FROM Albums WHERE id = :albumId")
     public LiveData<AlbumWithUris> getAlbumWithUris(int albumId);
+
+    @Transaction
+    @Query("DELETE FROM Albums WHERE id=:albumId")
+    public void deleteAlbumWhereIdEqual(int albumId);
 }

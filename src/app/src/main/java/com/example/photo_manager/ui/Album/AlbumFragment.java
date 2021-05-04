@@ -80,7 +80,9 @@ public class AlbumFragment extends Fragment {
         albumViewModel.getAlbumsWithUris().observe(getViewLifecycleOwner(), new Observer<List<AlbumWithUris>>() {
             @Override
             public void onChanged(List<AlbumWithUris> albumsWithPhotoUris) {
-                Log.d("ALBUM FRAGMENT", "onChanged: " + albumsWithPhotoUris.size());
+                for (AlbumWithUris albumWithUris: albumsWithPhotoUris) {
+                    Log.d("ALBUM FRAGMENT", "onChanged: " + albumWithUris.album.getId() + "\n");
+                }
                 albumAdapter.setData(albumsWithPhotoUris);
             }
         });
