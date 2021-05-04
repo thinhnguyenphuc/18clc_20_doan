@@ -6,4 +6,16 @@
         android:title="@string/add_to_album"
         android:icon="@drawable/add_icon"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/delete_album"
+        android:title="@string/delete_album"
+        android:icon="@drawable/delete_icon_red"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/slideshow"
+        android:title="@string/slideshow"
+        android:icon="@drawable/slideshow_icon_black"
+        app:showAsAction="ifRoom"
+        />
 </menu>

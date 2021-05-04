@@ -7,6 +7,7 @@
     tools:context=".ui.Favourite.FavouriteFragment">
 
     <include
+        android:id="@+id/toolbar_top"
         layout="@layout/favourite_toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView

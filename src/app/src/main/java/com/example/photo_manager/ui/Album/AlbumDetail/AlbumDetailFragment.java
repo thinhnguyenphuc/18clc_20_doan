@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
+import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 
@@ -85,12 +87,24 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.add_media:
+                case R.id.add_media: {
                     AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToAddMediaFragment action =
                             AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddMediaFragment(albumId);
                     navController.navigate(action);
+                    break;
+                }
+                case R.id.delete_album: {
+                    albumViewModel.deleteAlbumWhereIdEqual(albumId);
+                    Toast.makeText(requireContext(), R.string.delete_album_success, Toast.LENGTH_LONG).show();
+                    navController.popBackStack();
+                    break;
+                }
+                case R.id.slideshow: {
+                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToSlideShowFragment action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToSlideShowFragment(albumId);
+                    navController.navigate(action);
+                }
             }
-
             return true;
         });
     }

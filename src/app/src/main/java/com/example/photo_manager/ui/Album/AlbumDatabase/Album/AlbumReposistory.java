@@ -39,6 +39,10 @@ public class AlbumReposistory {
         new DeleteAllAlbumAsyncTask(albumDao).execute();
     }
 
+    public void deleteAlbumWhereIdEqual(int albumId) {
+        new DeleteAlbumWhereIdAsynTask(albumDao).execute(albumId);
+    }
+
     public LiveData<List<Album>> getAllAlbums() {
         return allAlbums;
     }
@@ -105,6 +109,22 @@ public class AlbumReposistory {
         @Override
         protected Void doInBackground(Void... voids) {
             albumDao.deleteAll();
+            return null;
+        }
+    }
+
+    private static class DeleteAlbumWhereIdAsynTask extends AsyncTask<Integer, Void, Void> {
+        private AlbumDao albumDao;
+
+        public DeleteAlbumWhereIdAsynTask(AlbumDao albumDao) {
+            this.albumDao = albumDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            if (integers.length == 1) {
+                albumDao.deleteAlbumWhereIdEqual(integers[0]);
+            }
             return null;
         }
     }
