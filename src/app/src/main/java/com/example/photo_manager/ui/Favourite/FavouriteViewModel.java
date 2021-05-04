@@ -39,7 +39,7 @@ public class FavouriteViewModel extends AndroidViewModel {
         reposistory.deleteAll();
     }
 
-    LiveData<List<FavouriteItem>> getAllFavouriteItems() {
+   public LiveData<List<FavouriteItem>> getAllFavouriteItems() {
         return favouriteItems;
     }
 

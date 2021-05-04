@@ -24,6 +24,9 @@
             app:exitAnim="@anim/remain_short"
             app:popEnterAnim="@anim/remain_short"
             app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_mediaFragment_to_slideShowFragment"
+            app:destination="@id/slideShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -51,6 +54,9 @@
             app:exitAnim="@anim/remain_short"
             app:popEnterAnim="@anim/remain_short"
             app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_slideShowFragment"
+            app:destination="@id/slideShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewPhotoFragment"
@@ -106,6 +112,9 @@
         <action
             android:id="@+id/action_albumDetailFragment_to_addMediaFragment"
             app:destination="@id/addMediaFragment" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_slideShowFragment"
+            app:destination="@id/slideShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewAlbumPhotoFragment"
@@ -137,5 +146,16 @@
         <argument
             android:name="albumId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/slideShowFragment"
+        android:name="com.example.photo_manager.ui.SlideShow.SlideShowFragment"
+        android:label="fragment_slide_show"
+        tools:layout="@layout/fragment_slide_show" >
+        <argument
+            android:name="albumId"
+            app:argType="integer"
+            app:nullable="false"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

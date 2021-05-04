@@ -45,4 +45,6 @@
     <string name="share_image">SHARE IMAGE</string>
     <string name="delete_album">Delete album</string>
     <string name="delete_album_success">Album is deleted</string>
+    <string name="play">play</string>
+    <string name="pause">pause</string>
 </resources>

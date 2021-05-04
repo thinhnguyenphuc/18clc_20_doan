@@ -79,6 +79,10 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
+                            case R.id.slideshow:
+                                MediaFragmentDirections.ActionMediaFragmentToSlideShowFragment action
+                                        = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment();
+                                navController.navigate(action);
                         }
                         return true;
                     }
