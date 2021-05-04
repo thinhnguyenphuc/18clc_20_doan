@@ -47,4 +47,15 @@
     <string name="delete_album_success">Album is deleted</string>
     <string name="play">play</string>
     <string name="pause">pause</string>
+    <string name="welcome_to_security_folder">WELCOME TO SECURITY FOLDER</string>
+    <string name="please_set_your_first_password">PLEASE SET YOUR FIRST PASSWORD</string>
+    <string name="enter_your_password">enter your password</string>
+    <string name="enter_your_password_again">enter your password again</string>
+    <string name="please_set_your_password">PLEASE SET YOUR PASSWORD</string>
+    <string name="secure_folder">Secure folder</string>
+    <string name="empty_password_error">password can\'t be empty</string>
+    <string name="repassword_not_match_error">repassword must match password</string>
+    <string name="save_password_error">Can\'t save password. Please try again</string>
+    <string name="decrypt_password_error">Can\'t decrypt your password</string>
+    <string name="incorrect_password">incorrect password</string>
 </resources>

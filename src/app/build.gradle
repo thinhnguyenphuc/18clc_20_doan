@@ -85,4 +85,7 @@ dependencies {
 
     implementation 'com.davidecirillo.multichoicerecyclerview:multichoicerecyclerview:2.3.0'
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
+    
+    implementation 'com.scottyab:aescrypt:0.0.1'
+
 }

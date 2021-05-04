@@ -27,6 +27,12 @@
         <action
             android:id="@+id/action_mediaFragment_to_slideShowFragment"
             app:destination="@id/slideShowFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_SFFirstAccessFragment"
+            app:destination="@id/SFFirstAccessFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_SFPasswordFragment"
+            app:destination="@id/SFPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -155,5 +161,46 @@
         <argument
             android:name="albumId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/SFFirstAccessFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.SFFirstAccessFragment"
+        android:label="fragment_s_f_first_access"
+        tools:layout="@layout/fragment_s_f_first_access" >
+        <action
+            android:id="@+id/action_SFFirstAccessFragment_to_SFPasswordFragment"
+            app:destination="@id/SFPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/SFPasswordFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.SFPasswordFragment"
+        android:label="fragment_s_f_password"
+        tools:layout="@layout/fragment_s_f_password" >
+        <action
+            android:id="@+id/action_SFPasswordFragment_to_securityFolderFragment"
+            app:destination="@id/securityFolderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/securityFolderFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.SecureFolderFragment"
+        android:label="fragment_se"
+        tools:layout="@layout/fragment_secure_folder"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right">
+        <action
+            android:id="@+id/action_securityFolderFragment_to_mediaFragment"
+            app:destination="@id/mediaFragment"
+            app:popUpTo="@+id/mediaFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

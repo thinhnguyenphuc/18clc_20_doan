@@ -1,7 +1,9 @@
 package com.example.photo_manager.ui.Media;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +36,7 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Take_New_Photo;
+import com.example.photo_manager.ui.SecureFolder.SFFirstAccessFragmentDirections;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -80,10 +84,28 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
-                            case R.id.slideshow:
+                            case R.id.slideshow: {
                                 MediaFragmentDirections.ActionMediaFragmentToSlideShowFragment action
                                         = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
                                 navController.navigate(action);
+                                break;
+                            }
+                            case R.id.secure_folder: {
+                                SharedPreferences sharedPreferences = requireActivity()
+                                        .getSharedPreferences("com.example.photo_manager.ui.SecurityFolder", Context.MODE_PRIVATE);
+
+                                String password = sharedPreferences.getString("password", "");
+
+                                if (sharedPreferences.getString("password", "").isEmpty()) {
+                                    NavDirections action = MediaFragmentDirections.actionMediaFragmentToSFFirstAccessFragment();
+                                    navController.navigate(action);
+                                } else {
+                                    NavDirections action = MediaFragmentDirections.actionMediaFragmentToSFPasswordFragment();
+                                    navController.navigate(action);
+                                }
+
+                                break;
+                            }
                         }
                         return true;
                     }
