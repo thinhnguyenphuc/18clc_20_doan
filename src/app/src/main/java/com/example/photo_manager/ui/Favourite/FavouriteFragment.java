@@ -1,5 +1,6 @@
 package com.example.photo_manager.ui.Favourite;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -34,6 +35,8 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
 
     NavController navController;
 
+    Toolbar toolbar;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,6 +68,19 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
             public void onClick(View v) {
                 navController.popBackStack();
             }
+        });
+
+        toolbar = view.findViewById(R.id.toolbar_top);
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.slideshow: {
+                    FavouriteFragmentDirections.ActionFavouriteFragmentToSlideShowFragment action =
+                            FavouriteFragmentDirections.actionFavouriteFragmentToSlideShowFragment(0);
+                    navController.navigate(action);
+                    break;
+                }
+            }
+            return true;
         });
     }
 

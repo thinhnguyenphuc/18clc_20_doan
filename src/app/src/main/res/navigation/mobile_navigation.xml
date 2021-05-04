@@ -154,8 +154,6 @@
         tools:layout="@layout/fragment_slide_show" >
         <argument
             android:name="albumId"
-            app:argType="integer"
-            app:nullable="false"
-            android:defaultValue="-1" />
+            app:argType="integer" />
     </fragment>
 </navigation>

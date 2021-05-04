@@ -87,16 +87,23 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.add_media:
+                case R.id.add_media: {
                     AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToAddMediaFragment action =
                             AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddMediaFragment(albumId);
                     navController.navigate(action);
                     break;
-                case R.id.delete_album:
+                }
+                case R.id.delete_album: {
                     albumViewModel.deleteAlbumWhereIdEqual(albumId);
                     Toast.makeText(requireContext(), R.string.delete_album_success, Toast.LENGTH_LONG).show();
                     navController.popBackStack();
                     break;
+                }
+                case R.id.slideshow: {
+                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToSlideShowFragment action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToSlideShowFragment(albumId);
+                    navController.navigate(action);
+                }
             }
             return true;
         });

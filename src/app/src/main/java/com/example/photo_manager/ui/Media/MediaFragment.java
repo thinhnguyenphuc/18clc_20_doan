@@ -81,7 +81,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                                 break;
                             case R.id.slideshow:
                                 MediaFragmentDirections.ActionMediaFragmentToSlideShowFragment action
-                                        = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment();
+                                        = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
                                 navController.navigate(action);
                         }
                         return true;
