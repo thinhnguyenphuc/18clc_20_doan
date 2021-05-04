@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
-import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Adapter_Picture.Picture_Adapter_All;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
@@ -80,8 +80,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
                             case R.id.slideshow:
-                                MediaFragmentDirections.ActionMediaFragmentToSlideShowFragment action
-                                        = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
+                                PictureFragmentDirections.ActionMediaFragmentToSlideShowFragment action
+                                        = PictureFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
                                 navController.navigate(action);
                         }
                         return true;
@@ -137,8 +137,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 //        view_photo.putExtra("time",picture_model.getTime());
 //        view_photo.putExtra("size",picture_model.getSize());
 //        startActivityForResult(view_photo, RequestCode.REQUEST_INTENT_VIEW_PHOTO);
-        MediaFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
-                MediaFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
+        PictureFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
+                PictureFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
         navController.navigate(action);
     }
 

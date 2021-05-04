@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import com.example.photo_manager.Adapter.View_By_Date_Picture_Adaper;
+import com.example.photo_manager.Adapter_Picture.View_By_Date_Picture_Adaper;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;

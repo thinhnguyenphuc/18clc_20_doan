@@ -47,4 +47,5 @@
     <string name="delete_album_success">Album is deleted</string>
     <string name="play">play</string>
     <string name="pause">pause</string>
+    <string name="view_all_video_title">VIDEO</string>
 </resources>

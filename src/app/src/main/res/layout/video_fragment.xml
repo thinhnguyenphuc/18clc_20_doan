@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Video.VideoFragment">
+    tools:context=".ui.Picture.PictureFragment"
+    android:orientation="vertical"
+    android:paddingBottom="?attr/actionBarSize">
 
-    <TextView
+    <include
+        android:id="@+id/toolbar_top"
+        layout="@layout/video_toobar"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_ViewAllVideo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Video" />
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+
+</LinearLayout>

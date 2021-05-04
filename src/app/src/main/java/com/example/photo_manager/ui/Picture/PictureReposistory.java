@@ -42,22 +42,6 @@ public class PictureReposistory {
         pictures.setValue(picture_models);
         dates.setValue(date_models);
 
-
-        LoadVideoFromStorage loadVideoFromStorage = new LoadVideoFromStorage(new AsyncResponse() {
-            @Override
-            public void processPictureFinish(ArrayList<Picture_Model> picture_models) {
-
-            }
-
-            @Override
-            public void processVideoFinish(ArrayList<Video_Model> videoModels) {
-                video_models = videoModels;
-                notifyDataChanged();
-            }
-        },context);
-        loadVideoFromStorage.execute();
-        videos.setValue(video_models);
-        dates.setValue(date_models);
     }
 
     public MutableLiveData<ArrayList<Picture_Model>> getAllPictures() {

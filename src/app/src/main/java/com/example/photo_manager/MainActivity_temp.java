@@ -27,7 +27,6 @@ public class MainActivity_temp extends ProcessData implements RecyclerViewClickI
     private static final String permission_camera = Manifest.permission.CAMERA;
     private RecyclerView recyclerView;
     private ArrayList arrayList  = new ArrayList();
-    private View_Adapter view_adapter;
     private ArrayList<Video_Model> video_models;
     private ArrayList<Picture_Model> picture_models;
 
@@ -79,14 +78,14 @@ public class MainActivity_temp extends ProcessData implements RecyclerViewClickI
         }
         toArrayList(video_models, picture_models, arrayList);
 
-        view_adapter = new View_Adapter(this,arrayList,this );
+        //view_adapter = new View_Adapter(this,arrayList,this );
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
         flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        recyclerView.setAdapter(view_adapter);
+        //recyclerView.setAdapter(view_adapter);
     }
 
 

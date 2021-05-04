@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Adapter_Picture.Picture_Adapter_All;
 import com.example.photo_manager.Code.RequestCode;
 
 import org.json.JSONException;
