@@ -61,5 +61,6 @@
     <string name="view_all_video_title">VIDEO</string>
 
     <string name="change_password">Change password</string>
+    <string name="delete">Delete</string>
 
 </resources>

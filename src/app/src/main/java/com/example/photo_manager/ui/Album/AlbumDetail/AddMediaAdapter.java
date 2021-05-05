@@ -37,7 +37,7 @@ public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHold
     private AlbumViewModel viewModel;
     int albumId;
 
-    AddMediaAdapter(Context mContext,  AlbumViewModel viewModel, int albumId) {
+    public AddMediaAdapter(Context mContext,  AlbumViewModel viewModel, int albumId) {
         this.mContext = mContext;
         this.viewModel = viewModel;
         this.albumId = albumId;
@@ -108,7 +108,6 @@ public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHold
 
         ViewHolder(View itemView) {
             super(itemView);
-            itemView = itemView.findViewById(R.id.image_view);
             imageView = itemView.findViewById(R.id.image_view);
         }
     }

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -25,6 +27,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter_Picture.Picture_Adapter_All;
@@ -53,6 +56,9 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     NavController navController = null;
 
     Toolbar toolbar;
+
+    Toolbar toolbar_delete;
+    CheckBox selectAllCheckBox;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +71,17 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_media, container, false);
 
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
         toolbar = root.findViewById(R.id.toolbar_top);
+        toolbar_delete = root.findViewById((R.id.toolbar_delete_top));
+
+        selectAllCheckBox = root.findViewById(R.id.select_all_check_box);
 
         navController = NavHostFragment.findNavController(this);
 
@@ -145,7 +161,67 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
             }
         });
-        return root;
+
+        picture_adapter_all.setMultiChoiceSelectionListener(new MultiChoiceAdapter.Listener() {
+            @Override
+            public void OnItemSelected(int selectedPosition, int itemSelectedCount, int allItemCount) {
+                if (toolbar_delete.getVisibility() == View.INVISIBLE) {
+                    toolbar_delete.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.INVISIBLE);
+                    requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
+                    picture_adapter_all.setSingleClickMode(true);
+                }
+            }
+
+            @Override
+            public void OnItemDeselected(int deselectedPosition, int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnSelectAll(int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnDeselectAll(int itemSelectedCount, int allItemCount) {
+            }
+        });
+
+        root.findViewById(R.id.back_from_delete_button).setOnClickListener(v -> {
+            this.returnFromDeleteMode();
+        });
+
+        toolbar_delete.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    deletePictures(new ArrayList<>());
+            }
+            return true;
+        });
+
+        root.findViewById(R.id.select_all_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectAllCheckBox.setChecked(!selectAllCheckBox.isChecked());
+            }
+        });
+
+        selectAllCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    picture_adapter_all.selectAll();
+                } else {
+                    picture_adapter_all.deselectAll();
+                }
+            }
+        });
+
+    }
+
+    public void returnFromDeleteMode() {
+        toolbar_delete.setVisibility(View.INVISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
+        requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        picture_adapter_all.deselectAll();
+        picture_adapter_all.setSingleClickMode(false);
     }
 
     @Override
@@ -173,16 +249,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("my debugger", "on fragment result: ");
-        if (requestCode == RequestCode.REQUEST_INTENT_VIEW_PHOTO) {
-            Log.d("my debugger", "on fragment result request: ");
-            if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
-                assert data != null;
-                pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
-            }else if (resultCode == ResultCode.RESULT_VIEW_PHOTO_EDITED) {
-                Log.d("my debugger", "on fragment result result: ");
-                recyclerView.setAdapter(picture_adapter_all);
-            }
-        } else if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO) {
+        if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 String test = data.getStringExtra("uri");
                 Uri tmp = Uri.parse(test);
@@ -191,5 +258,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         }
     }
 
+    public void deletePictures(ArrayList<Picture_Model> picture_models) {
+
+    }
 
 }
