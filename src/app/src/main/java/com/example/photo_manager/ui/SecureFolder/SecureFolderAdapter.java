@@ -1,14 +1,12 @@
-package com.example.photo_manager.ui.Album.AlbumDetail;
+package com.example.photo_manager.ui.SecureFolder;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,47 +15,42 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Super_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHolder> {
+public class SecureFolderAdapter extends MultiChoiceAdapter<SecureFolderAdapter.ViewHolder> {
 
     private final Context mContext;
-    private ArrayList<Picture_Model> pictureModels = new ArrayList<>();
+    private List<Super_Model> data;
 
     private ScaleAnimation mSelectScaleAnimation;
     private ScaleAnimation mDeselectScaleAnimation;
 
-    private AlbumViewModel viewModel;
-    int albumId;
 
-    AddMediaAdapter(Context mContext,  AlbumViewModel viewModel, int albumId) {
+    SecureFolderAdapter(Context mContext) {
         this.mContext = mContext;
-        this.viewModel = viewModel;
-        this.albumId = albumId;
+
     }
 
     public void setData(ArrayList<Picture_Model> pictureModels) {
-        this.pictureModels = pictureModels;
         notifyDataSetChanged();
     }
 
     public void accept() {
         List<Integer> indexes = this.getSelectedItemList();
         for (Integer index: indexes) {
-            viewModel.insertAlbumUri(new AlbumUri(pictureModels.get(index).getUri().toString(), albumId, 0));
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return pictureModels.size();
+        return data.size();
     }
 
     @NonNull
@@ -70,7 +63,6 @@ public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
 
-        Glide.with(mContext).load(pictureModels.get(position).getUri()).apply(new RequestOptions().centerCrop()).into(holder.imageView);
     }
 
 

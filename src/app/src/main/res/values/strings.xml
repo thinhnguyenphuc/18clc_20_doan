@@ -3,7 +3,7 @@
     <string name="title_activity_view__all">View_All</string>
 
     <string name="title_activity_file_load">FileLoad</string>
-    <string name="media_fragment_label">MEDIA</string>
+    <string name="picture_fragment">PICTURE</string>
     <string name="video_fragment_label">Video</string>
     <string name="album_fragment_label">Album</string>
     <string name="view_all_picture_title">PICTURE</string>
@@ -59,4 +59,7 @@
     <string name="decrypt_password_error">Can\'t decrypt your password</string>
     <string name="incorrect_password">incorrect password</string>
     <string name="view_all_video_title">VIDEO</string>
+
+    <string name="change_password">Change password</string>
+
 </resources>

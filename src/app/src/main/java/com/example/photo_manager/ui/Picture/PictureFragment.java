@@ -78,14 +78,14 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.favourite:
-                                navController.navigate(R.id.action_mediaFragment_to_favouriteFragment);
+                                navController.navigate(R.id.action_pictureFragment_to_favouriteFragment);
                                 break;
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
-                            case R.id.slideshow:
-                                PictureFragmentDirections.ActionMediaFragmentToSlideShowFragment action
-                                        = PictureFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
+                            case R.id.slideshow: {
+                                PictureFragmentDirections.ActionPictureFragmentToSlideShowFragment action
+                                        = PictureFragmentDirections.actionPictureFragmentToSlideShowFragment(-1);
                                 navController.navigate(action);
                                 break;
                             }
@@ -96,10 +96,10 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                                 String password = sharedPreferences.getString("password", "");
 
                                 if (sharedPreferences.getString("password", "").isEmpty()) {
-                                    NavDirections action = MediaFragmentDirections.actionMediaFragmentToSFFirstAccessFragment();
+                                    NavDirections action = PictureFragmentDirections.actionPictureFragmentToSFFirstAccessFragment();
                                     navController.navigate(action);
                                 } else {
-                                    NavDirections action = MediaFragmentDirections.actionMediaFragmentToSFPasswordFragment();
+                                    NavDirections action = PictureFragmentDirections.actionPictureFragmentToSFPasswordFragment();
                                     navController.navigate(action);
                                 }
 
@@ -159,8 +159,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 //        view_photo.putExtra("time",picture_model.getTime());
 //        view_photo.putExtra("size",picture_model.getSize());
 //        startActivityForResult(view_photo, RequestCode.REQUEST_INTENT_VIEW_PHOTO);
-        PictureFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
-                PictureFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
+        PictureFragmentDirections.ActionPictureFragmentToViewPhotoFragment action =
+                PictureFragmentDirections.actionPictureFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
         navController.navigate(action);
     }
 

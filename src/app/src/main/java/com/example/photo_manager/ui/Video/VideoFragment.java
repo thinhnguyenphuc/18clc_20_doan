@@ -76,7 +76,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.favourite:
-                                navController.navigate(R.id.action_mediaFragment_to_favouriteFragment);
+                                navController.navigate(R.id.action_pictureFragment_to_favouriteFragment);
                                 break;
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);

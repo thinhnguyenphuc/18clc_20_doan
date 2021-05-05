@@ -3,35 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/mediaFragment">
+    app:startDestination="@id/pictureFragment">
     <fragment
-        android:id="@+id/mediaFragment"
+        android:id="@+id/pictureFragment"
         android:name="com.example.photo_manager.ui.Picture.PictureFragment"
-        android:label="@string/media_fragment_label"
+        android:label="@string/picture_fragment"
         tools:layout="@layout/fragment_media"
         >
         <action
-            android:id="@+id/action_mediaFragment_to_favouriteFragment"
+            android:id="@+id/action_pictureFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_mediaFragment_to_viewPhotoFragment"
+            android:id="@+id/action_pictureFragment_to_viewPhotoFragment"
             app:destination="@id/viewPhotoFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/remain_short"
             app:popEnterAnim="@anim/remain_short"
             app:popExitAnim="@anim/slide_out_down" />
         <action
-            android:id="@+id/action_mediaFragment_to_slideShowFragment"
+            android:id="@+id/action_pictureFragment_to_slideShowFragment"
             app:destination="@id/slideShowFragment" />
         <action
-            android:id="@+id/action_mediaFragment_to_SFFirstAccessFragment"
+            android:id="@+id/action_pictureFragment_to_SFFirstAccessFragment"
             app:destination="@id/SFFirstAccessFragment" />
         <action
-            android:id="@+id/action_mediaFragment_to_SFPasswordFragment"
+            android:id="@+id/action_pictureFragment_to_SFPasswordFragment"
             app:destination="@id/SFPasswordFragment" />
     </fragment>
     <fragment
@@ -195,8 +195,8 @@
         app:popExitAnim="@anim/slide_out_right">
         <action
             android:id="@+id/action_securityFolderFragment_to_mediaFragment"
-            app:destination="@id/mediaFragment"
-            app:popUpTo="@+id/mediaFragment"
+            app:destination="@id/pictureFragment"
+            app:popUpTo="@+id/pictureFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
