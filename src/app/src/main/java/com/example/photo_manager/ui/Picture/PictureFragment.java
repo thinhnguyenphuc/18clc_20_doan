@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Media;
+package com.example.photo_manager.ui.Picture;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,11 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
-import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Adapter_Picture.Picture_Adapter_All;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
-import com.example.photo_manager.Model.Super_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
@@ -41,9 +40,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class MediaFragment extends Fragment implements RecyclerViewClickInterface {
+public class PictureFragment extends Fragment implements RecyclerViewClickInterface {
 
-    private MediaViewModel mediaViewModel;
+    private PictureViewModel pictureViewModel;
 
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
@@ -84,9 +83,9 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
-                            case R.id.slideshow: {
-                                MediaFragmentDirections.ActionMediaFragmentToSlideShowFragment action
-                                        = MediaFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
+                            case R.id.slideshow:
+                                PictureFragmentDirections.ActionMediaFragmentToSlideShowFragment action
+                                        = PictureFragmentDirections.actionMediaFragmentToSlideShowFragment(-1);
                                 navController.navigate(action);
                                 break;
                             }
@@ -117,8 +116,8 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
         picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
 
-        mediaViewModel =
-                new ViewModelProvider(requireActivity()).get(MediaViewModel.class);
+        pictureViewModel =
+                new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
         final SkeletonScreen skeletonScreen = Skeleton.bind(recyclerView)
                 .adapter(picture_adapter_all)
                 .shimmer(true)
@@ -129,18 +128,18 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
                 .load(R.layout.item_skeleton_news)
                 .show(); //default count is 10
 
-        mediaViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
+        pictureViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {
                 if(picture_models.size()>0){
                     skeletonScreen.hide();
                 }
-                MediaFragment.this.pictureModels = picture_models;
+                PictureFragment.this.pictureModels = picture_models;
                 picture_adapter_all.setPictures(picture_models);
             }
 
         });
-        mediaViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
+        pictureViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
             @Override
             public void onChanged(ArrayList<Date_Model> date_models) {
 
@@ -160,8 +159,8 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
 //        view_photo.putExtra("time",picture_model.getTime());
 //        view_photo.putExtra("size",picture_model.getSize());
 //        startActivityForResult(view_photo, RequestCode.REQUEST_INTENT_VIEW_PHOTO);
-        MediaFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
-                MediaFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
+        PictureFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
+                PictureFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
         navController.navigate(action);
     }
 
@@ -178,7 +177,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
             Log.d("my debugger", "on fragment result request: ");
             if (resultCode == ResultCode.RESULT_VIEW_PHOTO_DELETED) {
                 assert data != null;
-                mediaViewModel.delete(Uri.parse(data.getStringExtra("uri")));
+                pictureViewModel.delete(Uri.parse(data.getStringExtra("uri")));
             }else if (resultCode == ResultCode.RESULT_VIEW_PHOTO_EDITED) {
                 Log.d("my debugger", "on fragment result result: ");
                 recyclerView.setAdapter(picture_adapter_all);
@@ -187,7 +186,7 @@ public class MediaFragment extends Fragment implements RecyclerViewClickInterfac
             if (resultCode == Activity.RESULT_OK) {
                 String test = data.getStringExtra("uri");
                 Uri tmp = Uri.parse(test);
-                mediaViewModel.updateTakeNewPhoto(new Picture_Model(tmp,null,null,0));
+                pictureViewModel.updateTakeNewPhoto(new Picture_Model(tmp,null,null,0));
             }
         }
     }

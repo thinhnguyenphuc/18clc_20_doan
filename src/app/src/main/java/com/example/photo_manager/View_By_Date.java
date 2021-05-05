@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import com.example.photo_manager.Adapter.Picture_Adapter;
+import com.example.photo_manager.Adapter_Picture.View_By_Date_Picture_Adaper;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class View_By_Date extends AppCompatActivity implements RecyclerViewClickInterface {
     private static final SimpleDateFormat fullFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
     private RecyclerView recyclerView;
-    private Picture_Adapter picture_adapter ;
+    private View_By_Date_Picture_Adaper viewByDatePicture_adaper;
     ArrayList data = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,14 @@ public class View_By_Date extends AppCompatActivity implements RecyclerViewClick
 
 
         recyclerView = findViewById(R.id.recyclerView);
-        picture_adapter = new Picture_Adapter(this,data,this );
+        viewByDatePicture_adaper = new View_By_Date_Picture_Adaper(this,data,this );
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
         flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        recyclerView.setAdapter(picture_adapter);
+        recyclerView.setAdapter(viewByDatePicture_adaper);
 
 
 

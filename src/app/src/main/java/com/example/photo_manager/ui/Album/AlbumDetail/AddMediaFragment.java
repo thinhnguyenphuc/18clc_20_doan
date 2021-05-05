@@ -21,14 +21,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.davidecirillo.multichoicerecyclerview.MultiChoiceToolbar;
-import com.example.photo_manager.MainActivity;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUriReposistory;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
-import com.example.photo_manager.ui.Media.MediaViewModel;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 
 import java.util.ArrayList;
 
@@ -42,7 +38,7 @@ public class AddMediaFragment extends Fragment {
     CheckBox checkBox;
     int albumId;
 
-    MediaViewModel mediaViewModel;
+    PictureViewModel pictureViewModel;
     AlbumViewModel albumViewModel;
 
     @Override
@@ -63,7 +59,7 @@ public class AddMediaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         albumId = AddMediaFragmentArgs.fromBundle(getArguments()).getAlbumId();
 
-        mediaViewModel = new ViewModelProvider(requireActivity()).get(MediaViewModel.class);
+        pictureViewModel = new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
         albumViewModel = new ViewModelProvider(requireActivity()).get(AlbumViewModel.class);
 
         toolbar_top = view.findViewById(R.id.toolbar_top);
@@ -74,7 +70,7 @@ public class AddMediaFragment extends Fragment {
 
         setUpMultiChoiceRecyclerView();
 
-        mediaViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
+        pictureViewModel.getAllPictures().observe(getViewLifecycleOwner(), new Observer<ArrayList<Picture_Model>>() {
             @Override
             public void onChanged(ArrayList<Picture_Model> picture_models) {
                 adapter.setData(picture_models);

@@ -1,4 +1,4 @@
-package com.example.photo_manager.ui.Media;
+package com.example.photo_manager.ui.Picture;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,16 +15,16 @@ import com.example.photo_manager.Model.Picture_Model;
 
 import java.util.ArrayList;
 
-public class MediaViewModel extends AndroidViewModel {
+public class PictureViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<Picture_Model>> pictureModels;
     private MutableLiveData<ArrayList<Date_Model>> dateModels;
 
-    MediaReposistory pr;
+    PictureReposistory pr;
 
-    public MediaViewModel(@NonNull Application application) {
+    public PictureViewModel(@NonNull Application application) {
         super(application);
-        this.pr = new MediaReposistory(application);
+        this.pr = new PictureReposistory(application);
         pictureModels = pr.getAllPictures();
         dateModels = pr.getAllDates();
         Log.d("MY DEBUGGER", "PictureViewModel: ");

@@ -39,7 +39,7 @@ import com.example.photo_manager.PEAdapters.PEFilterAdapter;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
-import com.example.photo_manager.ui.Media.MediaViewModel;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 
@@ -60,7 +60,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class EditPhotoFragment extends Fragment {
 
-    MediaViewModel mediaViewModel;
+    PictureViewModel pictureViewModel;
     FavouriteViewModel favouriteViewModel;
 
     Toolbar toolbar_top;
@@ -116,7 +116,7 @@ public class EditPhotoFragment extends Fragment {
     public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
-        mediaViewModel = viewModelProvider.get(MediaViewModel.class);
+        pictureViewModel = viewModelProvider.get(PictureViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
 
         photo_uri = EditPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();

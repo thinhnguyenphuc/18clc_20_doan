@@ -6,7 +6,7 @@
     app:startDestination="@id/mediaFragment">
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="com.example.photo_manager.ui.Media.MediaFragment"
+        android:name="com.example.photo_manager.ui.Picture.PictureFragment"
         android:label="@string/media_fragment_label"
         tools:layout="@layout/fragment_media"
         >

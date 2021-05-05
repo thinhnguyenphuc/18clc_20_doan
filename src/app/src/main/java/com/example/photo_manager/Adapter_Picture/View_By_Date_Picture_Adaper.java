@@ -1,4 +1,4 @@
-package com.example.photo_manager.Adapter;
+package com.example.photo_manager.Adapter_Picture;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,12 +22,12 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 
-public class Picture_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class View_By_Date_Picture_Adaper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList data;
     private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public Picture_Adapter(Context mContext, ArrayList data, RecyclerViewClickInterface recyclerViewClickInterface) {
+    public View_By_Date_Picture_Adaper(Context mContext, ArrayList data, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.data = data;
         this.context = mContext;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
@@ -40,11 +40,7 @@ public class Picture_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View dateView = inflater.inflate(R.layout.date_item, parent, false);
             return new ViewHolderDate(dateView);
-        } else if(viewType == Type.IMAGE){
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
-            return new ViewHolderPicture(pictureView);
-        } else {
+        } else{
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
             return new ViewHolderPicture(pictureView);
