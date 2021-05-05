@@ -49,7 +49,7 @@ public class Video_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHol
         Video_Adapter_All.ViewHolderVideo viewHolderVideo = (Video_Adapter_All.ViewHolderVideo) holder;
         Uri video_uri = video_models.get(position).getUri();
         viewHolderVideo.videoView.setVideoURI(video_uri);
-        viewHolderVideo.videoView.start();
+        //viewHolderVideo.videoView.start();
     }
 
     @Override
