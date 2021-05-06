@@ -182,7 +182,11 @@
         tools:layout="@layout/fragment_s_f_password" >
         <action
             android:id="@+id/action_SFPasswordFragment_to_securityFolderFragment"
-            app:destination="@id/securityFolderFragment" />
+            app:destination="@id/securityFolderFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/securityFolderFragment"
@@ -204,10 +208,18 @@
             app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_securityFolderFragment_to_viewSFPhotoFragment"
-            app:destination="@id/viewSFPhotoFragment" />
+            app:destination="@id/viewSFPhotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_down"/>
         <action
             android:id="@+id/action_securityFolderFragment_to_SFChangePasswordFragment"
-            app:destination="@id/SFChangePasswordFragment" />
+            app:destination="@id/SFChangePasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/viewSFPhotoFragment"

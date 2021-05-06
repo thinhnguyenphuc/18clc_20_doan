@@ -11,7 +11,7 @@
     <dimen name="emoji_margin_horizontal">12sp</dimen>
     <dimen name="emoji_margin_vertical">12sp</dimen>
     <dimen name="emoji_size">24sp</dimen>
-    <string name="total_emoji_width">48</string>
+    <string name="total_emoji_width" translatable="false">48</string>
 
     <dimen name="vp_toolbar_horizontal_padding">12sp</dimen>
     <dimen name="vp_toolbar_vertical_padding">12sp</dimen>
