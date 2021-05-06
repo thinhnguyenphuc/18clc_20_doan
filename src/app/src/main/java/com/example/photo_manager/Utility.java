@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.Inflater;
 
 public class Utility {
@@ -99,4 +104,5 @@ public class Utility {
 //        alertDialog.show();
 
     }
+
 }

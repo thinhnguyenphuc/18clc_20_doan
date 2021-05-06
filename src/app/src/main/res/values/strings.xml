@@ -62,5 +62,19 @@
 
     <string name="change_password">Change password</string>
     <string name="delete">Delete</string>
+    <string name="move_to_secure_folder_success">MOVED TO SECURE FOLDER</string>
+    <string name="move_to_secure_folder_fail">FAILED TO MOVE TO SECURE FOLDER</string>
+    <string name="enter_your_old_password">Enter your old password</string>
+    <string name="enter_your_new_password">Enter your new password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="enter_your_new_password_again">Enter your new password again</string>
+    <string name="old_password_retrieve_error">Your old password storage has some issue! Please leave old password input empty !</string>
+    <string name="wrong_old_password">Your old password is incorrect</string>
+    <string name="wrong_renew_password">Your re-enter new password is not matched</string>
+    <string name="save_new_password_success">New password is saved</string>
+    <string name="save_new_password_fail">Can\'t save your new password</string>
+    <string name="multiple_deletion">Multiple deletion</string>
+    <string name="multiple_deletion_message">Do you want to delete multiple item?</string>
 
 </resources>

@@ -202,5 +202,36 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_securityFolderFragment_to_viewSFPhotoFragment"
+            app:destination="@id/viewSFPhotoFragment" />
+        <action
+            android:id="@+id/action_securityFolderFragment_to_SFChangePasswordFragment"
+            app:destination="@id/SFChangePasswordFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/viewSFPhotoFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.ViewSFPhotoFragment"
+        android:label="ViewSFPhotoFragment" >
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_viewSFPhotoFragment_to_SFEditPhotoFragment"
+            app:destination="@id/SFEditPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SFEditPhotoFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.SFEditPhotoFragment"
+        android:label="fragment_s_f_edit_photo"
+        tools:layout="@layout/fragment_s_f_edit_photo" >
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/SFChangePasswordFragment"
+        android:name="com.example.photo_manager.ui.SecureFolder.SFChangePasswordFragment"
+        android:label="fragment_s_f_change_password"
+        tools:layout="@layout/fragment_s_f_change_password" />
 </navigation>

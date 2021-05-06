@@ -89,4 +89,6 @@ dependencies {
     implementation 'com.scottyab:aescrypt:0.0.1'
 
     implementation 'com.crust87:texturevideoview:1.0.4'
+
+    implementation "com.anggrayudi:storage:0.5.2"
 }

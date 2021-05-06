@@ -15,7 +15,7 @@
 
     <include
         android:id="@+id/toolbar_delete_top"
-        layout="@layout/toolbar_picture_delete"
+        layout="@layout/toolbar_select_delete"
         android:visibility="invisible"/>
 
     <androidx.recyclerview.widget.RecyclerView

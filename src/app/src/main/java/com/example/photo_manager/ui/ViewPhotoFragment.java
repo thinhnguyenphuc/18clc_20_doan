@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.anggrayudi.storage.media.MediaFile;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Utility;
@@ -34,21 +40,23 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Picture.PictureViewModel;
+import com.example.photo_manager.ui.SecureFolder.SecureFolderViewModel.SecureFolderViewModel;
 
 public class ViewPhotoFragment extends Fragment {
     private PictureViewModel pictureViewModel;
     private FavouriteViewModel favouriteViewModel;
+    private SecureFolderViewModel secureFolderViewModel;
 
-    NavController navController;
+    private NavController navController;
 
-    Toolbar toolbar_top;
-    Toolbar toolbar_bottom;
+    private Toolbar toolbar_top;
+    private Toolbar toolbar_bottom;
 
-    String photo_uri;
+    private String photo_uri;
 
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
-    SubsamplingScaleImageView imageView;
-    ImageButton favourite_button, edit_button, share_button, delete_button;
+    private SubsamplingScaleImageView imageView;
+    private ImageButton favourite_button, edit_button, share_button, delete_button;
     boolean favourite_flag;
     boolean current_favourite_flag = false;
 
@@ -79,6 +87,7 @@ public class ViewPhotoFragment extends Fragment {
 
         pictureViewModel = viewModelProvider.get(PictureViewModel.class);
         favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
+        secureFolderViewModel = viewModelProvider.get(SecureFolderViewModel.class);
 
         photo_uri = ViewPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
 
@@ -87,7 +96,7 @@ public class ViewPhotoFragment extends Fragment {
 
         picture_model.setUri(Uri.parse(photo_uri));
 
-        imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
+        imageView = (SubsamplingScaleImageView) view.findViewById(R.id.imageView);
 
         try {
             imageView.setImage(ImageSource.uri(picture_model.getUri()));
@@ -113,6 +122,10 @@ public class ViewPhotoFragment extends Fragment {
                     case R.id.vp_menu_wallpaper:
                     {
                        setWallpaper();
+                    }
+                    case R.id.vp_menu_secure_folder:
+                    {
+                        moveToSecureFolder();
                     }
                 }
                 return true;
@@ -180,17 +193,18 @@ public class ViewPhotoFragment extends Fragment {
         });
 
         view.findViewById(R.id.delete_button).setOnClickListener(v -> {
-            if (deleteImage(picture_model.getUri())) {
-                Toast.makeText(requireContext(), R.string.delete_image_fail, Toast.LENGTH_LONG).show();
+            if (deleteImage(Uri.parse(photo_uri))) {
+                Toast.makeText(requireContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                pictureViewModel.delete(picture_model.getUri());
                 NavHostFragment.findNavController(ViewPhotoFragment.this).popBackStack();
             } else {
-                Toast.makeText(requireContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), R.string.delete_image_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private boolean deleteImage(Uri uri) {
-        return true;
+        return pictureViewModel.deleteFromDevice(requireContext(), uri);
     }
 
     @Override
@@ -303,27 +317,43 @@ public class ViewPhotoFragment extends Fragment {
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("image/jpeg");
 
-//            ContentValues values = new ContentValues();
-//            values.put(MediaStore.Images.Media.TITLE, "title");
-//            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//            Uri uri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                    values);
-//
-//
-//            OutputStream outstream;
-//            try {
-//                outstream = requireContext().getContentResolver().openOutputStream(uri);
-//                icon.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-//                outstream.close();
-//            } catch (Exception e) {
-//                System.err.println(e.toString());
-//            }
-
             share.putExtra(Intent.EXTRA_STREAM, Uri.parse(photo_uri));
             startActivity(Intent.createChooser(share, getString(R.string.share_image)));
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(requireContext(), R.string.share_fail, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        try {
+            imageView.setImage(ImageSource.uri(picture_model.getUri()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void moveToSecureFolder() {
+        MediaFile mediaFile = new MediaFile(getContext(), Uri.parse(photo_uri));
+        Glide.with(this)
+                .asBitmap()
+                .load(Uri.parse(photo_uri))
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        if (secureFolderViewModel.addBitmapToFolder(requireContext(), resource)) {
+                            Toast.makeText(requireContext(), R.string.move_to_secure_folder_success, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(requireContext(), R.string.move_to_secure_folder_fail, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
     }
 }

@@ -83,6 +83,9 @@ public class SFPasswordFragment extends Fragment {
             navController.popBackStack();
         }
 
+        view.findViewById(R.id.back_button).setOnClickListener(v -> {
+            navController.popBackStack();
+        });
 
     }
 }

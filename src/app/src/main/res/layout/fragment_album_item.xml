@@ -13,8 +13,8 @@
         tools:ignore="MissingConstraints">
         <ImageView
             android:id="@+id/album_thumbnail"
-            android:layout_height="100dp"
-            android:layout_width="100dp"
+            android:layout_height="@dimen/picture_height"
+            android:layout_width="@dimen/picture_width"
             />
         <TextView
             android:id="@+id/album_name"

@@ -21,6 +21,8 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.photo_manager.Code.ResultCode;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
+import com.example.photo_manager.ui.SecureFolder.SecureFolderViewModel.SecureFolderViewModel;
 
 public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private Picture_Model picture_model = new Picture_Model(null,null,null,0);
@@ -29,6 +31,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     ImageButton favourite_button, edit_button, share_button, delete_button;
     Toolbar top_toolbar, bottom_toolbar;
     boolean favourite_flag;
+
 
     static final int EDIT_PHOTO_REQUEST = 1;
     boolean EDIT_PHOTO_FLAG = false;
@@ -173,7 +176,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
                 return true;
             case R.id.vp_menu_wallpaper:
                 return true;
-            case R.id.vp_menu_security_folder:
+            case R.id.vp_menu_secure_folder:
                 return true;
             default:
                 return false;
