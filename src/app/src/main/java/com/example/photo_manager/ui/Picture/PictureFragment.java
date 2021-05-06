@@ -223,8 +223,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     @Override
     public void onItemClick(int position) {
-        PictureFragmentDirections.ActionMediaFragmentToViewPhotoFragment action =
-                PictureFragmentDirections.actionMediaFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
+        PictureFragmentDirections.ActionPictureFragmentToViewPhotoFragment action =
+                PictureFragmentDirections.actionPictureFragmentToViewPhotoFragment(pictureModels.get(position).getUri().toString());
         navController.navigate(action);
     }
 
