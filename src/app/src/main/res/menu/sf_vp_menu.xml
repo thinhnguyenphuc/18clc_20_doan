@@ -8,8 +8,4 @@
         android:id="@+id/vp_menu_wallpaper"
         android:orderInCategory="2"
         android:title="@string/vp_menu_wallpaper" />
-    <item
-        android:id="@+id/vp_menu_secure_folder"
-        android:orderInCategory="3"
-        android:title="@string/vp_menu_security_folder" />
 </menu>

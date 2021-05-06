@@ -1,10 +1,11 @@
-package com.example.photo_manager.ui;
+package com.example.photo_manager.ui.SecureFolder;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -34,13 +35,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
 import com.example.photo_manager.PEAdapters.PEFilterAdapter;
-import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
+import com.example.photo_manager.Utility;
+import com.example.photo_manager.ui.EditPhotoFragmentArgs;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Picture.PictureViewModel;
+import com.example.photo_manager.ui.SecureFolder.SecureFolderViewModel.SecureFolderViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 
@@ -58,15 +65,13 @@ import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.ViewType;
 import pub.devrel.easypermissions.EasyPermissions;
 
+public class SFEditPhotoFragment extends Fragment {
 
-public class EditPhotoFragment extends Fragment {
+    File file;
 
-    PictureViewModel pictureViewModel;
-    FavouriteViewModel favouriteViewModel;
+    SecureFolderViewModel secureFolderViewModel;
 
     Toolbar toolbar_top;
-
-    String photo_uri;
 
     PhotoEditor mPhotoEditor;
 
@@ -117,17 +122,26 @@ public class EditPhotoFragment extends Fragment {
     public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         ViewModelProvider viewModelProvider = new ViewModelProvider(requireActivity());
-        pictureViewModel = viewModelProvider.get(PictureViewModel.class);
-        favouriteViewModel = viewModelProvider.get(FavouriteViewModel.class);
+        secureFolderViewModel = viewModelProvider.get(SecureFolderViewModel.class);
 
-        photo_uri = EditPhotoFragmentArgs.fromBundle(getArguments()).getPhotoUri();
+        file = new File(SFEditPhotoFragmentArgs.fromBundle(getArguments()).getFilePath());
 
         PhotoEditorView mPhotoEditorView = root.findViewById(R.id.photoEditorView);
 
-        mPhotoEditorView.getSource().setImageURI(Uri.parse(photo_uri));
-
-
         ImageView mPhotoEditorImageView = mPhotoEditorView.getSource();
+
+        Glide.with(this)
+                .asBitmap()
+                .load(file)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        mPhotoEditorImageView.setImageBitmap(resource);
+                    }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
 
         //Use custom font using latest support library
         Typeface mTextRobotoTf = ResourcesCompat.getFont(getContext(), R.font.roboto_medium);
@@ -426,75 +440,28 @@ public class EditPhotoFragment extends Fragment {
         });
     }
 
-    private Uri resaveImage(Context context, Bitmap bitmap, @NonNull Uri imageUri) throws IOException {
-        OutputStream fos = null;
-        File imageFile = null;
 
-        File input_file = new File(Utility.getRealPathFromUri(getContext(), Uri.parse(photo_uri)));
-
-        String folderName = input_file.getParent();
-        String fileName = input_file.getName();
-
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                if (imageUri == null)
-                    throw new IOException("Failed to create new MediaStore record.");
-
-                fos = context.getContentResolver().openOutputStream(imageUri);
-            } else {
-
-                fos = new FileOutputStream(input_file);
-            }
-
-            String extension = null;
-            if (fileName.contains("."))
-                extension = fileName.substring(fileName.lastIndexOf("."));
-
-            if (extension.equalsIgnoreCase(".jpg")) {
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos))
-                    throw new IOException("Failed to save bitmap.");
-            }
-            if (extension.equalsIgnoreCase(".png")) {
-                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos))
-                    throw new IOException("Failed to save bitmap.");
-            }
-            fos.flush();
-        } finally {
-            if (fos != null)
-                fos.close();
-        }
-
-        if (imageFile != null) {//pre Q
-            MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
-            imageUri = Uri.fromFile(imageFile);
-        }
-        return imageUri;
-    }
 
     private void saveBtnAction() {
-        if (!EasyPermissions.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Log.d("DEBUGGER", "onClick: ");
-            EasyPermissions.requestPermissions(requireActivity(), "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
 
         mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
             @Override
             public void onBitmapReady(Bitmap bitmap) {
-                try {
-                    resaveImage(requireActivity(), bitmap, Uri.parse(photo_uri));
-                    NavHostFragment.findNavController(EditPhotoFragment.this).popBackStack();
+                if (secureFolderViewModel.resave(requireContext(), bitmap, file.getName())) {
+                    NavHostFragment.findNavController(SFEditPhotoFragment.this).popBackStack();
                     Toast.makeText(getContext(), getString(R.string.save_image_success), Toast.LENGTH_LONG)
                             .show();
-                } catch (IOException e) {
+                } else {
                     Toast.makeText(getContext(), getString(R.string.save_image_fail), Toast.LENGTH_LONG)
                             .show();
-                    e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Exception e) {
                 Log.d("SAVE BITMAP DEBUGGER", "onFailure: ");
+                Toast.makeText(getContext(), getString(R.string.save_image_fail), Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }
