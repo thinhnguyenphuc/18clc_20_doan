@@ -107,9 +107,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
         videoViewModel.getAllVideos().observe(getViewLifecycleOwner(), new Observer<ArrayList<Video_Model>>() {
             @Override
             public void onChanged(ArrayList<Video_Model> video_models) {
-                if(video_models.size()>0){
-                    skeletonScreen.hide();
-                }
+                skeletonScreen.hide();
                 VideoFragment.this.videoModels = video_models;
                 video_adapter_all.setVideos(video_models);
             }

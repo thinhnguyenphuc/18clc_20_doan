@@ -73,7 +73,7 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, idTmp);
                 String tmpTime = FormatDate.fullFormat.format(dateModifiedColumn*1000);
 
-                video_models.add(new Video_Model(contentUri,nameTmp,tmpTime,sizeTmp,getDuration(contentUri)));
+                video_models.add(new Video_Model(contentUri,nameTmp,tmpTime,sizeTmp,0));
 
             }
             cursor.close();
