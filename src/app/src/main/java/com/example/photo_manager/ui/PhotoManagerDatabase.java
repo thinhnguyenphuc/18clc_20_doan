@@ -14,7 +14,7 @@ import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItemDao;
 
 
-@Database(entities = {FavouriteItem.class, Album.class, AlbumUri.class}, version = 1)
+@Database(entities = {FavouriteItem.class, Album.class, AlbumUri.class}, version = 2)
 public abstract class PhotoManagerDatabase extends RoomDatabase {
     private static PhotoManagerDatabase instance;
 
