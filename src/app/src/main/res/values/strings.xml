@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Photo_Manager</string>
+    <string name="app_name" translatable="false">Photo Manager</string>
     <string name="title_activity_view__all">View_All</string>
 
     <string name="title_activity_file_load">FileLoad</string>
-    <string name="media_fragment_label">MEDIA</string>
-    <string name="video_fragment_label">Video</string>
-    <string name="album_fragment_label">Album</string>
+    <string name="picture_fragment">PICTURE</string>
+    <string name="video_fragment_label">VIDEO</string>
+    <string name="album_fragment_label">ALBUM</string>
     <string name="view_all_picture_title">PICTURE</string>
 
     <string name="favourite">favourite</string>
@@ -14,13 +14,12 @@
 
     <string name="save_image_fail">FAILED TO SAVE THE IMAGE</string>
     <string name="save_image_success">IMAGE IS SAVED</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="slideshow">Slideshow</string>
     <string name="loading">Loading...</string>
     <string name="delete_image_success">IMAGE IS DELETED</string>
     <string name="delete_image_fail">FAILED TO DELETE IMAGE</string>
-    <string name="album_size_place_holder">0</string>
+    <string name="album_size_place_holder" translatable="false">0</string>
     <string name="album_name_place_holder">Album name place holder</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
@@ -47,5 +46,46 @@
     <string name="delete_album_success">Album is deleted</string>
     <string name="play">play</string>
     <string name="pause">pause</string>
+    <string name="welcome_to_security_folder">WELCOME TO SECURITY FOLDER</string>
+    <string name="please_set_your_first_password">PLEASE SET YOUR FIRST PASSWORD</string>
+    <string name="enter_your_password">enter your password</string>
+    <string name="enter_your_password_again">enter your password again</string>
+    <string name="please_set_your_password">PLEASE SET YOUR PASSWORD</string>
+    <string name="secure_folder">Secure folder</string>
+    <string name="empty_password_error">password can\'t be empty</string>
+    <string name="repassword_not_match_error">repassword must match password</string>
+    <string name="save_password_error">Can\'t save password. Please try again</string>
+    <string name="decrypt_password_error">Can\'t decrypt your password</string>
+    <string name="incorrect_password">incorrect password</string>
     <string name="view_all_video_title">VIDEO</string>
+
+    <string name="change_password">Change password</string>
+    <string name="delete">Delete</string>
+    <string name="move_to_secure_folder_success">MOVED TO SECURE FOLDER</string>
+    <string name="move_to_secure_folder_fail">FAILED TO MOVE TO SECURE FOLDER</string>
+    <string name="enter_your_old_password">Enter your old password</string>
+    <string name="enter_your_new_password">Enter your new password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="enter_your_new_password_again">Enter your new password again</string>
+    <string name="old_password_retrieve_error">Your old password storage has some issue! Please leave old password input empty !</string>
+    <string name="wrong_old_password">Your old password is incorrect</string>
+    <string name="wrong_renew_password">Your re-enter new password is not matched</string>
+    <string name="save_new_password_success">New password is saved</string>
+    <string name="save_new_password_fail">Can\'t save your new password</string>
+    <string name="multiple_deletion">Multiple deletion</string>
+    <string name="multiple_deletion_message">Do you want to delete multiple item?</string>
+
+    <string name="brush_size_max" translatable="false">102</string>
+    <string name="brush_size_min" translatable="false">4</string>
+    <string name="brush_opacity_max" translatable="false">100</string>
+    <string name="brush_opacity_min" translatable="false">0</string>
+    <string name="brush_size">Size</string>
+    <string name="brush_opacity">Opacity</string>
+    <string name="brush_color">Color</string>
+
+    <string name="text_holder">Edit text here...</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
+
 </resources>

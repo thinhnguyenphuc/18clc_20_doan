@@ -16,6 +16,13 @@
         />
 
     <item
+        android:id="@+id/secure_folder"
+        android:title="@string/secure_folder"
+        android:icon="@drawable/private_folder_icon"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@+id/slideshow"
         android:title="@string/slideshow"
         android:icon="@drawable/slideshow_icon_black"
@@ -25,6 +32,5 @@
     <item
         android:id="@+id/view_by_date"
         android:title="@string/view_by_date"
-
         />
 </menu>

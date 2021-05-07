@@ -41,6 +41,10 @@ public class PictureViewModel extends AndroidViewModel {
         pr.delete(uri);
     }
 
+    public boolean deleteFromDevice(Context context, Uri uri) {
+        return pr.deleteFromStorage(context, uri);
+    }
+
     public void notifyDataChanged() {
         pr.notifyDataChanged();
     }
