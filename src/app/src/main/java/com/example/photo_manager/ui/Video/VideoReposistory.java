@@ -36,6 +36,11 @@ public class VideoReposistory {
                 video_models = videoModels;
                 notifyDataChanged();
             }
+
+            @Override
+            public void processDateFinish(ArrayList<Date_Model> date_models) {
+
+            }
         }, context);
         loadVideoFromStorage.execute();
         videos.setValue(video_models);

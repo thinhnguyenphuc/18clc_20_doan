@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
@@ -49,6 +50,11 @@ public class MainActivity_temp extends ProcessData implements RecyclerViewClickI
             public void processVideoFinish(ArrayList<Video_Model> videoModels) {
                 video_models = videoModels;
             }
+
+            @Override
+            public void processDateFinish(ArrayList<Date_Model> date_models) {
+
+            }
         },getApplicationContext());
         LoadImagesFromStorage loadImagesFromStorage = new LoadImagesFromStorage(new AsyncResponse() {
             @Override
@@ -58,6 +64,11 @@ public class MainActivity_temp extends ProcessData implements RecyclerViewClickI
 
             @Override
             public void processVideoFinish(ArrayList<Video_Model> videoModels) {
+            }
+
+            @Override
+            public void processDateFinish(ArrayList<Date_Model> date_models) {
+
             }
         },getApplicationContext());
         loadVideoFromStorage.execute();

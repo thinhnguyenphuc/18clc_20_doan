@@ -19,11 +19,9 @@ import java.util.ArrayList;
 
 public class PictureReposistory {
     ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
-    ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
     ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
 
     MutableLiveData<ArrayList<Picture_Model>> pictures = new MutableLiveData<>();
-    MutableLiveData<ArrayList<Video_Model>> videos = new MutableLiveData<>();
     MutableLiveData<ArrayList<Date_Model>> dates  = new MutableLiveData<>();
 
     public PictureReposistory(Context context) {
@@ -37,6 +35,12 @@ public class PictureReposistory {
 
             @Override
             public void processVideoFinish(ArrayList<Video_Model> video_models) {
+            }
+
+            @Override
+            public void processDateFinish(ArrayList<Date_Model> dateModels) {
+                date_models= dateModels;
+                notifyDataChanged();
             }
         },context);
         loadImagesFromStorage.execute();
@@ -71,6 +75,7 @@ public class PictureReposistory {
 
     public void notifyDataChanged() {
         this.pictures.setValue(picture_models);
+        this.dates.setValue(date_models);
     }
 
     public void update() {

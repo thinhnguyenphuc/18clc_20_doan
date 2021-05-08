@@ -19,6 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -41,7 +43,11 @@ import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Take_New_Photo;
 import com.example.photo_manager.ui.SecureFolder.SFFirstAccessFragmentDirections;
+import com.example.photo_manager.ui.ViewByDateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -51,6 +57,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
+    ArrayList<Date_Model> dateModels = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private Picture_Adapter_All picture_adapter_all;
@@ -61,6 +68,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     Toolbar toolbar_delete;
     CheckBox selectAllCheckBox;
+
+    private ViewByDateFragment viewByDate;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +129,29 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
                                 break;
                             }
+                            case R.id.view_by_date: {
+
+                                viewByDate = new ViewByDateFragment();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(PictureFragment.this.getId(), viewByDate);
+
+
+
+                                Bundle bundle = new Bundle();
+                                try {
+                                    bundle.putString("imageLists", ImageListToObject().toString());
+                                    bundle.putString("dateLists", DateListToObject().toString());
+                                    bundle.putInt("sizeOfPicture",pictureModels.size());
+                                    bundle.putInt("sizeOfDate",dateModels.size());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                viewByDate.setArguments(bundle);
+
+                                fragmentTransaction.commit();
+                            }
                         }
                         return true;
                     }
@@ -160,7 +192,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         pictureViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
             @Override
             public void onChanged(ArrayList<Date_Model> date_models) {
-
+                dateModels = date_models;
             }
         });
 
@@ -254,5 +286,30 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     public void deletePictures(ArrayList<Picture_Model> picture_models) {
 
     }
+
+    private JSONObject ImageListToObject() throws JSONException {
+
+        JSONObject objectList = new JSONObject();
+        int size = this.pictureModels.size();
+        for (int i = 0;i<size;i++ ){
+            JSONObject pic = new JSONObject();
+            pic.put("uri",this.pictureModels.get(i).getUri());
+            pic.put("time",this.pictureModels.get(i).getTime());
+            objectList.put(String.valueOf(i),pic);
+        }
+        return objectList;
+    }
+
+    private JSONObject DateListToObject() throws JSONException {
+        JSONObject objectList = new JSONObject();
+        int size = this.dateModels.size();
+        for (int i = 0;i<size;i++ ){
+            JSONObject time = new JSONObject();
+            time.put("time",this.dateModels.get(i).getTime());
+            objectList.put(String.valueOf(i),time);
+        }
+        return objectList;
+    }
+    
 
 }
