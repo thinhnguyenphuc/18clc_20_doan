@@ -96,6 +96,13 @@ public class ViewVideoFragment extends Fragment {
                 return true;
             }
         });
+        view.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).popBackStack();
+            }
+        });
     }
+
 
 }
