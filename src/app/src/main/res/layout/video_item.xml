@@ -8,13 +8,13 @@
 
 
 
-    <com.crust87.texturevideoview.widget.TextureVideoView
+    <ImageView
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:id="@+id/videoView"
-        app:scaleType="fitXY">
+        >
 
-    </com.crust87.texturevideoview.widget.TextureVideoView>
+    </ImageView>
 
 
 

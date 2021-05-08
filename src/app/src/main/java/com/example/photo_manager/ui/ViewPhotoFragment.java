@@ -109,28 +109,7 @@ public class ViewPhotoFragment extends Fragment {
         toolbar_top = view.findViewById(R.id.toolbar_top);
         toolbar_bottom = view.findViewById(R.id.toolbar_bottom);
 
-        toolbar_top.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
-                        ViewPhotoFragmentDirections.ActionViewPhotoFragmentToPhotoDetailFragment action =
-                                ViewPhotoFragmentDirections.actionViewPhotoFragmentToPhotoDetailFragment(photo_uri);
-                        navController.navigate(action);
-                        break;
-                    }
-                    case R.id.vp_menu_wallpaper:
-                    {
-                       setWallpaper();
-                    }
-                    case R.id.vp_menu_secure_folder:
-                    {
-                        moveToSecureFolder();
-                    }
-                }
-                return true;
-            }
-        });
+
 
         favourite_button = view.findViewById(R.id.favourite_button);
         favourite_flag = Utility.checkImageIsFavourite("");

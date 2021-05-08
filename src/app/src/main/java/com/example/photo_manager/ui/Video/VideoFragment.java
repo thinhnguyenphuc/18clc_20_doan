@@ -102,7 +102,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                 .duration(1200)
                 .count(40)
                 .load(R.layout.item_skeleton_news)
-                .show(); //default count is 10
+                .show();
 
         videoViewModel.getAllVideos().observe(getViewLifecycleOwner(), new Observer<ArrayList<Video_Model>>() {
             @Override
@@ -126,6 +126,9 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
 
     @Override
     public void onItemClick(int position) {
+        VideoFragmentDirections.ActionVideoFragmentToViewVideo action =
+                VideoFragmentDirections.actionVideoFragmentToViewVideo(videoModels.get(position).getUri().toString());
+        navController.navigate(action);
 
     }
 

@@ -2,9 +2,11 @@ package com.example.photo_manager.Model;
 
 import android.net.Uri;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.photo_manager.Type;
 
-public class Super_Model {
+public class Super_Model{
     private int type;
     private Uri uri;
     private String name;

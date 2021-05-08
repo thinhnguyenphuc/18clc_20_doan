@@ -91,4 +91,5 @@ dependencies {
     implementation 'com.crust87:texturevideoview:1.0.4'
 
     implementation "com.anggrayudi:storage:0.5.2"
+    implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
 }

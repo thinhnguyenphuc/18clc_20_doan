@@ -92,7 +92,7 @@ public class Take_New_Photo extends AppCompatActivity {
 
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCode.REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {

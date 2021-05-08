@@ -22,13 +22,13 @@ public class VideoViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<Video_Model>> videoModels;
     private MutableLiveData<ArrayList<Date_Model>> dateModels;
 
-    VideoReposistory pr;
+    VideoReposistory vr;
 
     public VideoViewModel(@NonNull Application application) {
         super(application);
-        this.pr = new VideoReposistory(application);
-        videoModels = pr.getAllVideos();
-        dateModels = pr.getAllDates();
+        this.vr = new VideoReposistory(application);
+        videoModels = vr.getAllVideos();
+        dateModels = vr.getAllDates();
         Log.d("MY DEBUGGER", "VideoViewModel: ");
     }
 
@@ -40,15 +40,15 @@ public class VideoViewModel extends AndroidViewModel {
     }
 
     public void delete(Uri uri) {
-        pr.delete(uri);
+        vr.delete(uri);
     }
 
     public void notifyDataChanged() {
-        pr.notifyDataChanged();
+        vr.notifyDataChanged();
     }
 
     public void update(Context context) {
-        pr.update();
+        vr.update();
     }
 
 }

@@ -47,7 +47,15 @@
         android:id="@+id/videoFragment"
         android:name="com.example.photo_manager.ui.Video.VideoFragment"
         android:label="video_fragment"
-        tools:layout="@layout/video_fragment" />
+        tools:layout="@layout/video_fragment" >
+        <action
+            android:id="@+id/action_videoFragment_to_viewVideo"
+            app:destination="@id/viewVideo"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_down"/>
+    </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.photo_manager.ui.Favourite.FavouriteFragment"
@@ -246,4 +254,14 @@
         android:name="com.example.photo_manager.ui.SecureFolder.SFChangePasswordFragment"
         android:label="fragment_s_f_change_password"
         tools:layout="@layout/fragment_s_f_change_password" />
+    <fragment
+        android:id="@+id/viewVideo"
+        android:name="com.example.photo_manager.ui.ViewVideoFragment"
+        android:label="ViewVideoFragment"
+        tools:layout="@layout/fragment_view_video">
+        <argument
+            app:argType="string"
+            android:name="video_uri"/>
+
+    </fragment>
 </navigation>

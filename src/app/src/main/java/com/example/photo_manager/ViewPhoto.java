@@ -56,7 +56,6 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
             finish();
         }
 
-        //Glide.with(this).load(picture_model.getUri()).into(imageView);
 
 
         top_toolbar = findViewById(R.id.toolbar_top);

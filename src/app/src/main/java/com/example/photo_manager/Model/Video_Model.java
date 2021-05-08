@@ -1,6 +1,10 @@
 package com.example.photo_manager.Model;
 
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
+
+import androidx.loader.content.CursorLoader;
 
 import com.example.photo_manager.Type;
 
@@ -22,5 +26,6 @@ public class Video_Model extends Super_Model{
     public long getDuration() {
         return duration;
     }
+
 }
 
