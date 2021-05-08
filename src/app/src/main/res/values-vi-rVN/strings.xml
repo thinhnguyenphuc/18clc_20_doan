@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="vp_menu_detail">Chi tiết hình ảnh</string>
+    <string name="vp_menu_detail">Chi tiết</string>
     <string name="vp_menu_wallpaper">Đặt làm ảnh nền</string>
     <string name="vp_menu_security_folder">Chuyển vào thư mục bảo mật</string>
     <string name="title_activity_view__all">Xem tất cả</string>

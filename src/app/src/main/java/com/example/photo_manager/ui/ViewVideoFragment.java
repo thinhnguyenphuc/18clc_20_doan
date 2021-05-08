@@ -35,7 +35,6 @@ public class ViewVideoFragment extends Fragment {
     private FullscreenVideoLayout videoView;
 
     private Toolbar toolbar_top;
-    private Toolbar toolbar_bottom;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +79,7 @@ public class ViewVideoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
+                    case R.id.vp_menu_detail:{
 
                         break;
                     }

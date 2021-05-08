@@ -106,7 +106,7 @@ public class ViewSFPhotoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
+                    case R.id.vp_menu_detail:{
                         break;
                     }
                 }

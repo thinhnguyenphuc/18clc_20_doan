@@ -34,6 +34,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.photo_manager.OnSwipeTouchListener;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
@@ -104,7 +105,6 @@ public class ViewPhotoFragment extends Fragment {
             e.printStackTrace();
         }
 
-        //Glide.with(this).load(picture_model.getUri()).into(imageView);
 
         toolbar_top = view.findViewById(R.id.toolbar_top);
         toolbar_bottom = view.findViewById(R.id.toolbar_bottom);
@@ -113,7 +113,7 @@ public class ViewPhotoFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.vp_menu_photo_detail:{
+                    case R.id.vp_menu_detail:{
                         ViewPhotoFragmentDirections.ActionViewPhotoFragmentToPhotoDetailFragment action =
                                 ViewPhotoFragmentDirections.actionViewPhotoFragmentToPhotoDetailFragment(photo_uri);
                         navController.navigate(action);
@@ -150,6 +150,16 @@ public class ViewPhotoFragment extends Fragment {
                     toolbar_bottom.setVisibility(View.INVISIBLE);
                 }
             }
+        });
+
+        imageView.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+            public void onSwipeRight() {
+
+            }
+            public void onSwipeLeft() {
+
+            }
+
         });
 
         view.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {

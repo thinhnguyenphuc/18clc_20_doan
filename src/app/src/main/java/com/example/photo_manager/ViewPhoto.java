@@ -170,7 +170,7 @@ public class ViewPhoto extends AppCompatActivity implements PopupMenu.OnMenuItem
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.vp_menu_photo_detail:
+            case R.id.vp_menu_detail:
                 openPhotoDetail();
                 return true;
             case R.id.vp_menu_wallpaper:

@@ -25,7 +25,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
@@ -125,9 +127,12 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
         recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
 
         picture_adapter_all = new Picture_Adapter_All(getContext(),this);
         recyclerView.setAdapter(picture_adapter_all);
+
 
         pictureViewModel =
                 new ViewModelProvider(requireActivity()).get(PictureViewModel.class);

@@ -30,7 +30,6 @@
         <activity android:name=".PhotoEditActivity" />
         <activity android:name=".Take_New_Photo" />
         <activity android:name=".View_By_People" />
-        <activity android:name=".ViewPhoto" />
         <activity android:name=".View_All" />
         <activity android:name=".album_detail" />
         <activity android:name=".album_general" />
