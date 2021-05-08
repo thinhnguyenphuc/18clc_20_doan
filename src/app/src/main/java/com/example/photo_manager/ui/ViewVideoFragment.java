@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.crust87.texturevideoview.widget.TextureVideoView;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
+import com.example.photo_manager.ui.Video.VideoFragmentDirections;
 import com.example.photo_manager.ui.Video.VideoViewModel;
 import com.github.rtoshiro.view.video.FullscreenVideoLayout;
 
@@ -80,7 +81,9 @@ public class ViewVideoFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.vp_menu_detail:{
-
+                        ViewVideoFragmentDirections.ActionViewVideoToVideoDetailFragment action =
+                                ViewVideoFragmentDirections.actionViewVideoToVideoDetailFragment(video_uri);
+                        navController.navigate(action);
                         break;
                     }
                     case R.id.vp_menu_wallpaper:
@@ -89,7 +92,6 @@ public class ViewVideoFragment extends Fragment {
                     }
                     case R.id.vp_menu_secure_folder:
                     {
-                        break;
                     }
                 }
                 return true;
