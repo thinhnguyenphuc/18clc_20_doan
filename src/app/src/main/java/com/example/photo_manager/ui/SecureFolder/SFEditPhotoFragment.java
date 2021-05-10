@@ -1,14 +1,9 @@
 package com.example.photo_manager.ui.SecureFolder;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,23 +33,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.divyanshu.colorseekbar.ColorSeekBar;
-import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
-import com.example.photo_manager.PEAdapters.PEFilterAdapter;
+import com.example.photo_manager.Adapter.PEEmojiAdapter;
+import com.example.photo_manager.Adapter.PEFilterAdapter;
 import com.example.photo_manager.R;
 import com.example.photo_manager.Utility;
-import com.example.photo_manager.ui.EditPhotoFragmentArgs;
-import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
-import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.example.photo_manager.ui.SecureFolder.SecureFolderViewModel.SecureFolderViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.slider.Slider;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener;
@@ -63,7 +51,6 @@ import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.ViewType;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class SFEditPhotoFragment extends Fragment {
 

@@ -1,22 +1,18 @@
 package com.example.photo_manager.ui;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.photo_manager.Adapter_Picture.View_By_Date_Picture_Adaper;
+import com.example.photo_manager.Adapter.View_By_Date_Picture_Adaper;
 import com.example.photo_manager.Format.FormatDate;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
@@ -24,7 +20,6 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Type;
 import com.example.photo_manager.Utility;
-import com.example.photo_manager.ui.Picture.PictureFragment;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -33,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 
 

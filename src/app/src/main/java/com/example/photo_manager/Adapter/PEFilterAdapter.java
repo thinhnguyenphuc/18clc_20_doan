@@ -1,4 +1,4 @@
-package com.example.photo_manager.PEAdapters;
+package com.example.photo_manager.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

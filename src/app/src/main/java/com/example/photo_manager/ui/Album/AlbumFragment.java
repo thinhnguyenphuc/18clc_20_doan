@@ -73,8 +73,11 @@ public class AlbumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.album_list);
         albumAdapter = new AlbumAdapter(getContext(), navController);
         recyclerView.setAdapter(albumAdapter);
+
+        int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
+
         GridLayoutManager layoutManager =
-                new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), 100));
+                new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), dp));
         recyclerView.setLayoutManager(layoutManager);
 
         albumViewModel.getAlbumsWithUris().observe(getViewLifecycleOwner(), new Observer<List<AlbumWithUris>>() {

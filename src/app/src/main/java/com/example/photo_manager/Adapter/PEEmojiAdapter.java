@@ -1,23 +1,19 @@
-package com.example.photo_manager.PEAdapters;
+package com.example.photo_manager.Adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.photo_manager.PhotoEditActivity;
 import com.example.photo_manager.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
-import ja.burhanrashid52.photoeditor.PhotoFilter;
 
 public class PEEmojiAdapter extends RecyclerView.Adapter<PEEmojiAdapter.ViewHolder> {
     private RecyclerView recyclerView;

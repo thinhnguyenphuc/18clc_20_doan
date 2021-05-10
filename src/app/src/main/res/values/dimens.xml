@@ -19,4 +19,20 @@
     <dimen name="picture_height">125dp</dimen>
 
     <dimen name="title_text_size">24sp</dimen>
+
+    <dimen name="button_size">42sp</dimen>
+    <dimen name="button_horizontal_margin">24sp</dimen>
+    <dimen name="button_distance2">16sp</dimen>
+    <dimen name="zero">0sp</dimen>
+    <dimen name="button_vertical_margin">4sp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="color_picker_margin">16sp</dimen>
+
+    <dimen name="emoji_margin_horizontal">12sp</dimen>
+    <dimen name="emoji_margin_vertical">12sp</dimen>
+    <dimen name="emoji_size">24sp</dimen>
+    <string name="total_emoji_width" translatable="false">48</string>
+
+    <dimen name="vp_toolbar_horizontal_padding">12sp</dimen>
+    <dimen name="vp_toolbar_vertical_padding">12sp</dimen>
 </resources>

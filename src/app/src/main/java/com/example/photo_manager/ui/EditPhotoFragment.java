@@ -35,8 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.divyanshu.colorseekbar.ColorSeekBar;
-import com.example.photo_manager.PEAdapters.PEEmojiAdapter;
-import com.example.photo_manager.PEAdapters.PEFilterAdapter;
+import com.example.photo_manager.Adapter.PEEmojiAdapter;
+import com.example.photo_manager.Adapter.PEFilterAdapter;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;

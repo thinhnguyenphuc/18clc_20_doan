@@ -1,4 +1,4 @@
-package com.example.photo_manager.Adapter_Picture;
+package com.example.photo_manager.Adapter;
 
 import android.content.Context;
 import android.content.res.Resources;

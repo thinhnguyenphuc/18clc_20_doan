@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="vp_menu_detail">Photo details</string>
-    <string name="vp_menu_wallpaper">Set as wallpaper</string>
-    <string name="vp_menu_security_folder">Move to security folder</string>
-</resources>

@@ -22,18 +22,13 @@ import android.view.ViewGroup;
 
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
-import com.example.photo_manager.Adapter_Picture.Picture_Adapter_All;
-import com.example.photo_manager.Adapter_Video.Video_Adapter_All;
+import com.example.photo_manager.Adapter.Video_Adapter_All;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
-import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Take_New_Photo;
-import com.example.photo_manager.ui.Picture.PictureFragment;
-import com.example.photo_manager.ui.Picture.PictureFragmentDirections;
-import com.example.photo_manager.ui.Picture.PictureViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

@@ -87,7 +87,8 @@
     <string name="text_holder">Edit text here...</string>
     <string name="OK">OK</string>
     <string name="Cancel">Cancel</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="vp_menu_detail">Photo details</string>
+    <string name="vp_menu_wallpaper">Set as wallpaper</string>
+    <string name="vp_menu_security_folder">Move to security folder</string>
 </resources>
