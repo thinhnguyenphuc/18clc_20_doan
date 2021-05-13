@@ -29,10 +29,10 @@ import com.example.photo_manager.ui.Picture.PictureViewModel;
 import java.util.ArrayList;
 
 
-public class AddMediaFragment extends Fragment {
+public class AddPictureFragment extends Fragment {
 
     RecyclerView recyclerView;
-    AddMediaAdapter adapter;
+    AddPictureAdapter adapter;
     Toolbar toolbar_top;
 
     CheckBox checkBox;
@@ -57,7 +57,7 @@ public class AddMediaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        albumId = AddMediaFragmentArgs.fromBundle(getArguments()).getAlbumId();
+        albumId = AddPictureFragmentArgs.fromBundle(getArguments()).getAlbumId();
 
         pictureViewModel = new ViewModelProvider(requireActivity()).get(PictureViewModel.class);
         albumViewModel = new ViewModelProvider(requireActivity()).get(AlbumViewModel.class);
@@ -113,7 +113,7 @@ public class AddMediaFragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new AddMediaAdapter(getContext(), albumViewModel, albumId);
+        adapter = new AddPictureAdapter(getContext(), albumViewModel, albumId);
 
         adapter.setSingleClickMode(true);
 

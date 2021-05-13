@@ -92,4 +92,6 @@
     <string name="vp_menu_wallpaper">Set as wallpaper</string>
     <string name="vp_menu_security_folder">Move to security folder</string>
     <string name="save_image_dont_support"><![CDATA[Don\'t support save image with Android version >= 10]]></string>
+    <string name="add_photo_to_album">Add photo to album</string>
+    <string name="add_video_to_album">Add video to album</string>
 </resources>

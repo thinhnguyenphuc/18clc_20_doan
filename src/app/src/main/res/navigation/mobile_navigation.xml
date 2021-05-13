@@ -125,10 +125,13 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_albumDetailFragment_to_addMediaFragment"
-            app:destination="@id/addMediaFragment" />
+            app:destination="@id/addPictureFragment" />
         <action
             android:id="@+id/action_albumDetailFragment_to_slideShowFragment"
             app:destination="@id/slideShowFragment" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_addVideoFragment"
+            app:destination="@id/addVideoFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewAlbumPhotoFragment"
@@ -153,8 +156,8 @@
             app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/addMediaFragment"
-        android:name="com.example.photo_manager.ui.Album.AlbumDetail.AddMediaFragment"
+        android:id="@+id/addPictureFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.AddPictureFragment"
         android:label="fragment_add_media"
         tools:layout="@layout/fragment_add_media" >
         <argument
@@ -279,5 +282,13 @@
         <argument
             android:name="video_uri"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addVideoFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.AddVideoFragment"
+        android:label="AddVideoFragment" >
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
     </fragment>
 </navigation>
