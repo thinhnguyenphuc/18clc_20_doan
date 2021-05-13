@@ -24,6 +24,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.Utility;
+import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteViewModel;
 import com.example.photo_manager.ui.Video.VideoViewModel;
 import com.github.rtoshiro.view.video.FullscreenVideoLayout;
@@ -45,7 +46,8 @@ public class ViewVideoFragment extends Fragment {
 
     private FavouriteViewModel favouriteViewModel;
 
-    ViewVideoFragment.FavouriteCheckAsyncTask favouriteCheckAsyncTask;
+    FavouriteCheckAsyncTask favouriteCheckAsyncTask;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,14 +125,14 @@ public class ViewVideoFragment extends Fragment {
                         } else {
                             Toast.makeText(requireContext(), R.string.delete_video_fail, Toast.LENGTH_LONG).show();
                         }
+                        break;
                     }
                     case R.id.video_secure_folder:
                     {
-
+                        break;
                     }
                     case R.id.video_favourite:
                     {
-                        favourite_flag = Utility.checkImageIsFavourite("");
                         if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
                             Toast.makeText(getContext(), R.string.loading, Toast.LENGTH_LONG).show();
                         }
@@ -143,6 +145,7 @@ public class ViewVideoFragment extends Fragment {
                                 current_favourite_flag = false;
                             }
                         }
+                        break;
                     }
                 }
                 return true;
@@ -171,6 +174,25 @@ public class ViewVideoFragment extends Fragment {
             current_favourite_flag = favourite_flag = aBoolean;
             if (favourite_flag) {
                favourite_button.setIcon(R.drawable.red_heart_icon);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() != AsyncTask.Status.FINISHED)
+            favouriteCheckAsyncTask.cancel(true);
+        if (current_favourite_flag) {
+            favouriteViewModel.insert(new FavouriteItem(video_uri, 1));
+        }
+        else if (favouriteCheckAsyncTask != null && favouriteCheckAsyncTask.getStatus() == AsyncTask.Status.FINISHED){
+            if (current_favourite_flag != favourite_flag) {
+                if (!current_favourite_flag) {
+                    favouriteViewModel.delete(new FavouriteItem(video_uri, 1));
+                } else {
+                    favouriteViewModel.insert(new FavouriteItem(video_uri, 1));
+                }
             }
         }
     }
