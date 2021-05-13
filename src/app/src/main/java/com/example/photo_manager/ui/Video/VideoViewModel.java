@@ -48,4 +48,8 @@ public class VideoViewModel extends AndroidViewModel {
         vr.update();
     }
 
+    public boolean deleteFromDevice(Context context, Uri uri) {
+        return vr.deleteFromStorage(context, uri);
+    }
+
 }

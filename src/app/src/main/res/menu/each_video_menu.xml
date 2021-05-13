@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/video_detail"
+        android:title="@string/video_detail"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/video_delete"
+        android:orderInCategory="2"
+        android:title="@string/video_delete"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/delete_icon_red"/>
+    <item
+        android:id="@+id/video_secure_folder"
+        android:orderInCategory="3"
+        android:title="@string/vp_menu_security_folder" />
+    <item
+        android:id="@+id/video_favourite"
+        android:title="@string/favourite"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/favourite_icon"></item>
+</menu>

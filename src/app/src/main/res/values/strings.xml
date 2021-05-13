@@ -107,4 +107,9 @@
     <string name="orange_primary">Orange primary</string>
     <string name="green_primary">Green primary</string>
     <string name="set_theme_success">Theme is set. It will be applied when restart app</string>
+    <string name="video_detail">Video detail</string>
+    <string name="video_delete">Delete</string>
+    <string name="delete_video_success">VIDEO DELETED</string>
+    <string name="delete_video_fail">VIDEO DELETE FAILED</string>
+
 </resources>
