@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,9 +98,15 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.add_media: {
+                case R.id.add_photo: {
                     AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToAddMediaFragment action =
                             AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddMediaFragment(albumId);
+                    navController.navigate(action);
+                    break;
+                }
+                case R.id.add_video: {
+                    NavDirections action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddVideoFragment(albumId);
                     navController.navigate(action);
                     break;
                 }
