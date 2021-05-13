@@ -16,8 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethanhua.skeleton.Skeleton;
@@ -29,6 +31,7 @@ import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Take_New_Photo;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Picture.PictureFragment;
 import com.example.photo_manager.ui.ViewByDateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -79,7 +82,8 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.favourite:
-                                navController.navigate(R.id.action_pictureFragment_to_favouriteFragment);
+                                NavDirections action = VideoFragmentDirections.actionVideoFragmentToFavouriteFragment();
+                                navController.navigate(action);
                                 break;
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
@@ -115,7 +119,9 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                 });
 
         recyclerView = root.findViewById(R.id.recyclerView_ViewAllVideo);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+        int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
+        int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
 
         video_adapter_all = new Video_Adapter_All(getContext(),this);
         recyclerView.setAdapter(video_adapter_all);
