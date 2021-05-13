@@ -16,10 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;

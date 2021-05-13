@@ -4,6 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,20 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.anggrayudi.storage.media.MediaFile;
-import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
@@ -99,15 +97,9 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.add_photo: {
+                case R.id.add_media: {
                     AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToAddMediaFragment action =
                             AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddMediaFragment(albumId);
-                    navController.navigate(action);
-                    break;
-                }
-                case R.id.add_video: {
-                    NavDirections action =
-                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToAddVideoFragment(albumId);
                     navController.navigate(action);
                     break;
                 }

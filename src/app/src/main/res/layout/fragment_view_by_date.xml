@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ViewByDateFragment">
+    tools:context=".ui.ViewByDateFragment"
+    android:paddingBottom="?attr/actionBarSize">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

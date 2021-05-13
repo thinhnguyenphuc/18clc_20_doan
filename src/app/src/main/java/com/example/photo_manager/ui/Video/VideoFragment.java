@@ -1,24 +1,24 @@
 package com.example.photo_manager.ui.Video;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
@@ -29,22 +29,30 @@ import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Take_New_Photo;
+import com.example.photo_manager.ui.Picture.PictureFragment;
+import com.example.photo_manager.ui.ViewByDateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class VideoFragment extends Fragment implements RecyclerViewClickInterface {
 
     private VideoViewModel videoViewModel;
 
     private ArrayList<Video_Model> videoModels = new ArrayList<>();
-
+    private ArrayList<Date_Model> dateModels = new ArrayList<>();
     private RecyclerView recyclerView;
     private Video_Adapter_All video_adapter_all;
 
     NavController navController = null;
 
     Toolbar toolbar;
+    private ViewByDateFragment viewByDate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +84,31 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                             case R.id.camera:
                                 startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
                                 break;
+                            case R.id.view_by_date: {
+
+                                viewByDate = new ViewByDateFragment();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(VideoFragment.this.getId(), viewByDate);
+
+                                SortDate();
+
+
+                                Bundle bundle = new Bundle();
+                                try {
+                                    bundle.putString("type","video");
+                                    bundle.putString("videoLists", VideoListToObject().toString());
+                                    bundle.putString("dateLists", DateListToObject().toString());
+                                    bundle.putInt("sizeOfVideo",videoModels.size());
+                                    bundle.putInt("sizeOfDate",dateModels.size());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                viewByDate.setArguments(bundle);
+
+                                fragmentTransaction.commit();
+                            }
                         }
                         return true;
                     }
@@ -111,7 +144,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
         videoViewModel.getAllDates().observe(getViewLifecycleOwner(), new Observer<ArrayList<Date_Model>>() {
             @Override
             public void onChanged(ArrayList<Date_Model> date_models) {
-
+                dateModels = date_models;
             }
         });
         return root;
@@ -130,5 +163,46 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
     @Override
     public void onLongItemClick(int position) {
 
+    }
+    private void SortDate() {
+        Collections.sort(dateModels, new Comparator<Date_Model>() {
+            @Override
+            public int compare(Date_Model o1, Date_Model o2) {
+                String tmp1[] = o1.getTime().split("-");
+                String tmp2[] = o2.getTime().split("-");
+                if(Integer.parseInt(tmp1[2])>Integer.parseInt(tmp2[2])){
+                    return -1;
+                } else if(Integer.parseInt(tmp1[1])>Integer.parseInt(tmp2[1])) {
+                    return -1;
+                } else if(Integer.parseInt(tmp1[0])>Integer.parseInt(tmp2[0])) {
+                    return -1;
+                }
+                return 1;
+            }
+        });
+    }
+
+    private JSONObject VideoListToObject() throws JSONException {
+
+        JSONObject objectList = new JSONObject();
+        int size = this.videoModels.size();
+        for (int i = 0;i<size;i++ ){
+            JSONObject pic = new JSONObject();
+            pic.put("uri",this.videoModels.get(i).getUri());
+            pic.put("time",this.videoModels.get(i).getTime());
+            objectList.put(String.valueOf(i),pic);
+        }
+        return objectList;
+    }
+
+    private JSONObject DateListToObject() throws JSONException {
+        JSONObject objectList = new JSONObject();
+        int size = this.dateModels.size();
+        for (int i = 0;i<size;i++ ){
+            JSONObject time = new JSONObject();
+            time.put("time",this.dateModels.get(i).getTime());
+            objectList.put(String.valueOf(i),time);
+        }
+        return objectList;
     }
 }
