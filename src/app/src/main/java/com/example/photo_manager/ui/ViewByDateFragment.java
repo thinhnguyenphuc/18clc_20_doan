@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photo_manager.Adapter.View_By_Date_Picture_Adaper;
@@ -21,6 +23,8 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Type;
 import com.example.photo_manager.Utility;
+import com.example.photo_manager.ui.Picture.PictureFragmentDirections;
+import com.example.photo_manager.ui.Video.VideoFragmentDirections;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -184,8 +188,22 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
 
     @Override
     public void onItemClick(int position) {
-        
-
+        if (type.equals("picture")){
+            if(data.get(position).getClass().equals(Picture_Model.class)){
+                Picture_Model picture_model = (Picture_Model) data.get(position);
+                PictureFragmentDirections.ActionPictureFragmentToViewPhotoFragment action =
+                        PictureFragmentDirections.actionPictureFragmentToViewPhotoFragment(picture_model.getUri().toString());
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigate(action);
+            }
+        } else{
+            if(data.get(position).getClass().equals(Video_Model.class)){
+                Video_Model video_model = (Video_Model) data.get(position);
+                VideoFragmentDirections.ActionVideoFragmentToViewVideo action = VideoFragmentDirections.actionVideoFragmentToViewVideo(video_model.getUri().toString());
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigate(action);
+            }
+        }
     }
 
     @Override
