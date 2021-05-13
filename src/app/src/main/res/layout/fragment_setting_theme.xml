@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Settings.SettingThemeFragment">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:src="@drawable/back_icon_black"
+            android:background="@drawable/pe_button"
+            app:layout_columnWeight="1"
+            android:layout_marginVertical="@dimen/button_vertical_margin"
+            />
+
+        <TextView
+            android:layout_marginLeft="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_text_size"
+            android:text="@string/themes"/>
+    </androidx.appcompat.widget.Toolbar>
+    <Button
+        android:id="@+id/theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/setting_button"
+        android:text="@string/purple_primary"
+        android:textAlignment="viewStart"
+        android:drawableLeft="@drawable/theme_icon"
+
+        />
+    <Button
+        android:id="@+id/theme1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/holo_orange_light"
+        android:background="@drawable/setting_button"
+        android:text="@string/orange_primary"
+        android:textAlignment="viewStart"
+        android:drawableLeft="@drawable/theme_icon"
+        />
+    <Button
+        android:id="@+id/theme2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/holo_green_light"
+        android:background="@drawable/setting_button"
+        android:text="@string/green_primary"
+        android:textAlignment="viewStart"
+        android:drawableLeft="@drawable/theme_icon"
+        />
+</LinearLayout>

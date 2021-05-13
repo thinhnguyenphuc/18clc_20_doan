@@ -15,5 +15,9 @@
         android:icon="@drawable/ic_album"
         android:title="@string/album_fragment_label"
         />
-
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/setting_fragment_label"
+        />
 </menu>

@@ -1,7 +1,9 @@
 package com.example.photo_manager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setAppTheme();
 
         setContentView(R.layout.activity_main);
         requestPermission();
@@ -78,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         Log.d("MAIN", "onRestart: ");
@@ -86,6 +95,30 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 new ViewModelProvider(this).get(PictureViewModel.class);
 
         pictureViewModel.update(this);
+    }
+
+    private void setAppTheme() {
+        SharedPreferences sharedPreferences = this
+                .getSharedPreferences("com.example.photo_manager.settings", Context.MODE_PRIVATE);
+        int theme = sharedPreferences.getInt("theme", 0);
+
+        switch (theme) {
+            case 1:
+            {
+                setTheme(R.style.AppTheme1);
+                break;
+            }
+            case 2:
+            {
+                setTheme(R.style.AppTheme2);
+                break;
+            }
+            default:
+            {
+                setTheme(R.style.AppTheme);
+                break;
+            }
+        }
     }
 
 }
