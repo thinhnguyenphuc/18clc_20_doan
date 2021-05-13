@@ -14,14 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -39,11 +37,11 @@ import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
-import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Take_New_Photo;
 import com.example.photo_manager.ui.ViewByDateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,6 +50,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PictureFragment extends Fragment implements RecyclerViewClickInterface {
 
@@ -140,10 +140,12 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(PictureFragment.this.getId(), viewByDate);
 
+                                SortDate();
 
 
                                 Bundle bundle = new Bundle();
                                 try {
+                                    bundle.putString("type","picture");
                                     bundle.putString("imageLists", ImageListToObject().toString());
                                     bundle.putString("dateLists", DateListToObject().toString());
                                     bundle.putInt("sizeOfPicture",pictureModels.size());
@@ -336,6 +338,23 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             objectList.put(String.valueOf(i),time);
         }
         return objectList;
+    }
+    private void SortDate() {
+        Collections.sort(dateModels, new Comparator<Date_Model>() {
+            @Override
+            public int compare(Date_Model o1, Date_Model o2) {
+                String tmp1[] = o1.getTime().split("-");
+                String tmp2[] = o2.getTime().split("-");
+                if(Integer.parseInt(tmp1[2])>Integer.parseInt(tmp2[2])){
+                    return -1;
+                } else if(Integer.parseInt(tmp1[1])>Integer.parseInt(tmp2[1])) {
+                    return -1;
+                } else if(Integer.parseInt(tmp1[0])>Integer.parseInt(tmp2[0])) {
+                    return -1;
+                }
+                return 1;
+            }
+        });
     }
     
 

@@ -1,13 +1,11 @@
 package com.example.photo_manager.ui;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.crust87.texturevideoview.widget.TextureVideoView;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ui.Video.VideoFragmentDirections;
 import com.example.photo_manager.ui.Video.VideoViewModel;
 import com.github.rtoshiro.view.video.FullscreenVideoLayout;
 

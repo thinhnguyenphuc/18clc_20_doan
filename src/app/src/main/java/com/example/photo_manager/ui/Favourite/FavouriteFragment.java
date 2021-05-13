@@ -1,34 +1,28 @@
 package com.example.photo_manager.ui.Favourite;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.anggrayudi.storage.media.MediaFile;
-import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
-import com.example.photo_manager.ui.Album.AlbumDetail.AlbumDetailFragment;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 
 import java.util.ArrayList;

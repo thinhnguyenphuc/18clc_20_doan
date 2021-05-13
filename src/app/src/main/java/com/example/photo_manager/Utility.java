@@ -1,30 +1,13 @@
 package com.example.photo_manager;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
-
-import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.Inflater;
 
 public class Utility {
     public static int calculateNoOfColumns(Context context, float columnWidthDp) { // For example columnWidthdp=180

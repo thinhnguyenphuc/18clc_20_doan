@@ -2,20 +2,21 @@ package com.example.photo_manager.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.photo_manager.Adapter.View_By_Date_Picture_Adaper;
+import com.example.photo_manager.Adapter.View_By_Date_Video_Adapter;
 import com.example.photo_manager.Format.FormatDate;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Type;
@@ -37,6 +38,9 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
     ArrayList data =new ArrayList<>();
     private RecyclerView recyclerView;
     private View_By_Date_Picture_Adaper viewByDatePicture_adapter;
+    private View_By_Date_Video_Adapter view_by_date_video_adapter;
+
+    private String type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,53 +63,103 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
         Bundle bundle = this.getArguments();
 
         if (bundle!=null){ dataReceiveToList(bundle); }
+        if (type.equals("picture")){
+            recyclerView = view.findViewById(R.id.viewByDate_recyclerView);
+            viewByDatePicture_adapter = new View_By_Date_Picture_Adaper(getContext(),data,this );
 
-        recyclerView = view.findViewById(R.id.viewByDate_recyclerView);
-        viewByDatePicture_adapter = new View_By_Date_Picture_Adaper(getContext(),data,this );
+            FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+            flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+            flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
-        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
-        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
-        recyclerView.setLayoutManager(flexboxLayoutManager);
+            recyclerView.setAdapter(viewByDatePicture_adapter);
+        } else {
+            recyclerView = view.findViewById(R.id.viewByDate_recyclerView);
+            view_by_date_video_adapter = new View_By_Date_Video_Adapter(getContext(),data,this );
 
-        recyclerView.setAdapter(viewByDatePicture_adapter);
+            FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+            flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+            flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            recyclerView.setLayoutManager(flexboxLayoutManager);
+
+            recyclerView.setAdapter(view_by_date_video_adapter);
+        }
+
+
     }
 
     public void dataReceiveToList(Bundle bundle){
-        ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
-        ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
-        int sizeOfPicture = bundle.getInt("sizeOfPicture",0);
+        type = bundle.getString("type");
+        if(type.equals("picture")){
+            ArrayList<Picture_Model> picture_models = new ArrayList<Picture_Model>();
+            ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
+            int sizeOfPicture = bundle.getInt("sizeOfPicture",0);
 
-        try {
-            JSONObject tmpListObject = new JSONObject(bundle.getString("imageLists"));
-            for(int i = 0 ;i<sizeOfPicture;i++){
-                JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
-                Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
-                File file = new File(Utility.getRealPathFromUri(getContext(),tmpUri));
-                String tmpTime = FormatDate.fullFormat.format(file.lastModified());
-                picture_models.add(new Picture_Model(tmpUri,null,tmpTime,0));
+            try {
+                JSONObject tmpListObject = new JSONObject(bundle.getString("imageLists"));
+                for(int i = 0 ;i<sizeOfPicture;i++){
+                    JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
+                    Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
+                    File file = new File(Utility.getRealPathFromUri(getContext(),tmpUri));
+                    String tmpTime = FormatDate.fullFormat.format(file.lastModified());
+                    picture_models.add(new Picture_Model(tmpUri,null,tmpTime,0));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+            int sizeOfDate = bundle.getInt("sizeOfDate",0);
+            try {
+                JSONObject tmpListObject = new JSONObject(bundle.getString("dateLists"));
+                for(int i = 0 ;i<sizeOfDate;i++){
+                    JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
+                    String tmpTime = tmpObject.get("time").toString();
+
+                    date_models.add(new Date_Model(tmpTime, Type.DATE));
+                }
+            } catch (JSONException  e) {
+                e.printStackTrace();
+            }
+
+            toArrayListPicture(date_models,picture_models,data);
+        }
+        else {
+            ArrayList<Video_Model> video_models = new ArrayList<Video_Model>();
+            ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
+            int sizeOfPicture = bundle.getInt("sizeOfVideo",0);
+
+            try {
+                JSONObject tmpListObject = new JSONObject(bundle.getString("videoLists"));
+                for(int i = 0 ;i<sizeOfPicture;i++){
+                    JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
+                    Uri tmpUri = Uri.parse(tmpObject.get("uri").toString());
+                    File file = new File(Utility.getRealPathFromUri(getContext(),tmpUri));
+                    String tmpTime = FormatDate.fullFormat.format(file.lastModified());
+                    video_models.add(new Video_Model(tmpUri,null,tmpTime,0,0));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            int sizeOfDate = bundle.getInt("sizeOfDate",0);
+            try {
+                JSONObject tmpListObject = new JSONObject(bundle.getString("dateLists"));
+                for(int i = 0 ;i<sizeOfDate;i++){
+                    JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
+                    String tmpTime = tmpObject.get("time").toString();
+
+                    date_models.add(new Date_Model(tmpTime, Type.DATE));
+                }
+            } catch (JSONException  e) {
+                e.printStackTrace();
+            }
+
+            toArrayListVideo(date_models,video_models,data);
         }
 
-        int sizeOfDate = bundle.getInt("sizeOfDate",0);
-        try {
-            JSONObject tmpListObject = new JSONObject(bundle.getString("dateLists"));
-            for(int i = 0 ;i<sizeOfDate;i++){
-                JSONObject tmpObject = new JSONObject(tmpListObject.getString(String.valueOf(i)));
-                String tmpTime = tmpObject.get("time").toString();
-
-                date_models.add(new Date_Model(tmpTime, Type.DATE));
-            }
-        } catch (JSONException  e) {
-            e.printStackTrace();
-        }
-
-        toArrayList(date_models,picture_models,data);
     }
 
-    private void toArrayList(ArrayList<Date_Model> date_models
+    private void toArrayListPicture(ArrayList<Date_Model> date_models
             ,ArrayList<Picture_Model> picture_models,ArrayList data) {
         for(int i=0;i<date_models.size();i++){
             data.add(date_models.get(i));
@@ -116,9 +170,21 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
             }
         }
     }
+    private void toArrayListVideo(ArrayList<Date_Model> date_models
+            ,ArrayList<Video_Model> video_models,ArrayList data) {
+        for(int i=0;i<date_models.size();i++){
+            data.add(date_models.get(i));
+            for (int j=0;j<video_models.size();j++){
+                if(video_models.get(j).getTime().contains(date_models.get(i).getTime())){
+                    data.add(video_models.get(j));
+                }
+            }
+        }
+    }
 
     @Override
     public void onItemClick(int position) {
+        
 
     }
 

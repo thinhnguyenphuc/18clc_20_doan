@@ -9,8 +9,9 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 
 import com.example.photo_manager.Format.FormatDate;
-import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Video_Model;
+import com.example.photo_manager.Type;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
 
     Context context;
     AsyncResponse asyncResponse;
+    private ArrayList<Date_Model> date_models = new ArrayList<Date_Model>();
     public LoadVideoFromStorage(AsyncResponse asyncResponse, Context context){
         this.asyncResponse = asyncResponse;
         this.context = context;
@@ -43,6 +45,7 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
     @Override
     protected void onPostExecute(ArrayList<Video_Model> video_models) {
         asyncResponse.processVideoFinish(video_models);
+        asyncResponse.processDateFinish(date_models);
     }
 
     private ArrayList<Video_Model> loadVideo(){
@@ -71,9 +74,20 @@ public class LoadVideoFromStorage extends AsyncTask<Void, Integer, ArrayList<Vid
                 int sizeTmp = cursor.getInt(sizeColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, idTmp);
-                String tmpTime = FormatDate.fullFormat.format(dateModifiedColumn*1000);
+                String tmpTime = FormatDate.fullFormat.format(Long.parseLong(cursor.getString(dateModifiedColumn))*1000);
+                String date = FormatDate.onlyDayFormat.format(Long.parseLong(cursor.getString(dateModifiedColumn))*1000);
 
                 video_models.add(new Video_Model(contentUri,nameTmp,tmpTime,sizeTmp,0));
+
+                int flag = 0;
+                for (int i=0;i<date_models.size();i++){
+                    if(date.equals(date_models.get(i).getTime())){
+                        flag++;
+                    }
+                }
+                if (flag==0){
+                    date_models.add(new Date_Model(date, Type.DATE));
+                }
 
             }
             cursor.close();

@@ -1,7 +1,6 @@
 package com.example.photo_manager.ui.Picture;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -9,14 +8,11 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.anggrayudi.storage.media.MediaFile;
-import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.ProcessData.AsyncResponse;
 import com.example.photo_manager.ProcessData.LoadImagesFromStorage;
-import com.example.photo_manager.ProcessData.LoadVideoFromStorage;
-
 
 import java.util.ArrayList;
 

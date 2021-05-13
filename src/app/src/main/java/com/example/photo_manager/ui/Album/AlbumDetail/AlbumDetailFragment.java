@@ -1,11 +1,14 @@
 package com.example.photo_manager.ui.Album.AlbumDetail;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,22 +21,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.anggrayudi.storage.media.MediaFile;
-import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

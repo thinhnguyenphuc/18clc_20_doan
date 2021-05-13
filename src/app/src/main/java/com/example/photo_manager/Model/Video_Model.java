@@ -1,10 +1,6 @@
 package com.example.photo_manager.Model;
 
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
-
-import androidx.loader.content.CursorLoader;
 
 import com.example.photo_manager.Type;
 
