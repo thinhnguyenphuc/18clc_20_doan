@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
@@ -39,12 +41,15 @@ import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
+import com.example.photo_manager.Adapter.Picture_Adapter_All_Linear;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Take_New_Photo;
+import com.example.photo_manager.Utility;
+import com.example.photo_manager.ui.Album.AlbumDetail.AddPictureFragment;
 import com.example.photo_manager.ui.ViewByDateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -64,6 +69,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     private RecyclerView recyclerView;
     private Picture_Adapter_All picture_adapter_all;
+    private Picture_Adapter_All_Linear picture_adapter_all_linear;
 
     NavController navController = null;
 
@@ -73,6 +79,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     CheckBox selectAllCheckBox;
 
     private ViewByDateFragment viewByDate;
+
+    private boolean linear_layout_flag = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +163,12 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                                 viewByDate.setArguments(bundle);
 
                                 fragmentTransaction.commit();
+                                break;
+                            }
+                            case R.id.change_layout:
+                            {
+                                linear_layout_flag = !linear_layout_flag;
+                                setAdapter(linear_layout_flag);
                             }
                         }
                         return true;
@@ -162,12 +176,14 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                 });
 
         recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
 
         picture_adapter_all = new Picture_Adapter_All(getContext(),this);
-        recyclerView.setAdapter(picture_adapter_all);
+        picture_adapter_all_linear = new Picture_Adapter_All_Linear(getContext(),this);
+
+        setAdapter(linear_layout_flag);
 
 
         pictureViewModel =
@@ -190,6 +206,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                 }
                 PictureFragment.this.pictureModels = picture_models;
                 picture_adapter_all.setPictures(picture_models);
+                picture_adapter_all_linear.setPictures(picture_models);
+                setAdapter(linear_layout_flag);
             }
 
         });
@@ -222,6 +240,28 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             }
         });
 
+        picture_adapter_all_linear.setMultiChoiceSelectionListener(new MultiChoiceAdapter.Listener() {
+            @Override
+            public void OnItemSelected(int selectedPosition, int itemSelectedCount, int allItemCount) {
+                if (toolbar_delete.getVisibility() == View.INVISIBLE) {
+                    toolbar_delete.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.INVISIBLE);
+                    requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
+                    picture_adapter_all_linear.setSingleClickMode(true);
+                }
+            }
+
+            @Override
+            public void OnItemDeselected(int deselectedPosition, int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnSelectAll(int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnDeselectAll(int itemSelectedCount, int allItemCount) {
+            }
+        });
+
         root.findViewById(R.id.back_from_delete_button).setOnClickListener(v -> {
             this.returnFromDeleteMode();
         });
@@ -236,12 +276,21 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                     alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getContext().getString(R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            ArrayList<Picture_Model> deletePictureModels = new ArrayList<>();
-                            for (Integer i : picture_adapter_all.getSelectedItemList()) {
-                                deletePictureModels.add(pictureModels.get(i));
-                            }
-                            deletePictures(getContext(), deletePictureModels);
-                            Toast.makeText(getContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                           if (linear_layout_flag) {
+                               ArrayList<Picture_Model> deletePictureModels = new ArrayList<>();
+                               for (Integer i : picture_adapter_all_linear.getSelectedItemList()) {
+                                   deletePictureModels.add(pictureModels.get(i));
+                               }
+                               deletePictures(getContext(), deletePictureModels);
+                               Toast.makeText(getContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                           } else {
+                               ArrayList<Picture_Model> deletePictureModels = new ArrayList<>();
+                               for (Integer i : picture_adapter_all.getSelectedItemList()) {
+                                   deletePictureModels.add(pictureModels.get(i));
+                               }
+                               deletePictures(getContext(), deletePictureModels);
+                               Toast.makeText(getContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                           }
                         }
                     });
                     alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
@@ -268,9 +317,17 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    picture_adapter_all.selectAll();
+                    if (linear_layout_flag) {
+                        picture_adapter_all_linear.selectAll();
+                    } else {
+                        picture_adapter_all.selectAll();
+                    }
                 } else {
-                    picture_adapter_all.deselectAll();
+                    if (linear_layout_flag) {
+                        picture_adapter_all_linear.deselectAll();
+                    } else {
+                        picture_adapter_all.deselectAll();
+                    }
                 }
             }
         });
@@ -283,6 +340,8 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
         picture_adapter_all.deselectAll();
         picture_adapter_all.setSingleClickMode(false);
+        picture_adapter_all_linear.deselectAll();
+        picture_adapter_all_linear.setSingleClickMode(false);
     }
 
     @Override
@@ -338,5 +397,21 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
         return objectList;
     }
     
+    private void setAdapter(boolean linear) {
+        if (linear) {
+            recyclerView.setAdapter(picture_adapter_all_linear);
+            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        } else {
+            recyclerView.setAdapter(picture_adapter_all);
+            int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
+            int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setAdapter(linear_layout_flag);
+    }
 }

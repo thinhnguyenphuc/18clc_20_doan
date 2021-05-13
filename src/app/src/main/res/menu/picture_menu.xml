@@ -33,4 +33,8 @@
         android:id="@+id/view_by_date"
         android:title="@string/view_by_date"
         />
+    <item
+        android:id="@+id/change_layout"
+        android:title="@string/change_layout"
+        />
 </menu>

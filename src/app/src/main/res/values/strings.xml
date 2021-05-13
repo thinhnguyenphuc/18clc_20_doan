@@ -94,4 +94,8 @@
     <string name="save_image_dont_support"><![CDATA[Don\'t support save image with Android version >= 10]]></string>
     <string name="add_photo_to_album">Add photo to album</string>
     <string name="add_video_to_album">Add video to album</string>
+    <string name="date">Date</string>
+    <string name="Name">Name</string>
+    <string name="Storage">Storage</string>
+    <string name="change_layout">Change layout</string>
 </resources>
