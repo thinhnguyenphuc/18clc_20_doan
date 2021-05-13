@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
+import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.Picture.PictureViewModel;
 
@@ -109,8 +110,9 @@ public class AddPictureFragment extends Fragment {
     }
 
     private void setUpMultiChoiceRecyclerView() {
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4, LinearLayoutManager.VERTICAL, false));
+        int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
+        int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
 
         adapter = new AddPictureAdapter(getContext(), albumViewModel, albumId);
 
