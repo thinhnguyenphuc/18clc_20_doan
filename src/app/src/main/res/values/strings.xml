@@ -98,8 +98,18 @@
     <string name="Name">Name</string>
     <string name="Storage">Storage</string>
     <string name="change_layout">Change layout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setting_fragment_label">SETTINGS</string>
+    <string name="settings">SETTINGS</string>
+    <string name="themes">Themes</string>
+    <string name="purple_primary">Purple primary</string>
+    <string name="orange_primary">Orange primary</string>
+    <string name="green_primary">Green primary</string>
+    <string name="set_theme_success">Theme is set. It will be applied when restart app</string>
     <string name="video_detail">Video detail</string>
     <string name="video_delete">Delete</string>
     <string name="delete_video_success">VIDEO DELETED</string>
     <string name="delete_video_fail">VIDEO DELETE FAILED</string>
+
 </resources>

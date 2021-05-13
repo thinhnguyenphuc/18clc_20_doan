@@ -291,4 +291,18 @@
             android:name="albumId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.photo_manager.ui.Settings.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_settingThemeFragment"
+            app:destination="@id/settingThemeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingThemeFragment"
+        android:name="com.example.photo_manager.ui.Settings.SettingThemeFragment"
+        android:label="fragment_setting_theme"
+        tools:layout="@layout/fragment_setting_theme" />
 </navigation>

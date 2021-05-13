@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@null"
+    tools:context=".ui.Settings.SettingFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold"
+        android:layout_margin="10sp"
+        android:text="@string/settings"/>
+    <Button
+        android:id="@+id/themes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:background="@drawable/setting_button"
+        android:text="@string/themes"
+        android:textAlignment="viewStart"
+        android:drawableLeft="@drawable/theme_icon"
+        android:drawableRight="@drawable/arrow_forward_black"
+        />
+
+</LinearLayout>
