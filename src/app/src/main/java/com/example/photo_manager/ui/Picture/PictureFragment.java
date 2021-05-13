@@ -39,11 +39,8 @@ import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Picture_Adapter_All;
-
 import com.example.photo_manager.Adapter.Picture_Adapter_All_Linear;
-
 import com.example.photo_manager.Code.RequestCode;
-
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
