@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="#ededed">
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="@dimen/picture_width"
+        android:layout_height="@dimen/picture_height"
+        android:scaleType="centerCrop"
+        android:src="@drawable/album_view_holder"/>
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/video_filter_layout_icon_background"
+        android:src="@drawable/video_filter_layout_icon"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/tick_image"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/image_view"
+        android:layout_alignStart="@+id/image_view"
+        android:layout_alignTop="@+id/image_view"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ticked_image"
+        android:src="@drawable/ic_baseline_check_24"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

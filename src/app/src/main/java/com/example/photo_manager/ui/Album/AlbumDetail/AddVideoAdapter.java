@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.example.photo_manager.Model.Picture_Model;
+import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
@@ -22,10 +23,10 @@ import com.example.photo_manager.ui.Album.AlbumViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHolder> {
+public class AddVideoAdapter extends MultiChoiceAdapter<AddVideoAdapter.ViewHolder> {
 
     private final Context mContext;
-    private ArrayList<Picture_Model> pictureModels = new ArrayList<>();
+    private ArrayList<Video_Model> video_models = new ArrayList<>();
 
     private ScaleAnimation mSelectScaleAnimation;
     private ScaleAnimation mDeselectScaleAnimation;
@@ -33,40 +34,40 @@ public class AddMediaAdapter extends MultiChoiceAdapter<AddMediaAdapter.ViewHold
     private AlbumViewModel viewModel;
     int albumId;
 
-    public AddMediaAdapter(Context mContext,  AlbumViewModel viewModel, int albumId) {
+    public AddVideoAdapter(Context mContext, AlbumViewModel viewModel, int albumId) {
         this.mContext = mContext;
         this.viewModel = viewModel;
         this.albumId = albumId;
     }
 
-    public void setData(ArrayList<Picture_Model> pictureModels) {
-        this.pictureModels = pictureModels;
+    public void setData(ArrayList<Video_Model> video_models) {
+        this.video_models = video_models;
         notifyDataSetChanged();
     }
 
     public void accept() {
         List<Integer> indexes = this.getSelectedItemList();
         for (Integer index: indexes) {
-            viewModel.insertAlbumUri(new AlbumUri(pictureModels.get(index).getUri().toString(), albumId, 0));
+            viewModel.insertAlbumUri(new AlbumUri(video_models.get(index).getUri().toString(), albumId, 1));
         }
     }
 
     @Override
     public int getItemCount() {
-        return pictureModels.size();
+        return video_models.size();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.multi_select_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.multi_select_item_video, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
 
-        Glide.with(mContext).load(pictureModels.get(position).getUri()).apply(new RequestOptions().centerCrop()).into(holder.imageView);
+        Glide.with(mContext).load(video_models.get(position).getUri()).apply(new RequestOptions().centerCrop()).into(holder.imageView);
     }
 
 
