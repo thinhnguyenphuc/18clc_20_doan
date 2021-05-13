@@ -14,13 +14,8 @@ import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
-import com.example.photo_manager.Model.Picture_Model;
-import com.example.photo_manager.Model.Super_Model;
 import com.example.photo_manager.R;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
-import com.example.photo_manager.ui.Album.AlbumViewModel;
 import com.example.photo_manager.ui.SecureFolder.SecureFolderViewModel.SecureFolderViewModel;
 
 import java.io.File;

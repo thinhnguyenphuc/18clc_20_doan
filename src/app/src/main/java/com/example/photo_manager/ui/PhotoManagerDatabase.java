@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase;
 
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.AlbumDao;
-import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUriDao;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUriDao;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItemDao;
 

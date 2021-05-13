@@ -3,7 +3,6 @@ package com.example.photo_manager.ui.Album.AlbumDatabase.Album;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
-import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Albums",

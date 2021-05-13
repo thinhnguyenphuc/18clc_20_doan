@@ -13,7 +13,6 @@ import com.example.photo_manager.ProcessData.AsyncResponse;
 import com.example.photo_manager.ProcessData.LoadVideoFromStorage;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class VideoReposistory {
     ArrayList<Video_Model> video_models = new ArrayList<>();
@@ -38,8 +37,9 @@ public class VideoReposistory {
             }
 
             @Override
-            public void processDateFinish(ArrayList<Date_Model> date_models) {
-
+            public void processDateFinish(ArrayList<Date_Model> dateModels) {
+                date_models = dateModels;
+                notifyDataChanged();
             }
         }, context);
         loadVideoFromStorage.execute();
@@ -69,6 +69,7 @@ public class VideoReposistory {
 
     public void notifyDataChanged() {
         this.videos.setValue(video_models);
+        this.dates.setValue(date_models);
     }
 
     public void update() {

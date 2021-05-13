@@ -9,19 +9,12 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
-import com.example.photo_manager.ui.Album.AlbumFragmentDirections;
-import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
-import com.example.photo_manager.ui.Favourite.FavouriteFragmentDirections;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.ViewHolder> {
 

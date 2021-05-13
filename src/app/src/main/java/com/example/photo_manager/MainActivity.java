@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.photo_manager.Code.RequestCode;
-import com.example.photo_manager.Model.Picture_Model;
-import com.example.photo_manager.ui.Picture.PictureViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +12,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import java.util.ArrayList;
+import com.example.photo_manager.Code.RequestCode;
+import com.example.photo_manager.ui.Picture.PictureViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
 
         setContentView(R.layout.activity_main);
-
         requestPermission();
 
         Log.d("DEBUG", "onCreate: permission accepted");
