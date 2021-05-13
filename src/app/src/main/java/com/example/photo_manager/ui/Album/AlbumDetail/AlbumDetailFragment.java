@@ -155,28 +155,7 @@ public class AlbumDetailFragment extends Fragment {
             } else {
                 return false;
             }
-//            ContentResolver cr = context.getContentResolver();
-//            String[] projection = {MediaStore.MediaColumns.DATA};
-//            Cursor cur = cr.query(Uri.parse(uri), projection, null, null, null);
-//            if (cur != null) {
-//                Boolean flag = true;
-//                if (cur.moveToFirst()) {
-//                    String filePath = cur.getString(0);
-//                    if (new File(filePath).exists()) {
-//                        Log.d("DEBUG", "validateUri: " + true);
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                } else {
-//                    return true;
-//                }
-////                cur.close();
-////                Log.d("DEBUG", "validateUri: " + flag);
-////                return true;
-//            } else {
-//                return false;
-//            }
+//
         }
     }
 
