@@ -2,6 +2,7 @@ package com.example.photo_manager.ui.Picture;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -53,6 +57,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
     private PictureViewModel pictureViewModel;
 
+    SharedPreferences sharedPreferences;
 
     ArrayList<Picture_Model> pictureModels = new ArrayList<>();
     ArrayList<Date_Model> dateModels = new ArrayList<>();
@@ -71,14 +76,15 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sharedPreferences = requireActivity()
+                .getSharedPreferences("com.example.photo_manager.settings", Context.MODE_PRIVATE);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_media, container, false);
+        return inflater.inflate(R.layout.fragment_picture, container, false);
     }
 
     @Override
@@ -222,8 +228,31 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
 
         toolbar_delete.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.delete:
-                    deletePictures(new ArrayList<>());
+                case R.id.delete: {
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle(R.string.multiple_deletion);
+                    alertDialog.setMessage(getString(R.string.multiple_deletion_message));
+                    alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getContext().getString(R.string.OK), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            ArrayList<Picture_Model> deletePictureModels = new ArrayList<>();
+                            for (Integer i : picture_adapter_all.getSelectedItemList()) {
+                                deletePictureModels.add(pictureModels.get(i));
+                            }
+                            deletePictures(getContext(), deletePictureModels);
+                            Toast.makeText(getContext(), R.string.delete_image_success, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    alertDialog.show();
+                }
             }
             return true;
         });
@@ -276,13 +305,13 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             if (resultCode == Activity.RESULT_OK) {
                 String test = data.getStringExtra("uri");
                 Uri tmp = Uri.parse(test);
-                pictureViewModel.updateTakeNewPhoto(new Picture_Model(tmp,null,null,0));
+                pictureViewModel.updateTakeNewPhoto(getContext(), new Picture_Model(tmp,null,null,0));
             }
         }
     }
 
-    public void deletePictures(ArrayList<Picture_Model> picture_models) {
-
+    public void deletePictures(Context context, ArrayList<Picture_Model> picture_models) {
+        pictureViewModel.deleteImages(context, picture_models);
     }
 
     private JSONObject ImageListToObject() throws JSONException {

@@ -1,5 +1,10 @@
 package com.example.photo_manager.ui.Album.AlbumDetail;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,16 +18,24 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.anggrayudi.storage.media.MediaFile;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.R;
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
+import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumDetailFragment extends Fragment {
 
@@ -32,6 +45,8 @@ public class AlbumDetailFragment extends Fragment {
     int albumId;
 
     Toolbar toolbar;
+
+    AlbumDetailAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +77,7 @@ public class AlbumDetailFragment extends Fragment {
 
         toolbar = view.findViewById(R.id.toolbar_top);
 
-        AlbumDetailAdapter adapter = new AlbumDetailAdapter(getContext(), navController, albumId);
+        adapter = new AlbumDetailAdapter(getContext(), navController, albumId);
 
         int picture_width = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), picture_width));
@@ -73,6 +88,7 @@ public class AlbumDetailFragment extends Fragment {
         albumViewModel.getAlbumWithUris(albumId).observe(getViewLifecycleOwner(), new Observer<AlbumWithUris>() {
             @Override
             public void onChanged(AlbumWithUris albumWithUris) {
+                new ValidateUriAsynTask(getContext()).execute(albumWithUris.albumUris.toArray(new AlbumUri[0]));
                 adapter.setData(albumWithUris);
             }
 
@@ -106,6 +122,54 @@ public class AlbumDetailFragment extends Fragment {
                 }
             }
             return true;
+        });
+
+    }
+
+    private class ValidateUriAsynTask extends AsyncTask<AlbumUri, Void, Void> {
+
+        Context context;
+
+        public ValidateUriAsynTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(AlbumUri... albumUris) {
+            List<AlbumUri> albumUriList = new ArrayList<>();
+            for (AlbumUri albumUri: albumUris) {
+                if (!validateUri(albumUri.getUri())) {
+                    albumUriList.add(albumUri);
+                    Log.d("DEBUG", "validateUri: " + false);
+                }
+            }
+
+            albumViewModel.deleteAlbumUri(albumUriList.toArray(new AlbumUri[0]));
+            return null;
+        }
+
+        private boolean validateUri(String uri) {
+            MediaFile file = new MediaFile(context, Uri.parse(uri));
+            if (file.getExists()) {
+                return true;
+            } else {
+                return false;
+            }
+//
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        albumViewModel.getAlbumWithUris(albumId).removeObservers(getViewLifecycleOwner());
+        albumViewModel.getAlbumWithUris(albumId).observe(getViewLifecycleOwner(), new Observer<AlbumWithUris>() {
+            @Override
+            public void onChanged(AlbumWithUris albumWithUris) {
+                new ValidateUriAsynTask(getContext()).execute(albumWithUris.albumUris.toArray(new AlbumUri[0]));
+                adapter.setData(albumWithUris);
+            }
+
         });
     }
 }

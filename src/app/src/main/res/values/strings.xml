@@ -91,4 +91,5 @@
     <string name="vp_menu_detail">Photo details</string>
     <string name="vp_menu_wallpaper">Set as wallpaper</string>
     <string name="vp_menu_security_folder">Move to security folder</string>
+    <string name="save_image_dont_support"><![CDATA[Don\'t support save image with Android version >= 10]]></string>
 </resources>

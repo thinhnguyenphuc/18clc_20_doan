@@ -50,10 +50,18 @@ public class PictureViewModel extends AndroidViewModel {
     }
 
     public void update(Context context) {
-        pr.update();
+        pr.update(context);
     }
-    public void updateTakeNewPhoto(Picture_Model picture_model){
-        pr.updateTakePhoto(picture_model);
+    public void updateTakeNewPhoto(Context context, Picture_Model picture_model){
+        pr.updateTakePhoto(context, picture_model);
+    }
+
+    public void deleteImages(Context context, ArrayList<Picture_Model> picture_models) {
+        for (Picture_Model picture_model: picture_models) {
+            if (deleteFromDevice(context, picture_model.getUri())) {
+                delete(picture_model.getUri());
+            }
+        }
     }
 
 }

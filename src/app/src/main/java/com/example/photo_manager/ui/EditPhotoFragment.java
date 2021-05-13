@@ -477,6 +477,14 @@ public class EditPhotoFragment extends Fragment {
             EasyPermissions.requestPermissions(requireActivity(), "Must allow to use this app", REQUEST_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk >= android.os.Build.VERSION_CODES.Q)
+        {
+            Toast.makeText(getContext(), getString(R.string.save_image_dont_support), Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
             @Override
             public void onBitmapReady(Bitmap bitmap) {
