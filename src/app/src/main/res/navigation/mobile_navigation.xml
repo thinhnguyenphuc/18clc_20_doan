@@ -8,7 +8,7 @@
         android:id="@+id/pictureFragment"
         android:name="com.example.photo_manager.ui.Picture.PictureFragment"
         android:label="@string/picture_fragment"
-        tools:layout="@layout/fragment_media"
+        tools:layout="@layout/fragment_picture"
         >
         <action
             android:id="@+id/action_pictureFragment_to_favouriteFragment"

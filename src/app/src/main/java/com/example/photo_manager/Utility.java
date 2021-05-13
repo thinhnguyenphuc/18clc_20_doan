@@ -1,6 +1,5 @@
 package com.example.photo_manager;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.photo_manager.ui.Album.AlbumDatabase.Album.Album;
 
@@ -82,19 +83,16 @@ public class Utility {
 
     //THIS IS NOT USABLE
     public static void askDialog(Context context, String title, String content) {
-//        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-//        View view = LayoutInflater.from(context).inflate(R.layout.dialog_text, null);
-//        TextView textView = view.findViewById(R.id.text);
-//        textView.setText(content);
-//        alertDialog.setTitle(title);
-//        alertDialog.setContentView(view);
-//        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.OK), new DialogInterface.OnClickListener() {
+//        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+//        alertDialog.setTitle(R.string.multiple_deletion);
+//        alertDialog.setMessage(getString(R.string.multiple_deletion_message));
+//        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getContext().getString(R.string.OK), new DialogInterface.OnClickListener() {
 //            @Override
 //            public void onClick(DialogInterface dialog, int id) {
 //
 //            }
 //        });
-//        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+//        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
 //            @Override
 //            public void onClick(DialogInterface dialog, int which) {
 //
