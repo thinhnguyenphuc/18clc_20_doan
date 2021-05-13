@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
@@ -7,16 +7,19 @@
 
 
     <ImageView
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
+        android:layout_width="@dimen/picture_width"
+        android:layout_height="@dimen/picture_width"
         android:id="@+id/videoView"
         >
 
     </ImageView>
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/video_filter_layout_icon_background"
+        android:src="@drawable/video_filter_layout_icon"
+        android:visibility="visible"/>
 
 
-
-</LinearLayout>
+</RelativeLayout>
