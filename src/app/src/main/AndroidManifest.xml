@@ -26,26 +26,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".Menu" />
-        <activity android:name=".PhotoEditActivity" />
-        <activity android:name=".Take_New_Photo" />
-        <activity android:name=".View_By_People" />
-        <activity android:name=".View_All" />
-        <activity android:name=".album_detail" />
-        <activity android:name=".album_general" />
-        <activity
-            android:name=".View_By_Date"
-            android:label="View By Date" />
-        <activity
-            android:name=".Photo_Details"
-            android:label="Details" />
-        <activity android:name=".MainActivity_temp">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
