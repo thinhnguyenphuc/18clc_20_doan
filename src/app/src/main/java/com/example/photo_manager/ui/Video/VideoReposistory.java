@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.anggrayudi.storage.media.MediaFile;
 import com.example.photo_manager.Model.Date_Model;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
@@ -74,5 +75,9 @@ public class VideoReposistory {
 
     public void update() {
         this.videos.setValue(video_models);
+    }
+
+    public boolean deleteFromStorage(Context context, Uri uri) {
+        return new MediaFile(context, uri).delete();
     }
 }
