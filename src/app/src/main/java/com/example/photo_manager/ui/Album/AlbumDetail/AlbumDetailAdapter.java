@@ -1,6 +1,7 @@
 package com.example.photo_manager.ui.Album.AlbumDetail;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photo_manager.R;
+import com.example.photo_manager.Type;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
+import com.example.photo_manager.ui.Favourite.FavouriteAdapter;
+import com.example.photo_manager.ui.Favourite.FavouriteFragmentDirections;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
-public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.ViewHolder> {
+public class AlbumDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context = null;
     private AlbumWithUris data;
@@ -35,19 +40,45 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view, which defines the UI of the list item
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.picture_item, viewGroup, false);
+    public int getItemViewType(int position) {
+        if(data.albumUris.get(position).getType()==1){
+            return Type.VIDEO;
+        } else return Type.IMAGE;
+    }
 
-        return new ViewHolder(view);
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType == Type.VIDEO){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View videoView = inflater.inflate(R.layout.video_item, parent, false);
+            return new AlbumDetailAdapter.ViewHolderVideo(videoView);
+        } else{
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
+            return new AlbumDetailAdapter.ViewHolderPicture(pictureView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String picture_uri = data.albumUris.get(position).getUri();
-        RequestOptions options = new RequestOptions();
-        Glide.with(this.context).load(Uri.parse(picture_uri)).apply(options.centerCrop()).into(holder.imageView);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(getItemViewType(position)== Type.VIDEO) {
+            AlbumDetailAdapter.ViewHolderVideo viewHolderVideo = (AlbumDetailAdapter.ViewHolderVideo) holder;
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            Glide.with(this.context).load(data.albumUris.get(position).getUri()).apply(options).into(viewHolderVideo.videoView);
+            FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.width = getScreenWidth()/4;
+            holder.itemView.setLayoutParams(layoutParams);
+        } else {
+            AlbumDetailAdapter.ViewHolderPicture viewHolderPicture = (AlbumDetailAdapter.ViewHolderPicture) holder;
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            Glide.with(this.context).load(data.albumUris.get(position).getUri()).apply(options).into(viewHolderPicture.imageView);
+            FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.width = getScreenWidth()/4;
+            holder.itemView.setLayoutParams(layoutParams);
+        }
     }
 
     @Override
@@ -58,11 +89,10 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
             return data.albumUris.size();
         }
     }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderPicture extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolderPicture(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.pictureView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +106,30 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
                 }
             });
         }
+    }
+    public class ViewHolderVideo extends RecyclerView.ViewHolder {
+        ImageView videoView;
+        public ViewHolderVideo(@NonNull View itemView) {
+            super(itemView);
+            videoView = (ImageView) itemView.findViewById(R.id.videoView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToViewAlbumVideoFragment action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToViewAlbumVideoFragment(
+                                    data.albumUris.get(getAbsoluteAdapterPosition()).getUri(), albumId
+                            );
+                    navController.navigate(action);
+                }
+            });
+        }
+    }
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
 }

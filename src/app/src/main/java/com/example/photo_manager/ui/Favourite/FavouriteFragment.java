@@ -24,6 +24,9 @@ import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,10 +56,11 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
 
         adapter = new FavouriteAdapter(getContext(), navController);
 
-        int picture_width = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), picture_width));
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         favouriteViewModel = new ViewModelProvider(requireActivity()).get(FavouriteViewModel.class);

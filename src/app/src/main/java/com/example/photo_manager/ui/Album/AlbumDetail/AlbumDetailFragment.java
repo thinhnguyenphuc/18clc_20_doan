@@ -28,6 +28,9 @@ import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumUri.AlbumUri;
 import com.example.photo_manager.ui.Album.AlbumDatabase.AlbumWithUris;
 import com.example.photo_manager.ui.Album.AlbumViewModel;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +77,10 @@ public class AlbumDetailFragment extends Fragment {
 
         adapter = new AlbumDetailAdapter(getContext(), navController, albumId);
 
-        int picture_width = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext(), picture_width));
-
-        recyclerView.setLayoutManager(layoutManager);
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
         recyclerView.setAdapter(adapter);
 
         albumViewModel.getAlbumWithUris(albumId).observe(getViewLifecycleOwner(), new Observer<AlbumWithUris>() {

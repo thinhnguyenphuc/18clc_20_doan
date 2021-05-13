@@ -72,6 +72,13 @@
             app:popEnterAnim="@anim/remain_short"
             app:popExitAnim="@anim/slide_out_up" />
         <action
+            android:id="@+id/action_favouriteFragment_to_viewVideoFragment"
+            app:destination="@id/viewVideo"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
             android:id="@+id/action_favouriteFragment_to_slideShowFragment"
             app:destination="@id/slideShowFragment" />
     </fragment>
@@ -119,6 +126,13 @@
         <action
             android:id="@+id/action_albumDetailFragment_to_viewAlbumPhotoFragment"
             app:destination="@id/viewAlbumPhotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/remain_short"
+            app:popEnterAnim="@anim/remain_short"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_viewAlbumVideoFragment"
+            app:destination="@id/viewAlbumVideoFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/remain_short"
             app:popEnterAnim="@anim/remain_short"
@@ -308,4 +322,19 @@
         android:name="com.example.photo_manager.ui.Settings.SettingThemeFragment"
         android:label="fragment_setting_theme"
         tools:layout="@layout/fragment_setting_theme" />
+    <fragment
+        android:id="@+id/viewAlbumVideoFragment"
+        android:name="com.example.photo_manager.ui.Album.AlbumDetail.ViewAlbumVideoFragment"
+        android:label="fragment_view_album_video"
+        tools:layout="@layout/fragment_view_album_video" >
+        <action
+            android:id="@+id/action_viewAlbumVideoFragment_to_videoDetailFragment"
+            app:destination="@id/videoDetailFragment" />
+        <argument
+            android:name="video_uri"
+            app:argType="string" />
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
