@@ -10,7 +10,7 @@
 
     <string name="favourite">favourite</string>
     <string name="camera">camera</string>
-    <string name="view_by_date">view by date</string>
+    <string name="view_by_date">View by date</string>
 
     <string name="save_image_fail">FAILED TO SAVE THE IMAGE</string>
     <string name="save_image_success">IMAGE IS SAVED</string>
