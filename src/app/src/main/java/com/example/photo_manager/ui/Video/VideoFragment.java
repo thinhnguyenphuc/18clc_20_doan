@@ -142,7 +142,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
             @Override
             public void onChanged(ArrayList<Video_Model> video_models) {
                 skeletonScreen.hide();
-                VideoFragment.this.videoModels = video_models;
+                videoModels = video_models;
                 video_adapter_all.setVideos(video_models);
             }
 

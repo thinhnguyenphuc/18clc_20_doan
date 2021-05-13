@@ -66,9 +66,11 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
 
         Bundle bundle = this.getArguments();
 
+        data.clear();
         if (bundle!=null){ dataReceiveToList(bundle); }
         if (type.equals("picture")){
             recyclerView = view.findViewById(R.id.viewByDate_recyclerView);
+
             viewByDatePicture_adapter = new View_By_Date_Picture_Adaper(getContext(),data,this );
 
             FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
@@ -79,6 +81,7 @@ public class ViewByDateFragment extends Fragment implements RecyclerViewClickInt
             recyclerView.setAdapter(viewByDatePicture_adapter);
         } else {
             recyclerView = view.findViewById(R.id.viewByDate_recyclerView);
+
             view_by_date_video_adapter = new View_By_Date_Video_Adapter(getContext(),data,this );
 
             FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
