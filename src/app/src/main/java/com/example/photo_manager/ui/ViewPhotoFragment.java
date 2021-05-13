@@ -152,15 +152,6 @@ public class ViewPhotoFragment extends Fragment {
             }
         });
 
-        imageView.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-            public void onSwipeRight() {
-
-            }
-            public void onSwipeLeft() {
-
-            }
-
-        });
 
         view.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override

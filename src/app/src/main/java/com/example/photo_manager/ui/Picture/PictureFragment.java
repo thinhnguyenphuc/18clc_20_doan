@@ -305,7 +305,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
             if (resultCode == Activity.RESULT_OK) {
                 String test = data.getStringExtra("uri");
                 Uri tmp = Uri.parse(test);
-                pictureViewModel.updateTakeNewPhoto(new Picture_Model(tmp,null,null,0));
+                pictureViewModel.updateTakeNewPhoto(getContext(), new Picture_Model(tmp,null,null,0));
             }
         }
     }
