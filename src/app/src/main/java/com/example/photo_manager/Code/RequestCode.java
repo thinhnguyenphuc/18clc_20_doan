@@ -12,4 +12,5 @@ public class RequestCode {
     public static final int REQUEST_IMAGE_CAPTURE = 10;
     public static final int REQUEST_VIDEO_CAPTURE = 11;
 
+    public static final int REQUEST_INTENT_TAKE_NEW_VIDEO = 25;
 }

@@ -75,7 +75,7 @@ public class AddVideoAdapter extends MultiChoiceAdapter<AddVideoAdapter.ViewHold
     public void setActive(@NonNull View view, boolean state) {
         Log.d("ADD ITEM ADAPTER", "setActive: ");
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
+        ImageView imageView = (ImageView) view.findViewById(R.id.multi_video_view);
         final ImageView tickImage = (ImageView) view.findViewById(R.id.tick_image);
 
         if (state) {
@@ -105,7 +105,7 @@ public class AddVideoAdapter extends MultiChoiceAdapter<AddVideoAdapter.ViewHold
 
         ViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_view);
+            imageView = itemView.findViewById(R.id.multi_video_view);
         }
     }
 }

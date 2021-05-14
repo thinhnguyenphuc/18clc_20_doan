@@ -1,8 +1,11 @@
 package com.example.photo_manager.ui.Video;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +41,7 @@ import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
 import com.example.photo_manager.Take_New_Photo;
+import com.example.photo_manager.Take_New_Video;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Picture.PictureFragment;
 import com.example.photo_manager.ui.ViewByDateFragment;
@@ -97,7 +101,7 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                                 navController.navigate(action);
                                 break;
                             case R.id.camera:
-                                startActivityForResult(new Intent(requireActivity(), Take_New_Photo.class), RequestCode.REQUEST_INTENT_TAKE_NEW_PHOTO);
+                                startActivityForResult(new Intent(requireActivity(), Take_New_Video.class), RequestCode.REQUEST_INTENT_TAKE_NEW_VIDEO);
                                 break;
                             case R.id.view_by_date: {
 
@@ -293,5 +297,18 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
         int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
         int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("my debugger", "on fragment result: ");
+        if (requestCode == RequestCode.REQUEST_INTENT_TAKE_NEW_VIDEO) {
+            if (resultCode == Activity.RESULT_OK) {
+                String test = data.getStringExtra("uri");
+                Uri tmp = Uri.parse(test);
+                videoViewModel.updateTakeNewPhoto(getContext(), new Video_Model(tmp,null,null,0,0));
+            }
+        }
     }
 }

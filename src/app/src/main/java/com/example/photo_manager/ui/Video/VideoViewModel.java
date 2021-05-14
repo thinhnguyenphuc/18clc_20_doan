@@ -52,4 +52,6 @@ public class VideoViewModel extends AndroidViewModel {
         return vr.deleteFromStorage(context, uri);
     }
 
+    public void updateTakeNewPhoto(Context context, Video_Model video_model){vr.updateTakeVideo(context,video_model);}
+
 }

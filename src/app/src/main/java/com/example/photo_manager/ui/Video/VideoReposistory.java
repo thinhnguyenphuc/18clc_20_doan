@@ -1,5 +1,6 @@
 package com.example.photo_manager.ui.Video;
 
+import android.Manifest;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -15,6 +16,8 @@ import com.example.photo_manager.ProcessData.LoadVideoFromStorage;
 
 import java.util.ArrayList;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class VideoReposistory {
     ArrayList<Video_Model> video_models = new ArrayList<>();
 
@@ -23,7 +26,7 @@ public class VideoReposistory {
 
     MutableLiveData<ArrayList<Video_Model>> videos = new MutableLiveData<>();
     MutableLiveData<ArrayList<Date_Model>> dates = new MutableLiveData<>();
-
+    private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
     public VideoReposistory(Context context) {
         LoadVideoFromStorage loadVideoFromStorage = new LoadVideoFromStorage(new AsyncResponse() {
             @Override
@@ -80,4 +83,10 @@ public class VideoReposistory {
     public boolean deleteFromStorage(Context context, Uri uri) {
         return new MediaFile(context, uri).delete();
     }
-}
+    public void updateTakeVideo(Context context, Video_Model video_model){
+        if (!EasyPermissions.hasPermissions(context, permission_read)) {
+            return;
+        }
+        video_models.add(video_model);
+        this.videos.setValue(video_models);
+    }}

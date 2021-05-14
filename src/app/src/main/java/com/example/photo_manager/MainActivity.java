@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String permission_read = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final String permission_write = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String permission_camera = Manifest.permission.CAMERA;
+    private static final String permission_gps = Manifest.permission.ACCESS_FINE_LOCATION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     private void requestPermission() {
 
-        String[] perms = {permission_read,permission_write, permission_camera};
+        String[] perms = {permission_read,permission_write, permission_camera, permission_gps};
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this,"Must allow to use this app", RequestCode.REQUEST_PERMISSION_CODE,perms);
         }

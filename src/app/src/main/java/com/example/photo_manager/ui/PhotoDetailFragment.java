@@ -1,5 +1,8 @@
 package com.example.photo_manager.ui;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,8 +20,12 @@ import com.example.photo_manager.Format.FormatDate;
 import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.Utility;
+import com.example.photo_manager.getLocation;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class PhotoDetailFragment extends Fragment {
 
@@ -59,7 +66,7 @@ public class PhotoDetailFragment extends Fragment {
 
         ImageView imageView_detail = (ImageView) view.findViewById(R.id.imageView_details);
         TextView textView_path = (TextView) view.findViewById(R.id.textView_path);
-        TextView textView_resolution = (TextView) view.findViewById(R.id.textView_resolution);
+        TextView location = (TextView) view.findViewById(R.id.textView_location);
         TextView textView_size = (TextView) view.findViewById(R.id.textView_size);
         TextView textView_time = (TextView) view.findViewById(R.id.textView_time);
 
@@ -70,6 +77,18 @@ public class PhotoDetailFragment extends Fragment {
         textView_time.setText(picture_model.getTime());
 
         textView_path.setText(photo_path);
+
+        ExifInterface exif = null;
+
+
+        try {
+            exif = new ExifInterface(photo_path);
+            getLocation getlocal = new getLocation(exif);
+            location.setText("lat:"+String.valueOf(getlocal.getLatitudeE6())+" \nlong:"+String.valueOf(getlocal.getLongitudeE6()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

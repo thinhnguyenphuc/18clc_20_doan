@@ -47,7 +47,7 @@ public class View_By_Date_Video_Adapter extends RecyclerView.Adapter<RecyclerVie
             return new ViewHolderDate(dateView);
         } else{
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View pictureView = inflater.inflate(R.layout.picture_item, parent, false);
+            View pictureView = inflater.inflate(R.layout.multi_select_item_video, parent, false);
             return new ViewHolderVideo(pictureView);
         }
     }
@@ -98,7 +98,7 @@ public class View_By_Date_Video_Adapter extends RecyclerView.Adapter<RecyclerVie
         ImageView videoView;
         public ViewHolderVideo(@NonNull View itemView) {
             super(itemView);
-            videoView = (ImageView) itemView.findViewById(R.id.pictureView);
+            videoView = (ImageView) itemView.findViewById(R.id.multi_video_view);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

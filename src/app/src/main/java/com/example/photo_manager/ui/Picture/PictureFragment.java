@@ -177,6 +177,7 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                     }
                 });
 
+
         recyclerView = root.findViewById(R.id.recyclerView_ViewAll);
 
         SnapHelper snapHelper = new PagerSnapHelper();
