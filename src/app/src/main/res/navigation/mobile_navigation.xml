@@ -149,6 +149,9 @@
         <action
             android:id="@+id/action_albumDetailFragment_to_addVideoFragment"
             app:destination="@id/addVideoFragment" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_viewVideo"
+            app:destination="@id/viewVideo" />
     </fragment>
     <fragment
         android:id="@+id/viewAlbumPhotoFragment"
