@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
@@ -25,7 +27,7 @@ import com.example.photo_manager.RecyclerViewClickInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Video_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class Video_Adapter_All extends MultiChoiceAdapter<Video_Adapter_All.ViewHolder> {
     private RecyclerViewClickInterface recyclerViewClickInterface;
     private Context context;
     private ArrayList<Video_Model> video_models = new ArrayList<>();
@@ -43,21 +45,10 @@ public class Video_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Video_Adapter_All.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View videoView = inflater.inflate(R.layout.video_item, parent, false);
-        return new ViewHolderVideo(videoView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Video_Adapter_All.ViewHolderVideo viewHolderVideo = (Video_Adapter_All.ViewHolderVideo) holder;
-        Uri video_uri = video_models.get(position).getUri();
-        RequestOptions cropOptions = new RequestOptions().centerCrop();
-        Glide.with(context)
-                .load(video_uri)
-                .apply(cropOptions)
-                .into(viewHolderVideo.videoView);
+        View pictureView = inflater.inflate(R.layout.multi_select_item_video, parent, false);
+        return new Video_Adapter_All.ViewHolder(pictureView);
     }
 
     @Override
@@ -65,52 +56,47 @@ public class Video_Adapter_All extends RecyclerView.Adapter<RecyclerView.ViewHol
         return video_models.size();
     }
 
-    class ViewHolderVideo extends RecyclerView.ViewHolder {
-        ImageView videoView;
-        public ViewHolderVideo(@NonNull View itemView) {
-            super(itemView);
-            videoView = (ImageView) itemView.findViewById(R.id.videoView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recyclerViewClickInterface.onItemClick(getAdapterPosition());
-                }
-            });
-        }
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        Uri picture_uri = video_models.get(position).getUri();
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        Glide.with(this.context).load(picture_uri).apply(options).into(holder.imageView);
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        CursorLoader loader = new CursorLoader(context, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
-    public static Bitmap retriveVideoFrameFromVideo(String videoPath) throws Throwable
-    {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try
-        {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            if (Build.VERSION.SDK_INT >= 14)
-                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            else
-                mediaMetadataRetriever.setDataSource(videoPath);
-            //   mediaMetadataRetriever.setDataSource(videoPath);
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Throwable("Exception in retriveVideoFrameFromVideo(String videoPath)" + e.getMessage());
-
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
+    @Override
+    protected View.OnClickListener defaultItemViewClickListener(Video_Adapter_All.ViewHolder holder, final int position) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewClickInterface.onItemClick(position);
             }
+        };
+    }
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.multi_video_view);
         }
-        return bitmap;
+    }
+    @Override
+    public void setActive(@NonNull View view, boolean state) {
+        Log.d("ADD ITEM ADAPTER", "setActive: " );
+        ImageView imageView = (ImageView) view.findViewById(R.id.multi_video_view);
+        final ImageView tickImage = (ImageView) view.findViewById(R.id.tick_image);
+
+        if (state) {
+            imageView.setScaleX(0.7f);
+            imageView.setScaleY(0.7f);
+            tickImage.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setScaleX(1f);
+            imageView.setScaleY(1f);
+            tickImage.setVisibility(View.INVISIBLE);
+        }
     }
 }

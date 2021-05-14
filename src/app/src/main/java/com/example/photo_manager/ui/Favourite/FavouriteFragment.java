@@ -20,10 +20,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anggrayudi.storage.media.MediaFile;
+import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
+import com.example.photo_manager.Type;
 import com.example.photo_manager.Utility;
 import com.example.photo_manager.ui.Favourite.FavouriteDababase.FavouriteItem;
+import com.example.photo_manager.ui.Picture.PictureFragmentDirections;
+import com.example.photo_manager.ui.Video.VideoFragmentDirections;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
@@ -45,6 +49,9 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
 
     FavouriteAdapter adapter;
 
+    private List<FavouriteItem> favouriteItem;
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -54,7 +61,8 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
 
         RecyclerView recyclerView = view.findViewById(R.id.favourite_item_list);
 
-        adapter = new FavouriteAdapter(getContext(), navController);
+
+        adapter = new FavouriteAdapter(getContext(), navController,this);
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
@@ -69,6 +77,7 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
             @Override
             public void onChanged(List<FavouriteItem> favouriteItemList) {
                 adapter.setItems(favouriteItemList);
+                favouriteItem = favouriteItemList;
             }
         });
 
@@ -91,6 +100,25 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
             }
             return true;
         });
+
+        adapter.setMultiChoiceSelectionListener(new MultiChoiceAdapter.Listener() {
+            @Override
+            public void OnItemSelected(int selectedPosition, int itemSelectedCount, int allItemCount) {
+                    requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
+                    adapter.setSingleClickMode(true);
+
+            }
+
+            @Override
+            public void OnItemDeselected(int deselectedPosition, int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnSelectAll(int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnDeselectAll(int itemSelectedCount, int allItemCount) {
+            }
+        });
     }
 
     @Override
@@ -101,6 +129,8 @@ public class FavouriteFragment extends Fragment implements RecyclerViewClickInte
         return root;
 
     }
+
+
 
     private class ValidateUriAsynTask extends AsyncTask<FavouriteItem, Void, Void> {
 

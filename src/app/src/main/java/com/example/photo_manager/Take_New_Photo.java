@@ -27,7 +27,7 @@ public class Take_New_Photo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_take__new__photo);
+        //setContentView(R.layout.activity_take__new__photo);
 
 
         if(checkCameraHardware()){
@@ -99,23 +99,13 @@ public class Take_New_Photo extends AppCompatActivity {
                 toMediaFile();
                 Toast.makeText(this, "Action done", Toast.LENGTH_LONG).show();
                 Intent returnData = new Intent();
-                returnData.putExtra("uri",photoURI.toString());
-                setResult(RESULT_OK,returnData);
+                returnData.putExtra("uri", photoURI.toString());
+                setResult(RESULT_OK, returnData);
                 this.finish();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Action Failed", Toast.LENGTH_LONG).show();
-            }
-        } else if (requestCode == RequestCode.REQUEST_VIDEO_CAPTURE) {
-            if (resultCode == RESULT_OK) {
-
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Action Cancelled.",
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Action Failed",
-                        Toast.LENGTH_LONG).show();
             }
         }
     }

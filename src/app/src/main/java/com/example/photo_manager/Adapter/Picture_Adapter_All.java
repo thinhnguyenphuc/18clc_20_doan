@@ -25,8 +25,7 @@ public class Picture_Adapter_All extends MultiChoiceAdapter<Picture_Adapter_All.
     private RecyclerViewClickInterface recyclerViewClickInterface;
     private Context context;
     private ArrayList<Picture_Model> picture_models = new ArrayList<>();
-    private ScaleAnimation mSelectScaleAnimation;
-    private ScaleAnimation mDeselectScaleAnimation;
+
 
     public Picture_Adapter_All(Context mContext
             , RecyclerViewClickInterface recyclerViewClickInterface){

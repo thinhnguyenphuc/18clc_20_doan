@@ -1,14 +1,19 @@
 package com.example.photo_manager.ui.Video;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,11 +27,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.example.photo_manager.Adapter.Video_Adapter_All;
 import com.example.photo_manager.Code.RequestCode;
 import com.example.photo_manager.Model.Date_Model;
+import com.example.photo_manager.Model.Picture_Model;
 import com.example.photo_manager.Model.Video_Model;
 import com.example.photo_manager.R;
 import com.example.photo_manager.RecyclerViewClickInterface;
@@ -52,10 +59,14 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
     private RecyclerView recyclerView;
     private Video_Adapter_All video_adapter_all;
 
+    private boolean linear_layout_flag = false;
+
     NavController navController = null;
 
     Toolbar toolbar;
     private ViewByDateFragment viewByDate;
+    Toolbar toolbar_delete;
+    CheckBox selectAllCheckBox;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,11 +130,11 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
                 });
 
         recyclerView = root.findViewById(R.id.recyclerView_ViewAllVideo);
-        int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
-        int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
 
         video_adapter_all = new Video_Adapter_All(getContext(),this);
+        setAdapter(linear_layout_flag);
+
+
         recyclerView.setAdapter(video_adapter_all);
 
         videoViewModel =
@@ -154,6 +165,71 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
             }
         });
         return root;
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View root, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
+
+        selectAllCheckBox = root.findViewById(R.id.select_all_check_box);
+        toolbar_delete = root.findViewById((R.id.toolbar_delete_top));
+        video_adapter_all.setMultiChoiceSelectionListener(new MultiChoiceAdapter.Listener() {
+            @Override
+            public void OnItemSelected(int selectedPosition, int itemSelectedCount, int allItemCount) {
+                if (toolbar_delete.getVisibility() == View.INVISIBLE) {
+                    toolbar_delete.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.INVISIBLE);
+                    requireActivity().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
+                    video_adapter_all.setSingleClickMode(true);
+                }
+            }
+
+            @Override
+            public void OnItemDeselected(int deselectedPosition, int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnSelectAll(int itemSelectedCount, int allItemCount) {
+            }
+            @Override
+            public void OnDeselectAll(int itemSelectedCount, int allItemCount) {
+            }
+        });
+
+        root.findViewById(R.id.select_all_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectAllCheckBox.setChecked(!selectAllCheckBox.isChecked());
+            }
+        });
+
+        root.findViewById(R.id.back_from_delete_button).setOnClickListener(v -> {
+            this.returnFromDeleteMode();
+        });
+        selectAllCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (linear_layout_flag) {
+                    } else {
+                        video_adapter_all.selectAll();
+                    }
+                } else {
+                    if (linear_layout_flag) {
+                    } else {
+                        video_adapter_all.deselectAll();
+                    }
+                }
+            }
+        });
+    }
+
+    public void returnFromDeleteMode() {
+        toolbar_delete.setVisibility(View.INVISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
+        requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        video_adapter_all.deselectAll();
+        video_adapter_all.setSingleClickMode(false);
 
     }
 
@@ -210,5 +286,12 @@ public class VideoFragment extends Fragment implements RecyclerViewClickInterfac
             objectList.put(String.valueOf(i),time);
         }
         return objectList;
+    }
+
+    private void setAdapter(boolean linear) {
+        recyclerView.setAdapter(video_adapter_all);
+        int dp = (int) (getResources().getDimension(R.dimen.picture_width) / getResources().getDisplayMetrics().density);
+        int spanCount = Utility.calculateNoOfColumns(requireContext(), dp);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount, LinearLayoutManager.VERTICAL, false));
     }
 }
