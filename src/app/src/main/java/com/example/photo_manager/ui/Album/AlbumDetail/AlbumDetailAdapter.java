@@ -115,9 +115,9 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToViewAlbumVideoFragment action =
-                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToViewAlbumVideoFragment(
-                                    data.albumUris.get(getAbsoluteAdapterPosition()).getUri(), albumId
+                    AlbumDetailFragmentDirections.ActionAlbumDetailFragmentToViewVideo action =
+                            AlbumDetailFragmentDirections.actionAlbumDetailFragmentToViewVideo(
+                                    data.albumUris.get(getAbsoluteAdapterPosition()).getUri()
                             );
                     navController.navigate(action);
                 }
