@@ -111,5 +111,6 @@
     <string name="video_delete">Delete</string>
     <string name="delete_video_success">VIDEO DELETED</string>
     <string name="delete_video_fail">VIDEO DELETE FAILED</string>
+    <string name="face_grouping">Face grouping</string>
 
 </resources>
