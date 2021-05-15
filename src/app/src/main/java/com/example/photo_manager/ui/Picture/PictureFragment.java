@@ -171,6 +171,12 @@ public class PictureFragment extends Fragment implements RecyclerViewClickInterf
                             {
                                 linear_layout_flag = !linear_layout_flag;
                                 setAdapter(linear_layout_flag);
+                                break;
+                            }
+                            case R.id.face_grouping: {
+                                NavDirections action = PictureFragmentDirections.actionPictureFragmentToPictureFaceGroupFragment();
+                                navController.navigate(action);
+                                break;
                             }
                         }
                         return true;

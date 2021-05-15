@@ -92,4 +92,6 @@ dependencies {
 
     implementation "com.anggrayudi:storage:0.5.2"
     implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
+
+    implementation 'com.google.mlkit:face-detection:16.0.7'
 }
