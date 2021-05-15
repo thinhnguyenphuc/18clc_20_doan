@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_pictureFragment_to_SFPasswordFragment"
             app:destination="@id/SFPasswordFragment" />
+        <action
+            android:id="@+id/action_pictureFragment_to_pictureFaceGroupFragment"
+            app:destination="@id/pictureFaceGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
@@ -340,4 +343,8 @@
             android:name="albumId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/pictureFaceGroupFragment"
+        android:name="com.example.photo_manager.ui.Picture.FaceGroup.PictureFaceGroupFragment"
+        android:label="PictureFaceGroupFragment" />
 </navigation>

@@ -37,4 +37,9 @@
         android:id="@+id/change_layout"
         android:title="@string/change_layout"
         />
+
+    <item
+        android:id="@+id/face_grouping"
+        android:title="@string/face_grouping"
+        />
 </menu>

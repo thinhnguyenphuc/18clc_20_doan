@@ -78,4 +78,23 @@
     <string name="text_holder">Nhập ở đây</string>
     <string name="OK">OK</string>
     <string name="Cancel">Hủy</string>
+    <string name="save_image_dont_support">Không hỗ trợ việc lưu ảnh với phiên bản Android hiện tại</string>
+    <string name="add_photo_to_album">Thêm ảnh vào album</string>
+    <string name="add_video_to_album">Thêm video vào album</string>
+    <string name="date">Ngày</string>
+    <string name="Name">Tên</string>
+    <string name="Storage">Bộ nhớ</string>
+    <string name="change_layout">Thay đổi bố cục</string>
+    <string name="setting_fragment_label">CÀI ĐẶT</string>
+    <string name="settings">CÀI ĐẶT</string>
+    <string name="themes">Màu chủ đề</string>
+    <string name="purple_primary">Tím</string>
+    <string name="orange_primary">Cam</string>
+    <string name="green_primary">Xanh lá</string>
+    <string name="set_theme_success">Màu chủ đề đã được áp dụng cho lần khởi động ứng dụng tiếp theo</string>
+    <string name="video_detail">Chi tiết video</string>
+    <string name="video_delete">Xóa</string>
+    <string name="delete_video_success">Video đã được xóa</string>
+    <string name="delete_video_fail">Không thể xóa video</string>
+    <string name="face_grouping">Gom nhóm theo khuôn mặt</string>
 </resources>

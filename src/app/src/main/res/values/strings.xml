@@ -99,7 +99,7 @@
     <string name="Storage">Storage</string>
     <string name="change_layout">Change layout</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="setting_fragment_label">SETTINGS</string>
     <string name="settings">SETTINGS</string>
     <string name="themes">Themes</string>
@@ -111,5 +111,6 @@
     <string name="video_delete">Delete</string>
     <string name="delete_video_success">VIDEO DELETED</string>
     <string name="delete_video_fail">VIDEO DELETE FAILED</string>
+    <string name="face_grouping">Face grouping</string>
 
 </resources>
