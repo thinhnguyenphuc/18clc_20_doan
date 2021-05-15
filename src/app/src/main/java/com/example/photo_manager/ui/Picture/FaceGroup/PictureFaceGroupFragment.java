@@ -14,13 +14,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.photo_manager.R;
-import com.google.mlkit.vision.face.Face;
+//import com.google.mlkit.vision.face.Face;
 
 import java.util.List;
 
 public class PictureFaceGroupFragment extends Fragment {
 
-    PictureFaceViewModel pictureFaceViewModel;
+//    PictureFaceViewModel pictureFaceViewModel;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -34,13 +34,13 @@ public class PictureFaceGroupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        pictureFaceViewModel = new ViewModelProvider(requireActivity()).get(PictureFaceViewModel.class);
-
-        pictureFaceViewModel.getFaceDetectModelsLiveData().observe(getViewLifecycleOwner(), new Observer<List<FaceDetectModel>>() {
-            @Override
-            public void onChanged(List<FaceDetectModel> faceDetectModels) {
-                Log.d("PICTUREFACEGROUP", "onChanged: ");
-            }
-        });
+//        pictureFaceViewModel = new ViewModelProvider(requireActivity()).get(PictureFaceViewModel.class);
+//
+//        pictureFaceViewModel.getFaceDetectModelsLiveData().observe(getViewLifecycleOwner(), new Observer<List<FaceDetectModel>>() {
+//            @Override
+//            public void onChanged(List<FaceDetectModel> faceDetectModels) {
+//                Log.d("PICTUREFACEGROUP", "onChanged: ");
+//            }
+//        });
     }
 }
